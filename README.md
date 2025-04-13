@@ -12,7 +12,7 @@ Based on Astro.
 ## TODO
 
 - [ ] Dark Mode
-- [ ] Use Vue3 + Shadcn/ui
+- [ ] Use React + Shadcn/ui
 - [ ] Fuzzy Search
 - [ ] Site Map
 - [ ] RSS Feed
