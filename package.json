@@ -10,14 +10,14 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
-    "astro": "^5.7.2",
+    "astro": "^5.7.4",
     "flowbite": "^3.1.2",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
-    "@eslint/js": "^9.24.0",
+    "@eslint/js": "^9.25.0",
     "@tailwindcss/typography": "^0.5.16",
-    "eslint": "^9.24.0",
+    "eslint": "^9.25.0",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rehype-katex": "^7.0.1",
