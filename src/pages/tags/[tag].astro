@@ -1,0 +1,130 @@
+---
+import BlogFrame from '../../layouts/BlogFrame.astro';
+
+type Post = {
+  url: string;
+  frontmatter: {
+    title: string;
+    pubDate: string;
+    description: string;
+    tags: string[];
+  };
+};
+
+export async function getStaticPaths() {
+  const allPosts = Object.values(
+    import.meta.glob<Post>('../posts/*.md', { eager: true }),
+  );
+  const uniqueTags = [
+    ...new Set(allPosts.map((post: Post) => post.frontmatter.tags).flat()),
+  ];
+  return uniqueTags.map((tag: string) => {
+    const filteredPosts = allPosts
+      .filter((post: Post) => post.frontmatter.tags.includes(tag))
+      .sort(
+        (a: Post, b: Post) =>
+          new Date(b.frontmatter.pubDate).getTime() -
+          new Date(a.frontmatter.pubDate).getTime(),
+      );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BlogFrame pageTitle={`${tag} 相关文章`}>
+  <main class="mx-auto max-w-screen-xl px-4 py-8">
+    <div class="mb-12 text-center">
+      <h1 class="mb-2 text-4xl font-bold text-gray-900">
+        <span class="font-bold">
+          #{tag}
+        </span>
+      </h1>
+      <p class="text-gray-600">
+        共 {posts.length} 篇相关文章
+      </p>
+    </div>
+    <div class="grid gap-6 md:gap-8">
+      {
+        posts.map((post: Post) => (
+          <article class="group relative rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+            <a
+              href={post.url}
+              class="absolute inset-0 z-10"
+              aria-label={`阅读 ${post.frontmatter.title}`}
+            />
+
+            <div class="p-6 md:p-8">
+              <div class="mb-4 flex items-start justify-between">
+                <time class="text-sm text-gray-500">
+                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
+                    'zh-CN',
+                    {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    },
+                  )}
+                </time>
+                <div class="flex space-x-2">
+                  {post.frontmatter.tags?.map((t: string) => (
+                    <span
+                      class={`rounded-full px-3 py-1 text-sm ${t === tag ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`}>
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <h2 class="mb-4 text-2xl font-bold text-gray-900 transition-colors group-hover:text-blue-600">
+                {post.frontmatter.title}
+              </h2>
+
+              <p class="mb-6 leading-relaxed text-gray-600">
+                {post.frontmatter.description}
+              </p>
+
+              <div class="inline-flex items-center font-medium text-blue-600 transition-colors hover:text-blue-800">
+                阅读全文
+                <svg
+                  class="ml-2 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="mt-12 text-center">
+      <a
+        href="/tags"
+        class="inline-flex items-center rounded-md border border-transparent bg-white px-6 py-3 text-base font-medium transition-colors hover:bg-blue-500 hover:text-white">
+        <svg
+          class="mr-2 h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          ></path>
+        </svg>
+        返回标签列表
+      </a>
+    </div>
+  </main>
+</BlogFrame>

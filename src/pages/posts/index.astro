@@ -1,0 +1,72 @@
+---
+import BlogFrame from '../../layouts/BlogFrame.astro';
+
+// Define types for post data
+type Post = {
+  url: string;
+  frontmatter: {
+    title: string;
+    pubDate: string;
+    description: string;
+  };
+};
+
+const allPosts = Object.values(
+  import.meta.glob<Post>('./*.md', { eager: true }),
+).sort(
+  (a: Post, b: Post) =>
+    new Date(b.frontmatter.pubDate).getTime() -
+    new Date(a.frontmatter.pubDate).getTime(),
+);
+---
+
+<BlogFrame pageTitle="Elysium's blog">
+  <main class="mx-auto max-w-screen-xl px-4 py-8">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        allPosts.map((post: Post) => (
+          <article class="group relative flex flex-col rounded-lg border border-gray-200 bg-white shadow-md transition-shadow duration-200 hover:shadow-lg">
+            <a
+              href={post.url}
+              class="absolute inset-0 z-10"
+              aria-label={`Read ${post.frontmatter.title}`}
+            />
+            <div class="flex-1 p-6">
+              <div class="mb-2 flex items-center justify-between">
+                <span class="text-sm text-gray-500">
+                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
+                    'en-US',
+                    {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    },
+                  )}
+                </span>
+              </div>
+              <h3 class="mb-2 text-xl font-bold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">
+                {post.frontmatter.title}
+              </h3>
+              <p class="mb-4 text-gray-600">{post.frontmatter.description}</p>
+            </div>
+            <div class="mt-auto px-6 pb-4">
+              <div class="inline-flex items-center font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
+                Read more
+                <svg
+                  class="ml-2 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </main>
+</BlogFrame>
