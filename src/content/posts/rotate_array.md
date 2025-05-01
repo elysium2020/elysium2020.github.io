@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '旋转数组'
-pubDate: '2025-04-14 22:19'
+pubDate: '2025-04-14'
 description: 'LeetCode 189 题解析'
 tags: ['leetcode', 'array', 'two pointers']
 ---

@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: 'Lorem Ipsum'
-pubDate: 2025-03-25 17:28
+pubDate: '1970-01-01'
 description: 'This is the first post of my new Astro blog.'
 tags: ['test']
 ---

@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '移除元素2'
-pubDate: '2025-04-13 18:17'
+pubDate: '2025-04-13'
 description: 'LeetCode 80 题解析'
 tags: ['leetcode', 'array', 'two pointers']
 ---

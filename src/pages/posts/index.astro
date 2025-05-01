@@ -1,72 +1,60 @@
 ---
-import BlogFrame from '../../layouts/BlogFrame.astro';
+import Layout from '@/layouts/Layout.astro';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Calendar, ArrowUpRight } from 'lucide-react';
+import { getCollection } from 'astro:content';
 
-// Define types for post data
-type Post = {
-  url: string;
-  frontmatter: {
-    title: string;
-    pubDate: string;
-    description: string;
-  };
-};
-
-const allPosts = Object.values(
-  import.meta.glob<Post>('./*.md', { eager: true }),
-).sort(
-  (a: Post, b: Post) =>
-    new Date(b.frontmatter.pubDate).getTime() -
-    new Date(a.frontmatter.pubDate).getTime(),
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 ---
 
-<BlogFrame pageTitle="Elysium's blog">
-  <main class="mx-auto max-w-screen-xl px-4 py-8">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+<Layout pageTitle="所有文章">
+  <main class="container mx-auto max-w-5xl py-8">
+    <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
-        allPosts.map((post: Post) => (
-          <article class="group relative flex flex-col rounded-lg border border-gray-200 bg-white shadow-md transition-shadow duration-200 hover:shadow-lg">
+        allPosts.map((post) => (
+          <Card className="group relative flex flex-col transition-shadow hover:shadow-lg">
             <a
-              href={post.url}
-              class="absolute inset-0 z-10"
-              aria-label={`Read ${post.frontmatter.title}`}
+              href={`/posts/${post.slug}`}
+              class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+              aria-label={`阅读 ${post.data.title}`}
             />
-            <div class="flex-1 p-6">
-              <div class="mb-2 flex items-center justify-between">
-                <span class="text-sm text-gray-500">
-                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
-                    'en-US',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    },
-                  )}
-                </span>
+            <CardHeader className="pb-2">
+              <div class="flex items-center gap-2 text-sm">
+                <Calendar className="text-muted-foreground h-4 w-4" />
+                <time class="text-muted-foreground">
+                  {post.data.pubDate.toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
               </div>
-              <h3 class="mb-2 text-xl font-bold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">
-                {post.frontmatter.title}
-              </h3>
-              <p class="mb-4 text-gray-600">{post.frontmatter.description}</p>
-            </div>
-            <div class="mt-auto px-6 pb-4">
-              <div class="inline-flex items-center font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
-                Read more
-                <svg
-                  class="ml-2 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+            </CardHeader>
+            <CardContent className="flex-1 space-y-4">
+              <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                {post.data.title}
+              </CardTitle>
+              <p class="text-muted-foreground leading-relaxed">
+                {post.data.description}
+              </p>
+            </CardContent>
+            <CardFooter className="mt-auto">
+              <div class="text-primary flex items-center font-medium transition-colors">
+                阅读全文
+                <ArrowUpRight className="ml-2 h-4 w-4" />
               </div>
-            </div>
-          </article>
+            </CardFooter>
+          </Card>
         ))
       }
-    </div>
+    </section>
   </main>
-</BlogFrame>
+</Layout>

@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '多数元素'
-pubDate: '2025-04-14 15:54'
+pubDate: '2025-04-14'
 description: 'LeetCode 169 题解析'
 tags: ['leetcode', 'array', 'two pointers', 'hash table', 'sorting', 'counting']
 ---

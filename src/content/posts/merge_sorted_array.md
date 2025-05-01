@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '合并两个有序数组'
-pubDate: 2025-03-27 15:22
+pubDate: '2025-03-27'
 description: 'LeetCode 88 题解析'
 tags: ['leetcode', 'array', 'two pointers', 'sorting']
 ---

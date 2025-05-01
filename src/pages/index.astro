@@ -1,167 +1,125 @@
 ---
-import BlogFrame from '../layouts/BlogFrame.astro';
-import '../styles/global.css';
+import Layout from '@/layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { BookOpen, Tags, ArrowRight, Calendar, Hash } from 'lucide-react';
+import { getCollection } from 'astro:content';
 
-// Define types for post data
-type Post = {
-  url: string;
-  frontmatter: {
-    title: string;
-    pubDate: string;
-    description: string;
-    tags: string[];
-  };
-};
+const allPosts = await getCollection('posts', () => {
+  return true;
+});
 
-const latestPosts = Object.values(
-  import.meta.glob<Post>('./posts/*.md', { eager: true }),
-)
-  .sort(
-    (a: Post, b: Post) =>
-      new Date(b.frontmatter.pubDate).getTime() -
-      new Date(a.frontmatter.pubDate).getTime(),
-  )
-  .slice(0, 4);
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
 
-const popularTags = [
-  ...new Set(
-    Object.values(import.meta.glob<Post>('./posts/*.md', { eager: true }))
-      .map((post: Post) => post.frontmatter.tags)
-      .flat(),
-  ),
-].slice(0, 8);
+const latestPosts = sortedPosts.slice(0, 4);
 
-// Meta information
+const allTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+
+const popularTags = allTags.slice(0, 8);
+
 const siteTitle = "Elysium's Blog";
-const siteDescription = "Elysium's personal blog.";
-const siteAuthor = 'Elysium';
-const siteUrl = Astro.url.toString();
 ---
 
-<BlogFrame
-  pageTitle={siteTitle}
-  description={siteDescription}
-  author={siteAuthor}
-  url={siteUrl}
-  type="website">
-  <main class="mx-auto max-w-screen-xl p-4">
-    <section class="mb-16 text-center lg:mb-20">
-      <h1
-        class="mb-4 text-4xl leading-tight font-bold text-gray-900 sm:text-5xl md:text-6xl">
-        <span
-          class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Elysium's Blog
-        </span>
+<Layout pageTitle={siteTitle}>
+  <main class="container mx-auto max-w-5xl p-4">
+    <section class="mb-16 space-y-8 text-center lg:mb-20">
+      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+        {siteTitle}
       </h1>
-      <div class="flex flex-wrap justify-center gap-4">
+      <div class="flex justify-center gap-4">
         <a
           href="/posts"
-          class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700">
-          <svg
-            class="mr-2 h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-            ></path>
-          </svg>
-          浏览文章
+          class="group bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          <BookOpen
+            size={20}
+            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+          />
+          <span>浏览文章</span>
         </a>
         <a
           href="/tags"
-          class="inline-flex items-center rounded-md border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gray-50">
-          <svg
-            class="mr-2 h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"
-            ></path>
-          </svg>
-          查看标签
+          class="group border-input bg-background hover:bg-accent hover:border-primary hover:text-primary inline-flex items-center gap-2 rounded-md border px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          <Tags
+            size={20}
+            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+          />
+          <span>查看标签</span>
         </a>
       </div>
     </section>
-    <section class="mb-16">
-      <div class="mb-8 flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-gray-900">最新文章</h2>
-        <a
-          href="/posts"
-          class="flex items-center text-blue-600 hover:text-blue-800">
-          查看全部
-          <svg
-            class="ml-1 h-4 w-4"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            aria-hidden="true">
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"></path>
-          </svg>
-        </a>
+    <section class="mb-16 space-y-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-semibold tracking-tight">最新文章</h2>
+        <Button asChild variant="link" className="p-0 text-base">
+          <a href="/posts" class="group inline-flex items-center gap-1">
+            <span>查看全部</span>
+            <ArrowRight
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </a>
+        </Button>
       </div>
       <div class="grid gap-6 md:grid-cols-2">
         {
-          latestPosts.map((post: Post) => (
-            <article class="group relative rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+          latestPosts.map((post) => (
+            <Card className="group relative transition-shadow hover:shadow-lg">
               <a
-                href={post.url}
-                class="absolute inset-0 z-10"
-                aria-label={post.frontmatter.title}
+                href={`/posts/${post.slug}`}
+                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+                aria-label={post.data.title}
               />
-              <div class="p-6">
-                <div class="mb-4">
-                  <time
-                    datetime={new Date(post.frontmatter.pubDate).toISOString()}
-                    class="text-sm text-gray-500">
-                    {new Date(post.frontmatter.pubDate).toLocaleDateString(
-                      'zh-CN',
-                    )}
+              <CardHeader className="pb-2">
+                <div class="text-muted-foreground flex items-center gap-2 text-sm">
+                  <Calendar />
+                  <time>
+                    {post.data.pubDate.toLocaleDateString('zh-CN', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
                   </time>
                 </div>
-                <h3 class="mb-2 text-xl font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
-                  {post.frontmatter.title}
-                </h3>
-                <p class="line-clamp-2 text-gray-600">
-                  {post.frontmatter.description}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                  {post.data.title}
+                </CardTitle>
+                <p class="text-muted-foreground line-clamp-2 leading-relaxed">
+                  {post.data.description}
                 </p>
-                <div class="mt-4 flex flex-wrap gap-2">
-                  {post.frontmatter.tags?.slice(0, 3).map((tag: string) => (
-                    <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">
-                      #{tag}
-                    </span>
+                <div class="flex gap-2">
+                  {post.data.tags?.slice(0, 3).map((tag) => (
+                    <Badge
+                      variant="secondary"
+                      className="inline-flex items-center gap-1">
+                      <Hash className="h-3 w-3" />
+                      <span>{tag}</span>
+                    </Badge>
                   ))}
                 </div>
-              </div>
-            </article>
+              </CardContent>
+            </Card>
           ))
         }
       </div>
     </section>
-    <section class="mb-16">
-      <h2 class="mb-8 text-2xl font-bold text-gray-900">热门标签</h2>
+    <section class="mb-16 space-y-8">
+      <h2 class="text-3xl font-semibold tracking-tight">热门标签</h2>
       <div class="flex flex-wrap gap-3">
         {
-          popularTags.map((tag: string) => (
+          popularTags.map((tag) => (
             <a
               href={`/tags/${tag}`}
-              class="rounded-full border border-gray-200 bg-white px-4 py-2 text-gray-700 shadow-sm transition-all hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md">
-              #{tag}
+              class="border-input bg-background ring-offset-background hover:border-primary/50 hover:bg-primary/5 hover:text-primary focus-visible:ring-ring inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
+              <Hash className="mr-1.5 h-3.5 w-3.5" />
+              <span>{tag}</span>
             </a>
           ))
         }
       </div>
     </section>
   </main>
-</BlogFrame>
+</Layout>

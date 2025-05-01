@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '移除元素'
-pubDate: '2025-03-28 20:35'
+pubDate: '2025-03-28'
 description: 'LeetCode 27 题解析'
 tags: ['leetcode', 'array', 'two pointers']
 ---

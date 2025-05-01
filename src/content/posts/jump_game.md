@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '跳跃游戏'
-pubDate: '2025-04-20 11:40'
+pubDate: '2025-04-20'
 description: 'LeetCode 55 题解析'
 tags: ['leetcode', 'array', 'dynamic programming', 'greedy']
 ---

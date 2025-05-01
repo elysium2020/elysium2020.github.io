@@ -1,31 +1,28 @@
 ---
-import BlogFrame from '../../layouts/BlogFrame.astro';
-
-type Post = {
-  url: string;
-  frontmatter: {
-    title: string;
-    pubDate: string;
-    description: string;
-    tags: string[];
-  };
-};
+import Layout from '@/layouts/Layout.astro';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowUpRight, Home, Tag as TagIcon, Calendar } from 'lucide-react';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const allPosts = Object.values(
-    import.meta.glob<Post>('../posts/*.md', { eager: true }),
-  );
+  const allPosts = await getCollection('posts');
+
   const uniqueTags = [
-    ...new Set(allPosts.map((post: Post) => post.frontmatter.tags).flat()),
+    ...new Set(allPosts.map((post) => post.data.tags).flat()),
   ];
+
   return uniqueTags.map((tag: string) => {
     const filteredPosts = allPosts
-      .filter((post: Post) => post.frontmatter.tags.includes(tag))
-      .sort(
-        (a: Post, b: Post) =>
-          new Date(b.frontmatter.pubDate).getTime() -
-          new Date(a.frontmatter.pubDate).getTime(),
-      );
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
     return {
       params: { tag },
       props: { posts: filteredPosts },
@@ -37,94 +34,74 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<BlogFrame pageTitle={`${tag} 相关文章`}>
-  <main class="mx-auto max-w-screen-xl px-4 py-8">
-    <div class="mb-12 text-center">
-      <h1 class="mb-2 text-4xl font-bold text-gray-900">
-        <span class="font-bold">
-          #{tag}
-        </span>
+<Layout pageTitle={`#${tag} 相关文章`}>
+  <main class="container mx-auto max-w-5xl p-4 py-8">
+    <section class="mb-12 space-y-4 text-center">
+      <h1
+        class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <Badge
+          variant="secondary"
+          className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-2xl font-semibold">
+          <TagIcon className="h-6 w-6" />
+          <span>{tag}</span>
+        </Badge>
       </h1>
-      <p class="text-gray-600">
+      <p class="text-muted-foreground text-xl">
         共 {posts.length} 篇相关文章
       </p>
-    </div>
-    <div class="grid gap-6 md:gap-8">
+    </section>
+    <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
       {
-        posts.map((post: Post) => (
-          <article class="group relative rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+        posts.map((post) => (
+          <Card
+            className="group relative flex flex-col transition-shadow duration-300 hover:shadow-lg"
+            key={post.slug}>
             <a
-              href={post.url}
-              class="absolute inset-0 z-10"
-              aria-label={`阅读 ${post.frontmatter.title}`}
+              href={`/posts/${post.slug}`}
+              class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+              aria-label={`阅读 ${post.data.title}`}
             />
-
-            <div class="p-6 md:p-8">
-              <div class="mb-4 flex items-start justify-between">
-                <time class="text-sm text-gray-500">
-                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
-                    'zh-CN',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    },
-                  )}
+            <CardHeader className="pb-2">
+              <div class="flex items-center gap-2 text-sm">
+                <Calendar className="text-muted-foreground h-4 w-4" />
+                <time class="text-muted-foreground">
+                  {post.data.pubDate.toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
                 </time>
-                <div class="flex space-x-2">
-                  {post.frontmatter.tags?.map((t: string) => (
-                    <span
-                      class={`rounded-full px-3 py-1 text-sm ${t === tag ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`}>
-                      #{t}
-                    </span>
-                  ))}
-                </div>
               </div>
-
-              <h2 class="mb-4 text-2xl font-bold text-gray-900 transition-colors group-hover:text-blue-600">
-                {post.frontmatter.title}
-              </h2>
-
-              <p class="mb-6 leading-relaxed text-gray-600">
-                {post.frontmatter.description}
+            </CardHeader>
+            <CardContent className="flex-1 space-y-4">
+              <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                {post.data.title}
+              </CardTitle>
+              <p class="text-muted-foreground line-clamp-3 leading-relaxed">
+                {post.data.description}
               </p>
-
-              <div class="inline-flex items-center font-medium text-blue-600 transition-colors hover:text-blue-800">
+            </CardContent>
+            <CardFooter className="mt-auto pt-4">
+              <div class="text-primary flex items-center text-sm font-medium transition-colors">
                 阅读全文
-                <svg
-                  class="ml-2 h-4 w-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+                <ArrowUpRight className="ml-1 h-4 w-4" />
               </div>
-            </div>
-          </article>
+            </CardFooter>
+          </Card>
         ))
       }
-    </div>
+    </section>
     <div class="mt-12 text-center">
-      <a
-        href="/tags"
-        class="inline-flex items-center rounded-md border border-transparent bg-white px-6 py-3 text-base font-medium transition-colors hover:bg-blue-500 hover:text-white">
-        <svg
-          class="mr-2 h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-          ></path>
-        </svg>
-        返回标签列表
+      <a href="/tags">
+        <Button
+          variant="outline"
+          className="group inline-flex cursor-pointer items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-sm">
+          <Home
+            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5"
+          />
+          <span>返回标签列表</span>
+        </Button>
       </a>
     </div>
   </main>
-</BlogFrame>
+</Layout>

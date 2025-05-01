@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/BlogPost.astro
 title: '买卖股票的最佳时机'
-pubDate: '2025-04-16 10:35'
+pubDate: '2025-04-16'
 description: 'LeetCode 121 题解析'
 tags: ['leetcode', 'array', 'dynamic programming']
 ---
