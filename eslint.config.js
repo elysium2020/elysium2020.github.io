@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import eslintReact from 'eslint-plugin-react';
 import eslintAstro from 'eslint-plugin-astro';
 import eslintImport from 'eslint-plugin-import';
 
@@ -14,5 +15,9 @@ export default tseslint.config(
       eslintImport.flatConfigs.recommended,
       eslintImport.flatConfigs.typescript,
     ],
+  },
+  {
+    files: ['**/.tsx'],
+    extends: [eslintReact.configs.recommended],
   },
 );

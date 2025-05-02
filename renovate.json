@@ -1,18 +1,26 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "group:all"],
+  "extends": ["config:recommended"],
+  "schedule": ["every day"],
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions"
+      "groupName": "GitHub Actions",
+      "groupSlug": "github-actions"
     },
     {
       "matchManagers": ["bun"],
-      "groupName": "Bun Packages"
+      "groupName": "Bun Packages",
+      "groupSlug": "bun"
+    },
+    {
+      "matchManagers": ["pyenv", "pep621"],
+      "groupName": "Python dependencies",
+      "groupSlug": "python"
     }
   ],
   "automerge": true,
-  "automergeType": "branch",
+  "automergeType": "pr",
   "platformAutomerge": true,
   "rangeStrategy": "bump"
 }

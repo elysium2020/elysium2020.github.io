@@ -9,18 +9,43 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { memo, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
   { title: 'Post', href: '/posts' },
   { title: 'Tag', href: '/tags' },
   { title: 'About', href: '/about' },
-];
+] as const;
+
+// 提取公共的链接样式函数
+const LinkWithUnderline = ({
+  href,
+  children,
+  className,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+}) => (
+  <a
+    href={href}
+    onClick={onClick}
+    className={cn(
+      'group hover:text-primary relative inline-block font-medium tracking-wide transition-all duration-300',
+      className,
+    )}>
+    {children}
+    <span className="bg-primary absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 transform transition-all duration-300 ease-out group-hover:w-full"></span>
+  </a>
+);
 
 /**
- * @returns return a mobile interface
+ * 移动设备导航界面组件
  */
-function MobileHeader() {
+const MobileHeader = memo(function MobileHeader() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,12 +59,12 @@ function MobileHeader() {
       </SheetTrigger>
       <SheetContent side="left" className="border-r-primary/20">
         <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-          <a
+          <LinkWithUnderline
             href="/"
             className="text-xl font-bold"
             onClick={() => setOpen(false)}>
             Elysium's Blog
-          </a>
+          </LinkWithUnderline>
           <SheetTrigger asChild>
             <button
               className="hover:bg-accent/50 rounded-full p-2 transition-all duration-300"
@@ -48,33 +73,31 @@ function MobileHeader() {
             </button>
           </SheetTrigger>
         </div>
-        <nav className="mt-6 flex flex-col space-y-6">
+        <nav className="mt-6 flex flex-col space-y-6" aria-label="移动端导航">
           {NAV_ITEMS.map((item) => (
-            <a
+            <LinkWithUnderline
               key={item.title}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="group hover:text-primary relative inline-block text-lg font-medium tracking-wide transition-all duration-300">
+              className="text-lg">
               {item.title}
-              <span className="bg-primary absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 transform transition-all duration-300 ease-out group-hover:w-full"></span>
-            </a>
+            </LinkWithUnderline>
           ))}
         </nav>
       </SheetContent>
     </Sheet>
   );
-}
+});
 
-export default function Header() {
+const Header = memo(function Header() {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-40 border-b border-gray-200 shadow-sm backdrop-blur">
-      <nav className="container mx-auto flex max-w-5xl items-center justify-between p-4">
-        <a
-          href="/"
-          className="group hover:text-primary relative inline-block text-lg font-bold tracking-wide transition-all duration-300">
+      <nav
+        className="container mx-auto flex max-w-5xl items-center justify-between p-4"
+        aria-label="主导航">
+        <LinkWithUnderline href="/" className="text-lg font-bold">
           Elysium's Blog
-          <span className="bg-primary absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 transform transition-all duration-300 ease-out group-hover:w-full"></span>
-        </a>
+        </LinkWithUnderline>
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             {NAV_ITEMS.map((item) => (
@@ -98,4 +121,6 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+});
+
+export default Header;
