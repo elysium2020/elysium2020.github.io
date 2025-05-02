@@ -7,13 +7,11 @@ Based on Astro.
 
 - Responsive
 - Super fast performance
-- Tailwind CSS + FlowBite
+- Tailwind CSS + Shadcn/ui
 
 ## TODO
 
 - [ ] Dark Mode
-- [ ] Use React + Shadcn/ui
 - [ ] Fuzzy Search
 - [ ] Site Map
 - [ ] RSS Feed
-- [ ] Accessible
