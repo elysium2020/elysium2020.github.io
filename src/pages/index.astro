@@ -1,0 +1,125 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { BookOpen, Tags, ArrowRight, Calendar, Hash } from 'lucide-react';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts', () => {
+  return true;
+});
+
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const latestPosts = sortedPosts.slice(0, 4);
+
+const allTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+
+const popularTags = allTags.slice(0, 8);
+
+const siteTitle = "Elysium's Blog";
+---
+
+<Layout pageTitle={siteTitle}>
+  <main class="container mx-auto max-w-5xl p-4">
+    <section class="mb-16 space-y-8 text-center lg:mb-20">
+      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+        {siteTitle}
+      </h1>
+      <div class="flex justify-center gap-4">
+        <a
+          href="/posts"
+          class="group bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          <BookOpen
+            size={20}
+            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+          />
+          <span>浏览文章</span>
+        </a>
+        <a
+          href="/tags"
+          class="group border-input bg-background hover:bg-accent hover:border-primary hover:text-primary inline-flex items-center gap-2 rounded-md border px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          <Tags
+            size={20}
+            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+          />
+          <span>查看标签</span>
+        </a>
+      </div>
+    </section>
+    <section class="mb-16 space-y-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-semibold tracking-tight">最新文章</h2>
+        <Button asChild variant="link" className="p-0 text-base">
+          <a href="/posts" class="group inline-flex items-center gap-1">
+            <span>查看全部</span>
+            <ArrowRight
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </a>
+        </Button>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2">
+        {
+          latestPosts.map((post) => (
+            <Card className="group relative transition-shadow hover:shadow-lg">
+              <a
+                href={`/posts/${post.slug}`}
+                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+                aria-label={post.data.title}
+              />
+              <CardHeader className="pb-2">
+                <div class="text-muted-foreground flex items-center gap-2 text-sm">
+                  <Calendar />
+                  <time>
+                    {post.data.pubDate.toLocaleDateString('zh-CN', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                  {post.data.title}
+                </CardTitle>
+                <p class="text-muted-foreground line-clamp-2 leading-relaxed">
+                  {post.data.description}
+                </p>
+                <div class="flex gap-2">
+                  {post.data.tags?.slice(0, 3).map((tag) => (
+                    <Badge
+                      variant="secondary"
+                      className="inline-flex items-center gap-1">
+                      <Hash className="h-3 w-3" />
+                      <span>{tag}</span>
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        }
+      </div>
+    </section>
+    <section class="mb-16 space-y-8">
+      <h2 class="text-3xl font-semibold tracking-tight">热门标签</h2>
+      <div class="flex flex-wrap gap-3">
+        {
+          popularTags.map((tag) => (
+            <a
+              href={`/tags/${tag}`}
+              class="border-input bg-background ring-offset-background hover:border-primary/50 hover:bg-primary/5 hover:text-primary focus-visible:ring-ring inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
+              <Hash className="mr-1.5 h-3.5 w-3.5" />
+              <span>{tag}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Tag, Calendar, ArrowLeft } from 'lucide-react';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout pageTitle={post.data.title}>
+  <main class="mx-auto max-w-5xl p-4">
+    <header class="mb-10">
+      <a
+        rel="preload"
+        href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+        class="this.onload=null;this.rel='stylesheet'"></a>
+      <h1
+        class="mb-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        {post.data.title}
+      </h1>
+      <div class="mb-4 flex items-center gap-3 text-sm">
+        <Badge variant="secondary" className="inline-flex items-center gap-1">
+          <Calendar className="h-4 w-4" />
+          <time>
+            {
+              new Date(post.data.pubDate).toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }
+          </time>
+        </Badge>
+        <div class="flex flex-wrap items-center gap-2">
+          {
+            post.data.tags?.map((tag: string) => (
+              <a
+                href={`/tags/${tag}`}
+                class="group transition-all duration-200">
+                <Badge
+                  variant="outline"
+                  className="inline-flex items-center gap-1 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/50 group-hover:scale-105 transition-all duration-300">
+                  <Tag className="h-3.5 w-3.5" />
+                  <span>{tag}</span>
+                </Badge>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+    <article
+      class="prose prose-lg sm:prose-xl prose-headings:font-semibold prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-800 prose-pre:rounded-xl prose-img:rounded-xl prose-img:shadow-lg prose-hr:border-t-2 prose-hr:border-gray-200 max-w-none">
+      <Content />
+    </article>
+    <div class="mt-16 border-t border-gray-100 pt-8">
+      <Button
+        asChild
+        variant="link"
+        className="group hover:text-primary inline-flex items-center font-medium transition-all duration-300">
+        <a href="/posts">
+          <ArrowLeft
+            className="mr-1.5 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
+          />
+          <span>返回文章列表</span>
+        </a>
+      </Button>
+    </div>
+  </main>
+</Layout>

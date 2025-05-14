@@ -1,0 +1,59 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tag } from 'lucide-react';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())].sort();
+---
+
+<Layout pageTitle="所有标签">
+  <main class="container mx-auto max-w-5xl p-8">
+    <section class="mb-12 space-y-4 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+        所有标签
+      </h1>
+      <p class="text-muted-foreground text-xl">
+        探索 {allPosts.length} 篇文章的不同主题分类
+      </p>
+    </section>
+    <section
+      class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {
+        tags.map((tag: string) => {
+          const postCount = allPosts.filter((post) =>
+            post.data.tags.includes(tag),
+          ).length;
+
+          return (
+            <Card
+              key={tag}
+              className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+              <a
+                href={`/tags/${tag}`}
+                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2">
+                <span class="sr-only">查看 {tag} 标签文章</span>
+              </a>
+              <CardHeader className="pb-2 pt-4">
+                <div class="flex flex-col items-center gap-2">
+                  <Tag className="text-muted-foreground group-hover:text-primary h-6 w-6 transition-colors duration-300 group-hover:scale-125" />
+                  <CardTitle className="group-hover:text-primary text-center text-xl font-semibold tracking-tight transition-colors">
+                    {tag}
+                  </CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="flex justify-center pb-4">
+                <Badge variant="secondary" className="text-xs">
+                  {postCount} 篇文章
+                </Badge>
+              </CardContent>
+            </Card>
+          );
+        })
+      }
+    </section>
+  </main>
+</Layout>

@@ -1,0 +1,107 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowUpRight, Home, Tag as TagIcon, Calendar } from 'lucide-react';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts');
+
+  const uniqueTags = [
+    ...new Set(allPosts.map((post) => post.data.tags).flat()),
+  ];
+
+  return uniqueTags.map((tag: string) => {
+    const filteredPosts = allPosts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<Layout pageTitle={`#${tag} 相关文章`}>
+  <main class="container mx-auto max-w-5xl p-4 py-8">
+    <section class="mb-12 space-y-4 text-center">
+      <h1
+        class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <Badge
+          variant="secondary"
+          className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-2xl font-semibold">
+          <TagIcon className="h-6 w-6" />
+          <span>{tag}</span>
+        </Badge>
+      </h1>
+      <p class="text-muted-foreground text-xl">
+        共 {posts.length} 篇相关文章
+      </p>
+    </section>
+    <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        posts.map((post) => (
+          <Card
+            className="group relative flex flex-col transition-shadow duration-300 hover:shadow-lg"
+            key={post.slug}>
+            <a
+              href={`/posts/${post.slug}`}
+              class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+              aria-label={`阅读 ${post.data.title}`}
+            />
+            <CardHeader className="pb-2">
+              <div class="flex items-center gap-2 text-sm">
+                <Calendar className="text-muted-foreground h-4 w-4" />
+                <time class="text-muted-foreground">
+                  {post.data.pubDate.toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 space-y-4">
+              <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                {post.data.title}
+              </CardTitle>
+              <p class="text-muted-foreground line-clamp-3 leading-relaxed">
+                {post.data.description}
+              </p>
+            </CardContent>
+            <CardFooter className="mt-auto pt-4">
+              <div class="text-primary flex items-center text-sm font-medium transition-colors">
+                阅读全文
+                <ArrowUpRight className="ml-1 h-4 w-4" />
+              </div>
+            </CardFooter>
+          </Card>
+        ))
+      }
+    </section>
+    <div class="mt-12 text-center">
+      <a href="/tags">
+        <Button
+          variant="outline"
+          className="group inline-flex cursor-pointer items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-sm">
+          <Home
+            className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5"
+          />
+          <span>返回标签列表</span>
+        </Button>
+      </a>
+    </div>
+  </main>
+</Layout>
