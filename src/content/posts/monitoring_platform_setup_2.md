@@ -42,7 +42,7 @@ mkdir -p /etc/prometheus/rules
 ```yml
 #/etc/prometheus/prometheus.yml
 rule_files:
-  - /etc/prometheus/rules/*.rules
+  - '/etc/prometheus/rules/*.yml'
 ```
 
 接着我们创建相关的告警规则：
@@ -50,12 +50,16 @@ rule_files:
 ```yml
 #/etc/prometheus/rules/system.yml
 groups:
-  - name: system
+  - name: hostStatsAlert
     rules:
       - alert: CPUHighUse
-      - alert: OOM
+        expr: '(1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) * 100 > 0.85'
       - alert: DiskFull
-      - alert: BtrfsDevErr
+        expr: 'node_filesystem_avail_bytes{mountpoint=~"/"} / node_filesystem_size_bytes < 0.85'
+      - alert: OOM
+        expr: 'node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes < 0.85'
+      - alert: NodeDown
+        expr: 'up == 0'
 ```
 
 然后重启 Prometheus：
@@ -80,6 +84,9 @@ global:
 
 route:
   group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
   receiver: 'email'
 
 receivers:
@@ -87,6 +94,13 @@ receivers:
     email_configs:
       - to: <接受邮箱地址>
         send_resolved: true
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
 ```
 
 然后启动 Alertmanager：

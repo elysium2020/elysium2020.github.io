@@ -43,6 +43,8 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
+        labels:
+          app: 'prometheus'
   - job_name: 'node'
     static_configs:
       - targets: ['localhost:9100']
@@ -63,7 +65,6 @@ systemctl restart prometheus
 [sudo] password for elysium:
 tcp   LISTEN 0      4096       127.0.0.1:9090       0.0.0.0:*    users:(("prometheus",pid=54760,fd=6))
 tcp   LISTEN 0      4096               *:9100             *:*    users:(("node_exporter",pid=54759,fd=3))
-
 ```
 
 此时脚本正常运行。
