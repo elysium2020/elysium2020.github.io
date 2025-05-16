@@ -18,13 +18,15 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
+<link
+  rel="preload"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet';"
+/>
 <Layout pageTitle={post.data.title}>
   <main class="mx-auto max-w-5xl p-4">
     <header class="mb-10">
-      <a
-        rel="preload"
-        href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
-        class="this.onload=null;this.rel='stylesheet'"></a>
       <h1
         class="mb-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         {post.data.title}
@@ -64,7 +66,7 @@ const { Content } = await post.render();
       class="prose prose-lg sm:prose-xl prose-headings:font-semibold prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-800 prose-pre:rounded-xl prose-img:rounded-xl prose-img:shadow-lg prose-hr:border-t-2 prose-hr:border-gray-200 max-w-none">
       <Content />
     </article>
-    <div class="mt-16 border-t border-gray-100 pt-8">
+    <div class="border-border mt-16 border-t pt-8">
       <Button
         asChild
         variant="link"
