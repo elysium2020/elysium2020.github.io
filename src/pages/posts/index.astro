@@ -16,7 +16,7 @@ const allPosts = (await getCollection('posts')).sort(
 ---
 
 <Layout pageTitle="所有文章">
-  <main class="container mx-auto max-w-5xl py-8">
+  <main class="container mx-auto max-w-5xl p-4">
     <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
         allPosts.map((post) => (
