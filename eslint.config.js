@@ -3,14 +3,15 @@ import tseslint from 'typescript-eslint';
 import eslintReact from 'eslint-plugin-react';
 import eslintAstro from 'eslint-plugin-astro';
 import eslintImport from 'eslint-plugin-import';
-import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import eslintUnicorn from 'eslint-plugin-unicorn';
+import eslintReactHooks from 'eslint-plugin-react-hooks';
 
 export default tseslint.config(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   eslintAstro.configs.recommended,
-  eslintPluginUnicorn.configs.recommended,
+  eslintUnicorn.configs.recommended,
   {
     files: ['**/.{ts,tsx,astro}'],
     extends: [
@@ -20,6 +21,9 @@ export default tseslint.config(
   },
   {
     files: ['**/.tsx'],
-    extends: [eslintReact.configs.recommended],
+    extends: [
+      eslintReact.configs.recommended,
+      eslintReactHooks.configs.recommended,
+    ],
   },
 );
