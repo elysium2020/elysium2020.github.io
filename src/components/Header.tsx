@@ -48,9 +48,6 @@ const LinkWithUnderline = ({
   </a>
 );
 
-/**
- * 移动设备导航界面组件
- */
 const MobileHeader = memo(function MobileHeader() {
   const [open, setOpen] = useState(false);
 

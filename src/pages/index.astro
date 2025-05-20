@@ -16,7 +16,7 @@ const sortedPosts = allPosts.sort(
 
 const latestPosts = sortedPosts.slice(0, 4);
 
-const allTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
 
 const popularTags = allTags.slice(0, 8);
 

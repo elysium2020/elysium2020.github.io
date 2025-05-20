@@ -10,7 +10,8 @@ import {
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { getCollection } from 'astro:content';
 
-const allPosts = (await getCollection('posts')).sort(
+const postsCollection = await getCollection('posts');
+const allPosts = postsCollection.sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 ---

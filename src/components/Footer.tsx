@@ -12,11 +12,11 @@ const CC_ICONS = {
 const CCLicenseIcons = memo(function CCLicenseIcons() {
   return (
     <span className="ml-2 flex gap-1.5">
-      {Object.entries(CC_ICONS).map(([key, src]) => (
+      {Object.entries(CC_ICONS).map(([key, source]) => (
         <img
           key={key}
           className="h-5 w-auto opacity-80 transition-all duration-300 hover:scale-110 hover:opacity-100"
-          src={src}
+          src={source}
           alt={key.toUpperCase()}
           loading="lazy"
         />

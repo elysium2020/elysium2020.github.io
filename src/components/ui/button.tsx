@@ -40,7 +40,7 @@ function Button({
   variant,
   size,
   asChild = false,
-  ...props
+  ...properties
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
@@ -51,7 +51,7 @@ function Button({
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
+      {...properties}
     />
   );
 }
