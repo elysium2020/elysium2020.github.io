@@ -62,7 +62,7 @@ const siteTitle = "Elysium's Blog";
           </a>
         </Button>
       </div>
-      <div class="grid w-full gap-6 md:grid-cols-2">
+      <div class="grid gap-6 md:grid-cols-2">
         {
           latestPosts.map((post) => (
             <Card className="group relative transition-shadow hover:shadow-lg">
@@ -108,7 +108,7 @@ const siteTitle = "Elysium's Blog";
     </section>
     <section class="mb-16 space-y-8">
       <h2 class="text-3xl font-semibold tracking-tight">热门标签</h2>
-      <div class="flex flex-wrap justify-center gap-3">
+      <div class="flex flex-wrap gap-3">
         {
           popularTags.map((tag) => (
             <a
