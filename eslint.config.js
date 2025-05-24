@@ -9,7 +9,7 @@ import eslintReactHooks from 'eslint-plugin-react-hooks';
 export default tseslint.config(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },
   eslint.configs.recommended,
-  tseslint.configs.recommended,
+  tseslint.configs.strict,
   eslintAstro.configs.recommended,
   eslintUnicorn.configs.recommended,
   {
