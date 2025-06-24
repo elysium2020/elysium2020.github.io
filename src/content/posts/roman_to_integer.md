@@ -1,5 +1,5 @@
 ---
-title: 'Roman to Integer'
+title: '罗马数字转整数'
 pubDate: 2025-06-24
 description: 'LeetCode 13 题解析'
 tags: ['leetcode', 'hash table', 'math', 'string']
@@ -11,7 +11,7 @@ tags: ['leetcode', 'hash table', 'math', 'string']
 但官方解答也有可取之处：
 从左往右的角度看，小的数字位于大的左边，则 `ans` 减去当前值。
 比如 $IV$，因为 $I < V$，所以我们应该 $\mathrm{ans} - 1 + 5$。
-反之则正常 `ans += val`。
+反之则 `ans += val`。
 
 ## 解答
 
