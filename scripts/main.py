@@ -37,7 +37,7 @@ def generate_frontmatter(title: str, qnum: int | None, artype: str) -> str:
 
     for k, v in frontmatter.items():
         if isinstance(v, list):
-            yaml_lines.append(f"{k}:{repr(v)}")
+            yaml_lines.append(f"{k}: {repr(v)}")
         elif k in ["title", "description"]:
             assert isinstance(v, str), f"Expected string for {k}, got {type(v)}"
             yaml_lines.append(f"{k}: '{v.replace("'", "''")}'")

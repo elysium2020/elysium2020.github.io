@@ -2,7 +2,7 @@
 title: 'Roman to Integer'
 pubDate: 2025-06-24
 description: 'LeetCode 13 题解析'
-tags:['leetcode', 'hash table', 'math', 'string']
+tags: ['leetcode', 'hash table', 'math', 'string']
 ---
 
 ## 分析
