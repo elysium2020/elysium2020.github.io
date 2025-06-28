@@ -87,7 +87,7 @@ def create_post() -> None:
     problem_num: int | None = None
     if template_type == "LeetCode 题解":
         while True:
-            result_str = input(f"{'请输入题目编号'} (或直接回车取消): ").strip()
+            result_str = input("请输入题目编号：").strip()
             if not result_str:
                 problem_num = None
                 break
