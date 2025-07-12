@@ -65,7 +65,9 @@ const siteTitle = "Elysium's Blog";
       <div class="grid gap-6 md:grid-cols-2">
         {
           latestPosts.map((post) => (
-            <Card className="group relative transition-shadow hover:shadow-lg">
+            <Card
+              client:visible
+              className="group relative transition-shadow hover:shadow-lg">
               <a
                 href={`/posts/${post.slug}`}
                 class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"

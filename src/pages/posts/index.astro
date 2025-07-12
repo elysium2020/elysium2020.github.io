@@ -17,11 +17,21 @@ const allPosts = postsCollection.sort(
 ---
 
 <Layout pageTitle="所有文章">
-  <main class="container mx-auto max-w-5xl p-4">
+  <main class="container mx-auto max-w-5xl p-8">
+    <section class="mb-12 space-y-4 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+        所有文章
+      </h1>
+      <p class="text-muted-foreground text-xl">
+        共 {allPosts.length} 篇文章
+      </p>
+    </section>
     <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
         allPosts.map((post) => (
-          <Card className="group relative flex flex-col transition-shadow hover:shadow-lg">
+          <Card
+            client:visible
+            className="group relative flex flex-col transition-shadow hover:shadow-lg">
             <a
               href={`/posts/${post.slug}`}
               class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
@@ -47,11 +57,9 @@ const allPosts = postsCollection.sort(
                 {post.data.description}
               </p>
             </CardContent>
-            <CardFooter className="mt-auto">
-              <div class="text-primary flex items-center font-medium transition-colors">
-                阅读全文
-                <ArrowUpRight className="ml-2 h-4 w-4" />
-              </div>
+            <CardFooter className="mt-auto text-primary flex items-center font-medium transition-colors">
+              阅读全文
+              <ArrowUpRight className="ml-2 h-4 w-4" />
             </CardFooter>
           </Card>
         ))

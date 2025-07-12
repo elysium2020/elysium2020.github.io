@@ -52,6 +52,7 @@ const { posts } = Astro.props;
       {
         posts.map((post) => (
           <Card
+            client:visible
             className="group relative flex flex-col transition-shadow duration-300 hover:shadow-lg"
             key={post.slug}>
             <a
@@ -79,27 +80,26 @@ const { posts } = Astro.props;
                 {post.data.description}
               </p>
             </CardContent>
-            <CardFooter className="mt-auto pt-4">
-              <div class="text-primary flex items-center text-sm font-medium transition-colors">
-                阅读全文
-                <ArrowUpRight className="ml-1 h-4 w-4" />
-              </div>
+            <CardFooter className="mt-auto pt-4 text-primary flex items-center text-sm font-medium transition-colors">
+              阅读全文
+              <ArrowUpRight className="ml-1 h-4 w-4" />
             </CardFooter>
           </Card>
         ))
       }
     </section>
     <div class="mt-12 text-center">
-      <a href="/tags">
-        <Button
-          variant="outline"
-          className="group inline-flex cursor-pointer items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-sm">
+      <Button
+        asChild
+        variant="outline"
+        className="group inline-flex cursor-pointer items-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-sm">
+        <a href="/tags">
           <Home
             className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-0.5"
           />
           <span>返回标签列表</span>
-        </Button>
-      </a>
+        </a>
+      </Button>
     </div>
   </main>
 </Layout>

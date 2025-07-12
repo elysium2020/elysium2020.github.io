@@ -47,9 +47,7 @@ const { Content } = await post.render();
         <div class="flex flex-wrap items-center gap-2">
           {
             post.data.tags?.map((tag: string) => (
-              <a
-                href={`/tags/${tag}`}
-                class="group transition-all duration-200">
+              <a href={`/tags/${tag}`} class="group">
                 <Badge
                   variant="outline"
                   className="inline-flex items-center gap-1 group-hover:bg-primary/10 group-hover:text-primary group-hover:border-primary/50 group-hover:scale-105 transition-all duration-300">
@@ -68,6 +66,7 @@ const { Content } = await post.render();
     </article>
     <div class="border-border mt-16 border-t pt-8">
       <Button
+        client:visible
         asChild
         variant="link"
         className="group hover:text-primary inline-flex items-center font-medium transition-all duration-300">

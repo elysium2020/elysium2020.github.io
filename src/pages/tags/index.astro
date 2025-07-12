@@ -17,7 +17,7 @@ const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
         所有标签
       </h1>
       <p class="text-muted-foreground text-xl">
-        探索 {allPosts.length} 篇文章的不同主题分类
+        共 {tags.length} 个标签
       </p>
     </section>
     <section
@@ -30,6 +30,7 @@ const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
 
           return (
             <Card
+              client:visible
               key={tag}
               className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
               <a
@@ -39,7 +40,7 @@ const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
               </a>
               <CardHeader className="pb-2 pt-4">
                 <div class="flex flex-col items-center gap-2">
-                  <Tag className="text-muted-foreground group-hover:text-primary h-6 w-6 transition-colors duration-300 group-hover:scale-125" />
+                  <Tag className="text-muted-foreground group-hover:text-primary h-6 w-6 transition duration-300 group-hover:scale-125" />
                   <CardTitle className="group-hover:text-primary text-center text-xl font-semibold tracking-tight transition-colors">
                     {tag}
                   </CardTitle>
