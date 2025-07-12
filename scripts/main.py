@@ -49,20 +49,21 @@ def generate_frontmatter(title: str, qnum: int | None, artype: str) -> str:
 
 
 def create_post() -> None:
+    choices = ("普通帖子", "LeetCode 题解")
+
     print("选择要创建的文档类型：")
-    choices = ["普通帖子", "LeetCode 题解"]
     for i, choice in enumerate(choices, 1):
         print(f"{i}. {choice}")
-
-    template_type: str | None
 
     while True:
         choice_idx_str = input(
             f"请输入选项编号 (1-{len(choices)}), 或直接回车取消: "
         ).strip()
+
         if not choice_idx_str:
-            template_type = None
-            break
+            print("操作已取消 (未选择模板类型)。")
+            return
+
         try:
             choice_idx = int(choice_idx_str) - 1
             if 0 <= choice_idx < len(choices):
@@ -72,52 +73,39 @@ def create_post() -> None:
         except ValueError:
             print("无效输入，请输入数字。")
 
-    if template_type is None:
-        print("操作已取消 (未选择模板类型)。")
-        return
-
-    cur_title: str | None = None
-    while True:
-        result = input("请输入文档标题：").strip()
-        if result:
-            cur_title = result
-            break
+    while not (cur_title := input("请输入文档标题：").strip()):
         print("错误：输入不能为空！")
 
-    problem_num: int | None = None
+    problem_num = None
     if template_type == "LeetCode 题解":
         while True:
             result_str = input("请输入题目编号：").strip()
             if not result_str:
-                problem_num = None
-                break
-
+                print("操作已取消 (未输入有效题号)。")
+                return
             try:
                 problem_num = int(result_str)
                 break
             except ValueError:
                 print("错误：输入必须是有效的数字！")
 
-        if problem_num is None:
-            print("操作已取消 (未输入有效题号)。")
-            return
-
-    while True:
-        file_name = solve_filename(cur_title)
-        file_path = POST_DIR / file_name
-        if not file_path.exists():
-            break
+    file_name = solve_filename(cur_title)
+    file_path = POST_DIR / file_name
+    if file_path.exists():
         print("文章创建已取消。")
         return
 
-    content = generate_frontmatter(cur_title, problem_num, template_type)
     try:
+        content = generate_frontmatter(cur_title, problem_num, template_type)
         _ = file_path.write_text(content, encoding="utf-8")
         print(f"成功创建文件：{file_path.resolve()}")
-    except IOError as e:
-        print(f"错误：无法写入文件 {file_path}：{e}")
-    except ValueError as e:
-        print(f"配置错误：{e}")
+    except (IOError, ValueError) as e:
+        err_msg = (
+            f"配置错误：{e}"
+            if isinstance(e, ValueError)
+            else f"错误：无法写入文件 {file_path}：{e}"
+        )
+        print(err_msg)
 
 
 if __name__ == "__main__":

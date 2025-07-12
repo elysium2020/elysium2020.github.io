@@ -35,25 +35,21 @@ const Footer = memo(function Footer() {
       )}
       aria-label="页脚">
       <div className="container mx-auto max-w-5xl px-4">
-        <div className="text-muted-foreground flex flex-col items-center justify-center gap-6 text-sm md:flex-row md:gap-4">
-          <div className="flex items-center justify-center gap-1">
-            <span className="text-gray-600">{current_year} Elysium</span>
-            <span className="mx-2 text-gray-400" aria-hidden="true">
-              ·
+        <div className="text-muted-foreground flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm">
+          <span className="text-gray-600">{current_year} Elysium</span>
+          <span aria-hidden="true">·</span>
+          <a
+            href="https://creativecommons.org/licenses/by-sa/4.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center transition-colors"
+            aria-label="Creative Commons CC-BY-SA 4.0 许可证">
+            <span className="group-hover:text-primary relative text-gray-600 transition-colors">
+              CC-BY-SA 4.0
+              <span className="bg-primary/70 absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-full"></span>
             </span>
-            <a
-              href="https://creativecommons.org/licenses/by-sa/4.0/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center transition-colors"
-              aria-label="Creative Commons CC-BY-SA 4.0 许可证">
-              <span className="group-hover:text-primary relative text-gray-600 transition-colors">
-                CC-BY-SA 4.0
-                <span className="bg-primary/70 absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-full"></span>
-              </span>
-              <CCLicenseIcons />
-            </a>
-          </div>
+            <CCLicenseIcons />
+          </a>
         </div>
       </div>
     </footer>

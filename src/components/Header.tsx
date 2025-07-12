@@ -66,14 +66,12 @@ const MobileHeader = memo(function MobileHeader() {
           <SheetDescription className="sr-only">
             网站主导航链接
           </SheetDescription>
-          <div className="flex items-center justify-between">
-            <LinkWithUnderline
-              href="/"
-              className="text-xl font-bold"
-              onClick={() => setOpen(false)}>
-              Elysium's Blog
-            </LinkWithUnderline>
-          </div>
+          <LinkWithUnderline
+            href="/"
+            className="text-xl font-bold"
+            onClick={() => setOpen(false)}>
+            Elysium's Blog
+          </LinkWithUnderline>
         </SheetHeader>
         <nav
           className="mt-6 flex flex-col space-y-6 px-4"
