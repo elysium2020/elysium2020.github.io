@@ -1,13 +1,13 @@
 # Astro Blog
 
-This is a minimal framework of my blog.
+This is a blog.
 Based on Astro.
 
 ## ✨ Features
 
 - Responsive
 - Super fast performance
-- Tailwind CSS + Shadcn/ui
+- Tailwind CSS + StarLight
 
 ## TODO
 

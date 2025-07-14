@@ -5,6 +5,8 @@ import rehypeKatex from 'rehype-katex';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
+import starlight from '@astrojs/starlight';
+
 export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath],
@@ -20,5 +22,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [react()],
+  integrations: [react(), starlight()],
 });
