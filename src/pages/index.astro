@@ -3,7 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Tags, ArrowRight, Calendar, Hash } from 'lucide-react';
+import { BookOpen, Tags, ArrowRight, Calendar, Tag } from 'lucide-react';
 import { sortedPosts, allTags } from '@/lib/content';
 
 const latestPosts = sortedPosts.slice(0, 4);
@@ -43,7 +43,7 @@ const siteTitle = "Elysium's Blog";
       <div class="flex items-center justify-between">
         <h2 class="text-3xl font-semibold tracking-tight">最新文章</h2>
         <Button asChild variant="link" className="p-0 text-base">
-          <a href="/posts" class="group inline-flex items-center gap-1">
+          <a href="/posts" class="group inline-flex gap-1">
             <span>查看全部</span>
             <ArrowRight
               className="transition-transform duration-300 group-hover:translate-x-1"
@@ -86,7 +86,7 @@ const siteTitle = "Elysium's Blog";
                     <Badge
                       variant="secondary"
                       className="inline-flex items-center gap-1">
-                      <Hash className="h-3 w-3" />
+                      <Tag className="h-3 w-3" />
                       <span>{tag}</span>
                     </Badge>
                   ))}
@@ -105,7 +105,7 @@ const siteTitle = "Elysium's Blog";
             <a
               href={`/tags/${tag}`}
               class="border-input bg-background ring-offset-background hover:border-primary/50 hover:bg-primary/5 hover:text-primary focus-visible:ring-ring inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
-              <Hash className="mr-1.5 h-3.5 w-3.5" />
+              <Tag className="mr-1.5 h-3.5 w-3.5" />
               <span>{tag}</span>
             </a>
           ))

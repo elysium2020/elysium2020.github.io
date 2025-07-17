@@ -1,5 +1,5 @@
 ---
-import { allPosts as posts } from '@/lib/content';
+import { allPosts } from '@/lib/content';
 import { formatDate } from '@/lib/utils';
 import Layout from '@/layouts/Layout.astro';
 import { Badge } from '@/components/ui/badge';
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Tag, Calendar, ArrowLeft } from 'lucide-react';
 
 export async function getStaticPaths() {
-  return posts.map((post) => ({
+  return allPosts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -34,9 +34,7 @@ const { Content } = await post.render();
         <Badge variant="secondary" className="inline-flex items-center gap-1">
           <Calendar className="h-4 w-4" />
           <time>
-            {
-              formatDate(post.data.pubDate)
-            }
+            {formatDate(post.data.pubDate)}
           </time>
         </Badge>
         <div class="flex flex-wrap items-center gap-2">
@@ -59,15 +57,11 @@ const { Content } = await post.render();
       class="prose prose-lg sm:prose-xl prose-headings:font-semibold prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-blockquote:border-l-4 prose-blockquote:border-blue-600 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-800 prose-pre:rounded-xl prose-img:rounded-xl prose-img:shadow-lg prose-hr:border-t-2 prose-hr:border-gray-200 max-w-none">
       <Content />
     </article>
-    <div class="border-border mt-16 border-t pt-8">
-      <Button
-        client:visible
-        asChild
-        variant="link"
-        className="group hover:text-primary inline-flex items-center font-medium transition-all duration-300">
+    <div class="mt-16 pt-8">
+      <Button client:visible asChild variant="outline" className="group">
         <a href="/posts">
           <ArrowLeft
-            className="mr-1.5 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
+            className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1 group-hover:drop-shadow-sm"
           />
           <span>返回文章列表</span>
         </a>
