@@ -3,11 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
-import { getCollection } from 'astro:content';
-
-const allPosts = await getCollection('posts');
-
-const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
+import { allPosts, allTags as tags } from '@/lib/content';
 ---
 
 <Layout pageTitle="所有标签">

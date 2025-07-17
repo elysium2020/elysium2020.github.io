@@ -10,13 +10,10 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowUpRight, Home, Tag as TagIcon, Calendar } from 'lucide-react';
-import { getCollection } from 'astro:content';
+import { allPosts, allTags as uniqueTags } from '@/lib/content';
+import { formatDate } from '@/lib/utils';
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('posts');
-
-  const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
-
   return uniqueTags.map((tag: string) => {
     const filteredPosts = allPosts
       .filter((post) => post.data.tags.includes(tag))
@@ -64,11 +61,7 @@ const { posts } = Astro.props;
               <div class="flex items-center gap-2 text-sm">
                 <Calendar className="text-muted-foreground h-4 w-4" />
                 <time class="text-muted-foreground">
-                  {post.data.pubDate.toLocaleDateString('zh-CN', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                  {formatDate(post.data.pubDate)}
                 </time>
               </div>
             </CardHeader>

@@ -4,20 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, Tags, ArrowRight, Calendar, Hash } from 'lucide-react';
-import { getCollection } from 'astro:content';
-
-const allPosts = await getCollection('posts', () => {
-  return true;
-});
-
-const sortedPosts = allPosts.sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
-);
+import { sortedPosts, allTags } from '@/lib/content';
 
 const latestPosts = sortedPosts.slice(0, 4);
-
-const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
-
 const popularTags = allTags.slice(0, 8);
 
 const siteTitle = "Elysium's Blog";

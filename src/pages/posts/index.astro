@@ -8,12 +8,7 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Calendar, ArrowUpRight } from 'lucide-react';
-import { getCollection } from 'astro:content';
-
-const postsCollection = await getCollection('posts');
-const allPosts = postsCollection.sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
-);
+import { sortedPosts as allPosts } from '@/lib/content';
 ---
 
 <Layout pageTitle="所有文章">
