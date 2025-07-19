@@ -5,6 +5,7 @@ import eslintAstro from 'eslint-plugin-astro';
 import eslintImport from 'eslint-plugin-import';
 import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReactHooks from 'eslint-plugin-react-hooks';
+import eslintJsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default tseslint.config(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },
@@ -24,6 +25,7 @@ export default tseslint.config(
     extends: [
       eslintReact.configs.recommended,
       eslintReactHooks.configs.recommended,
+      eslintJsxA11y.flatConfigs.recommended,
     ],
   },
 );
