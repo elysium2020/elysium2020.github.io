@@ -17,12 +17,14 @@ def solve_filename(name: str) -> str:
     }.md"
 
 
-def generate_frontmatter(title: str, qnum: int | None, artype: str) -> str:
-    frontmatter = {
+def generate_frontmatter(title: str, question_number: int | None, art_type: str) -> str:
+    frontmatter: dict[str, str | list[str]] = {
         "title": title,
         "pubDate": date.today().strftime("%Y-%m-%d"),
-        "description": f"LeetCode {qnum} 题解析" if artype == "LeetCode 题解" else "",
-        "tags": ["leetcode"] if artype == "LeetCode 题解" else [""],
+        "description": f"LeetCode {question_number} 题解析"
+        if art_type == "LeetCode 题解"
+        else "",
+        "tags": ["leetcode"] if art_type == "LeetCode 题解" else [""],
     }
 
     yaml_lines = ["---"]
