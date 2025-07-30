@@ -32,8 +32,7 @@ const Footer = memo(function Footer() {
     <footer
       className={cn(
         'mt-auto w-full border-t border-gray-100/50 bg-gradient-to-t from-gray-50/50 to-transparent py-6 shadow-inner',
-      )}
-      aria-label="页脚">
+      )}>
       <div className="container mx-auto max-w-5xl px-4">
         <div className="text-muted-foreground flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm">
           <span className="text-gray-600">{current_year} Elysium</span>

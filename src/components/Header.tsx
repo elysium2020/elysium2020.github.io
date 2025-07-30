@@ -55,6 +55,7 @@ const MobileHeader = memo(function MobileHeader() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <button
+          type="button"
           className="hover:bg-accent/50 rounded-full p-2 transition-all duration-300 md:hidden"
           aria-label="打开侧边栏">
           <Menu className="transition-transform duration-300 ease-in-out" />

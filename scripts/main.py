@@ -33,7 +33,6 @@ def generate_frontmatter(title: str, question_number: int | None, art_type: str)
         if isinstance(v, list):
             yaml_lines.append(f"{k}: {repr(v)}")
         elif k in ("title", "description"):
-            assert isinstance(v, str), f"Expected string for {k}, got {type(v)}"
             yaml_lines.append(f"{k}: '{v.replace("'", "''")}'")
         else:
             yaml_lines.append(f"{k}: {v}")
