@@ -3,5 +3,6 @@
   "vueIndentScriptAndStyle": true,
   "bracketSameLine": true,
   "experimentalTernaries": true,
+  "htmlWhitespaceSensitivity": "strict",
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
 }
