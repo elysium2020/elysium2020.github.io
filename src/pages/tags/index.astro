@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
 import { allPosts, allTags as tags } from '@/lib/content';
+import Searcher from '@/components/Searcher.tsx';
 ---
 
 <Layout pageTitle="所有标签">
@@ -16,7 +17,15 @@ import { allPosts, allTags as tags } from '@/lib/content';
         共 {tags.length} 个标签
       </p>
     </section>
+    <Searcher
+      client:load
+      placeholder="搜索标签..."
+      gridSelector="#tags-grid"
+      cardSelector=".tag-card"
+      dataAttributes={['tag']}
+    />
     <section
+      id="tags-grid"
       class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {
         tags.map((tag: string) => {
@@ -26,9 +35,10 @@ import { allPosts, allTags as tags } from '@/lib/content';
 
           return (
             <Card
+              data-tag={tag}
               client:visible
               key={tag}
-              className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+              className="tag-card group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
               <a
                 href={`/tags/${tag}`}
                 class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2">

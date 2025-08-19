@@ -8,10 +8,10 @@ Based on Astro.
 - Responsive
 - Super fast performance
 - Tailwind CSS + Shadcn/ui
+- Search
 
 ## TODO
 
 - [ ] Dark Mode
-- [ ] Fuzzy Search
 - [ ] Site Map
 - [ ] RSS Feed
