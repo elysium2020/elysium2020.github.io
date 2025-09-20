@@ -20,12 +20,15 @@ tags: ['leetcode', 'array', 'greedy']
 因此，我们可以做以下变形：
 
 $$
-\begin{aligned}
-\sum^y_{i=z}\mathrm{gas[i]} &= \sum^y_{i=x}\mathrm{gas[i]} - \sum^{z-1}_{i=x}\mathrm{gas[i]} \\
-&\le \sum^y_{i=x}\mathrm{cost[i]} - \sum^{z-1}_{i=x}\mathrm{gas[i]} \\
-&\le \sum^y_{i=x}\mathrm{cost[i]} - \sum^{z-1}_{i=x}\mathrm{cost[i]} \\
-&= \sum^y_{i=z}\mathrm{cost[i]}
-\end{aligned}
+ \begin{aligned}
+  \sum^y_{i=z}\mathrm{gas[i]} & = \sum^y_{i=x}\mathrm{gas[i]}
+  - \sum^{z-1}_{i=x}\mathrm{gas[i]}                              \\
+                              & \le \sum^y_{i=x}\mathrm{cost[i]}
+  - \sum^{z-1}_{i=x}\mathrm{gas[i]}                              \\
+                              & \le \sum^y_{i=x}\mathrm{cost[i]}
+  - \sum^{z-1}_{i=x}\mathrm{cost[i]}                             \\
+                              & = \sum^y_{i=z}\mathrm{cost[i]}
+ \end{aligned}
 $$
 
 即 $x$ 与 $y$ 之间，不存在任何一个加油站，使得汽车能到达 $y$ 后下一个加油站。

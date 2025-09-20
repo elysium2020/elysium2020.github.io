@@ -21,10 +21,11 @@ tags: ['leetcode', 'two pointers', 'string', 'dynamic programming']
 其次，我们写出状态转移方程。
 
 $$
-dp[i][j] = \begin{cases}
-i & t[i] = j \\
-dp[i + 1][j] & t[i] \ne j
-\end{cases}
+ \mathrm{dp[i][j]} =
+ \begin{cases}
+  i            & \mathrm{t[i]} = j   \\
+  \mathrm{dp[i + 1][j]} & \mathrm{t[i]} \ne j
+ \end{cases}
 $$
 
 根据以上方程，我们即可完成 `dp[][]` 的填充。
