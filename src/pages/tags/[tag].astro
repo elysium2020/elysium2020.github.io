@@ -22,7 +22,7 @@ export async function getStaticPaths() {
   return uniqueTags.map((tag: string) => {
     const filteredPosts = allPosts
       .filter((post) => post.data.tags.includes(tag))
-      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+      .toSorted((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
     return {
       params: { tag },
       props: { posts: filteredPosts },

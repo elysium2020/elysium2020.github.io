@@ -30,21 +30,21 @@ tags: ['leetcode', 'hash table', 'string', 'sliding window']
 然后我们统计一下情况
 
 $$
- \begin{cases}
-  \text{字符 c 离开窗口} & \mathrm{count[c]} - 1 = &
+\begin{cases}
+\text{字符 c 离开窗口} & \mathrm{count[c]} - 1 = &
 
-  \begin{cases}
-   0  & \text{一个多余字符被移除，differ} - 1    \\
-   -1 & \text{平衡被打破，有新的差异项。differ} + 1
-  \end{cases}   \\
+\begin{cases}
+0 & \text{一个多余字符被移除，differ} - 1 \\
+-1 & \text{平衡被打破，有新的差异项。differ} + 1
+\end{cases} \\
 
-  \text{字符 c 进入窗口} & \mathrm{count[c]} + 1 = &
+\text{字符 c 进入窗口} & \mathrm{count[c]} + 1 = &
 
-  \begin{cases}
-   0 & \text{一个缺失的字符被添加，differ} - 1   \\
-   1 & \text{平衡被打破，有新的差异项。differ} + 1
-  \end{cases}
- \end{cases}
+\begin{cases}
+0 & \text{一个缺失的字符被添加，differ} - 1 \\
+1 & \text{平衡被打破，有新的差异项。differ} + 1
+\end{cases}
+\end{cases}
 $$
 
 也就是说，我们可以仅考虑 `differ` 的变化来判断当前窗口是否满足要求。

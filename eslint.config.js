@@ -1,4 +1,7 @@
+//@ts-check
+
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import eslintReact from 'eslint-plugin-react';
 import eslintAstro from 'eslint-plugin-astro';
@@ -7,7 +10,7 @@ import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReactHooks from 'eslint-plugin-react-hooks';
 import eslintJsxA11y from 'eslint-plugin-jsx-a11y';
 
-export default tseslint.config(
+export default defineConfig(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },
   eslint.configs.recommended,
   tseslint.configs.strict,

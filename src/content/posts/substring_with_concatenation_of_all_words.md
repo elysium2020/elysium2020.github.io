@@ -25,8 +25,8 @@ tags: ['leetcode', 'hash table', 'string', 'sliding window']
 接着我们可以套用 438 题的逻辑：
 
 1. 在窗口最左侧移除旧单词（`differ[word]--`）。
-1. 在窗口右侧加入新单词（`differ[word]++`）。
-1. 如果某个单词的计数为 $0$，那么删除它（`differ.erase(word)`）。
+2. 在窗口右侧加入新单词（`differ[word]++`）。
+3. 如果某个单词的计数为 $0$，那么删除它（`differ.erase(word)`）。
 
 最后，如果 `differ` 为空，若为空，那么 `start` 就是一个答案，加入答案数组。
 
