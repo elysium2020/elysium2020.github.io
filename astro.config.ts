@@ -1,40 +1,28 @@
 import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import rehypePrettyCode from 'rehype-pretty-code';
-import { transformerCopyButton } from '@rehype-pretty/transformers';
-
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
+import expressiveCode from 'astro-expressive-code';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 
 export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [
-      rehypeKatex,
-      [
-        rehypePrettyCode,
-        {
-          theme: 'catppuccin-mocha',
-          transformers: [
-            transformerCopyButton({
-              visibility: 'hover',
-              feedbackDuration: 2500,
-            }),
-          ],
-        },
-      ],
-    ],
+    rehypePlugins: [rehypeKatex],
   },
-
   experimental: {
     preserveScriptOrder: true,
     contentIntellisense: true,
   },
-
   vite: {
     plugins: [tailwindcss()],
   },
-
-  integrations: [react()],
+  integrations: [
+    react(),
+    expressiveCode({
+      themes: ['catppuccin-mocha'],
+      plugins: [pluginLineNumbers()],
+    }),
+  ],
 });

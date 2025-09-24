@@ -31,4 +31,10 @@ export default defineConfig(
       eslintJsxA11y.flatConfigs.recommended,
     ],
   },
+  {
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+      'unicorn/filename-case': 'off',
+    },
+  },
 );

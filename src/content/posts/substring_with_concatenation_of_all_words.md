@@ -32,7 +32,7 @@ tags: ['leetcode', 'hash table', 'string', 'sliding window']
 
 ## 解答
 
-```cpp
+```cpp 
 class Solution {
 public:
   vector<int> findSubstring(string s, vector<string> &words) {
