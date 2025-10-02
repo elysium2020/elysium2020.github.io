@@ -1,10 +1,23 @@
 version: 2
 updates:
-  - package-ecosystem: "bun" 
-    directory: "/"
+  - package-ecosystem: 'bun'
+    directory: '/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      interval: weekly
+    commit-message:
+      prefix: 'bump'
+    groups:
+      bun-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: weekly
+    commit-message:
+      prefix: 'bump'
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - '*'
