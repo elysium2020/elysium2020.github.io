@@ -12,12 +12,23 @@ updates:
           - '*'
 
   - package-ecosystem: 'github-actions'
-    directory: '/'
+    directory: '.github/'
     schedule:
       interval: weekly
     commit-message:
       prefix: 'bump'
     groups:
       github-actions-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: 'uv'
+    directory: 'scripts'
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'bump'
+    groups:
+      uv-dependencies:
         patterns:
           - '*'
