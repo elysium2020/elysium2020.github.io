@@ -10,6 +10,16 @@ updates:
       bun-dependencies:
         patterns:
           - '*'
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'bump'
+    groups:
+      npm-dependencies:
+        patterns:
+          - '*'
 
   - package-ecosystem: 'github-actions'
     directory: '.github/'
@@ -30,5 +40,16 @@ updates:
       prefix: 'bump'
     groups:
       uv-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: 'pip'
+    directory: 'scripts'
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: 'bump'
+    groups:
+      pip-dependencies:
         patterns:
           - '*'
