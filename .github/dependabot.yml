@@ -33,7 +33,7 @@ updates:
           - '*'
 
   - package-ecosystem: 'uv'
-    directory: 'scripts'
+    directory: 'scripts/'
     schedule:
       interval: weekly
     commit-message:
@@ -44,7 +44,7 @@ updates:
           - '*'
 
   - package-ecosystem: 'pip'
-    directory: 'scripts'
+    directory: 'scripts/'
     schedule:
       interval: weekly
     commit-message:
