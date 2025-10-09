@@ -7,21 +7,21 @@
       "groupName": "GitHub Actions",
       "groupSlug": "github-actions",
       "semanticCommitType": "bump",
-      "matchUpdateTypes": ["major", "minor"]
+      "matchUpdateTypes": ["major", "minor", "patch"]
     },
     {
       "matchManagers": ["bun"],
       "groupName": "Bun Packages",
       "groupSlug": "bun",
       "semanticCommitType": "bump",
-      "matchUpdateTypes": ["major", "minor"]
+      "matchUpdateTypes": ["major", "minor", "patch"]
     },
     {
       "matchManagers": ["pyenv", "pep621"],
       "groupName": "Python dependencies",
       "groupSlug": "python",
       "semanticCommitType": "bump",
-      "matchUpdateTypes": ["major", "minor"]
+      "matchUpdateTypes": ["major", "minor", "patch"]
     }
   ],
   "automerge": true,
