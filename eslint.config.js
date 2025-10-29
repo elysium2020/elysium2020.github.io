@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint';
 import eslintAstro from 'eslint-plugin-astro';
 import eslintImport from 'eslint-plugin-import';
 import eslintUnicorn from 'eslint-plugin-unicorn';
+import eslintReact from '@eslint-react/eslint-plugin';
 
 export default defineConfig(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },
@@ -18,6 +19,7 @@ export default defineConfig(
     extends: [
       eslintImport.flatConfigs.recommended,
       eslintImport.flatConfigs.typescript,
+      eslintReact.configs['recommended-typescript'],
     ],
   },
   {
