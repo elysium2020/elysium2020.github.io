@@ -10,7 +10,7 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.5",
+    "@astrojs/check": "^0.9.6",
     "@astrojs/react": "^4.4.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-navigation-menu": "^1.2.14",
@@ -18,7 +18,7 @@
     "@tailwindcss/vite": "^4.1.17",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.16.0",
+    "astro": "^5.16.2",
     "astro-expressive-code": "^0.41.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -29,7 +29,7 @@
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^2.3.7",
+    "@eslint-react/eslint-plugin": "^2.3.9",
     "@expressive-code/plugin-line-numbers": "^0.41.3",
     "@rehype-pretty/transformers": "^0.13.2",
     "@tailwindcss/typography": "^0.5.19",
