@@ -10,44 +10,51 @@ import {
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { sortedPosts as allPosts } from '@/lib/content';
 import Searcher from '@/components/Searcher.tsx';
+
+const total = allPosts.length;
 ---
 
 <Layout pageTitle="所有文章">
   <main class="container mx-auto max-w-5xl p-8">
+    <!-- 标题区 -->
     <section class="mb-12 space-y-4 text-center">
-      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
-        所有文章
-      </h1>
-      <p class="text-muted-foreground text-xl">
-        共 {allPosts.length} 篇文章
-      </p>
+      <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl"
+        >所有文章</h1
+      >
+      <p class="text-muted-foreground text-xl">共 {total} 篇文章</p>
     </section>
+
     <Searcher
-      client:load
+      client:visible
       placeholder="搜索文章..."
       gridSelector="#posts-grid"
       cardSelector=".post-card"
       dataAttributes={['title', 'description', 'tags']}
     />
+
     <section
       id="posts-grid"
-      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+      aria-label="文章列表">
       {
         allPosts.map((post) => (
           <Card
+            key={post.slug}
             data-title={post.data.title || ''}
             data-description={post.data.description || ''}
             data-tags={post.data.tags?.join(' ') || ''}
-            className="post-card group relative flex flex-col transition-shadow hover:shadow-lg">
+            className="post-card group relative flex flex-col transition-shadow duration-200 hover:shadow-lg"
+            role="article">
             <a
               href={`/posts/${post.slug}`}
-              class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+              class="ring-primary absolute inset-0 rounded-lg ring-0 focus-visible:ring-2"
               aria-label={`阅读 ${post.data.title}`}
             />
+
             <CardHeader className="pb-2">
-              <div class="flex items-center gap-2 text-sm">
-                <Calendar className="text-muted-foreground h-4 w-4" />
-                <time class="text-muted-foreground">
+              <div class="text-muted-foreground flex items-center gap-2 text-sm">
+                <Calendar aria-hidden="true" className="h-4 w-4" />
+                <time>
                   {post.data.pubDate.toLocaleDateString('zh-CN', {
                     year: 'numeric',
                     month: 'long',
@@ -56,17 +63,20 @@ import Searcher from '@/components/Searcher.tsx';
                 </time>
               </div>
             </CardHeader>
+
             <CardContent className="flex-1 space-y-4">
-              <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+              <CardTitle className="text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-primary">
                 {post.data.title}
               </CardTitle>
+
               <p class="text-muted-foreground leading-relaxed">
                 {post.data.description}
               </p>
             </CardContent>
-            <CardFooter className="mt-auto flex items-center font-medium text-primary transition-colors">
-              阅读全文
-              <ArrowUpRight className="ml-2 h-4 w-4" />
+
+            <CardFooter className="mt-auto flex items-center gap-2 font-medium text-primary transition-colors duration-200">
+              <span>阅读全文</span>
+              <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
             </CardFooter>
           </Card>
         ))

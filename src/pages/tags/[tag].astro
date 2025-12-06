@@ -23,6 +23,7 @@ export async function getStaticPaths() {
     const filteredPosts = allPosts
       .filter((post) => post.data.tags.includes(tag))
       .toSorted((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
     return {
       params: { tag },
       props: { posts: filteredPosts },
@@ -35,64 +36,68 @@ const { posts } = Astro.props;
 ---
 
 <Layout pageTitle={`#${tag} 相关文章`}>
-  <main class="container mx-auto max-w-5xl p-4 py-8">
-    <section class="mb-12 space-y-4 text-center">
-      <h1
-        class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+  <main class="container mx-auto max-w-5xl p-4 py-10">
+    <section class="mb-14 space-y-6 text-center">
+      <div class="inline-flex items-center justify-center">
         <Badge
           variant="secondary"
-          className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-2xl font-semibold">
-          <TagIcon className="h-6 w-6" />
+          className="hover:border-primary/50 inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-2xl font-semibold shadow-sm transition-all">
+          <TagIcon className="text-muted-foreground h-7 w-7" />
           <span>{tag}</span>
         </Badge>
-      </h1>
-      <p class="text-muted-foreground text-xl">
+      </div>
+
+      <p class="text-muted-foreground text-lg tracking-wide">
         共 {posts.length} 篇相关文章
       </p>
     </section>
-    <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+    <section class="grid grid-cols-1 gap-7 md:grid-cols-2 lg:gap-8">
       {
         posts.map((post) => (
           <Card
             client:visible
-            className="group relative flex flex-col transition-shadow duration-300 hover:shadow-lg"
-            key={post.slug}>
+            key={post.slug}
+            className="group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300 hover:shadow-xl hover:border-primary/30">
             <a
               href={`/posts/${post.slug}`}
-              class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+              class="ring-primary absolute inset-0 rounded-xl focus-visible:ring-2"
               aria-label={`阅读 ${post.data.title}`}
             />
-            <CardHeader className="pb-2">
-              <div class="flex items-center gap-2 text-sm">
-                <Calendar className="text-muted-foreground h-4 w-4" />
-                <time class="text-muted-foreground">
-                  {formatDate(post.data.pubDate)}
-                </time>
+
+            <CardHeader className="pb-2 pt-5">
+              <div class="text-muted-foreground flex items-center gap-2 text-xs">
+                <Calendar className="h-4 w-4" />
+                <time>{formatDate(post.data.pubDate)}</time>
               </div>
             </CardHeader>
-            <CardContent className="flex-1 space-y-4">
-              <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+
+            <CardContent className="flex-1 space-y-4 pb-4">
+              <CardTitle className="text-xl font-semibold leading-snug tracking-tight transition-colors group-hover:text-primary">
                 {post.data.title}
               </CardTitle>
+
               <p class="text-muted-foreground line-clamp-3 leading-relaxed">
                 {post.data.description}
               </p>
             </CardContent>
-            <CardFooter className="mt-auto pt-4 text-primary flex items-center text-sm font-medium transition-colors">
+
+            <CardFooter className="pt-4 mt-auto flex items-center font-medium text-primary text-sm group-hover:text-primary/90 transition-colors">
               阅读全文
-              <ArrowUpRight className="ml-1 h-4 w-4" />
+              <ArrowUpRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </CardFooter>
           </Card>
         ))
       }
     </section>
-    <div class="mt-16 pt-8">
-      <Button asChild variant="outline" className="group">
+
+    <div class="mt-20 flex justify-center">
+      <Button asChild variant="outline" className="group px-6 py-5 text-base">
         <a href="/tags">
           <ArrowLeft
-            className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1 group-hover:drop-shadow-sm"
+            className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
           />
-          <span>返回标签列表</span>
+          返回标签列表
         </a>
       </Button>
     </div>

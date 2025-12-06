@@ -18,53 +18,68 @@ const siteTitle = "Elysium's Blog";
       <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
         {siteTitle}
       </h1>
+
       <div class="flex justify-center gap-4">
         <a
           href="/posts"
-          class="group bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          class="group bg-primary text-primary-foreground inline-flex items-center gap-2 rounded-md px-4 py-2 font-medium transition-transform duration-200 hover:scale-105 hover:shadow-md"
+          aria-label="浏览文章">
           <BookOpen
             size={20}
-            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+            aria-hidden="true"
+            className="transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3"
           />
           <span>浏览文章</span>
         </a>
+
         <a
           href="/tags"
-          class="group border-input bg-background hover:bg-accent hover:border-primary hover:text-primary inline-flex items-center gap-2 rounded-md border px-4 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+          class="group bg-background border-input hover:bg-accent hover:border-primary hover:text-primary inline-flex items-center gap-2 rounded-md border px-4 py-2 font-medium transition-colors duration-200"
+          aria-label="查看标签">
           <Tags
             size={20}
-            className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+            aria-hidden="true"
+            className="transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3"
           />
           <span>查看标签</span>
         </a>
       </div>
     </section>
+
     <section class="mb-16 space-y-8">
       <div class="flex items-center justify-between">
         <h2 class="text-3xl font-semibold tracking-tight">最新文章</h2>
+
         <Button asChild variant="link" className="p-0 text-base">
-          <a href="/posts" class="group inline-flex gap-1">
+          <a
+            href="/posts"
+            class="group inline-flex items-center gap-1"
+            aria-label="查看全部文章">
             <span>查看全部</span>
             <ArrowRight
-              className="transition-transform duration-300 group-hover:translate-x-1"
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-x-1"
             />
           </a>
         </Button>
       </div>
+
       <div class="grid gap-6 md:grid-cols-2">
         {
           latestPosts.map((post) => (
             <Card
+              key={post.slug}
               client:visible
-              className="group relative transition-shadow hover:shadow-lg">
+              className="group relative transition-shadow duration-200 hover:shadow-lg">
               <a
                 href={`/posts/${post.slug}`}
-                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2"
+                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-shadow duration-200 focus-visible:ring-2"
                 aria-label={post.data.title}
               />
+
               <CardHeader className="pb-2">
                 <div class="text-muted-foreground flex items-center gap-2 text-sm">
-                  <Calendar />
+                  <Calendar aria-hidden="true" />
                   <time>
                     {post.data.pubDate.toLocaleDateString('zh-CN', {
                       year: 'numeric',
@@ -74,19 +89,23 @@ const siteTitle = "Elysium's Blog";
                   </time>
                 </div>
               </CardHeader>
+
               <CardContent className="space-y-4">
-                <CardTitle className="text-xl font-semibold tracking-tight transition-colors group-hover:text-primary">
+                <CardTitle className="text-xl font-semibold tracking-tight transition-colors duration-200 group-hover:text-primary">
                   {post.data.title}
                 </CardTitle>
+
                 <p class="text-muted-foreground line-clamp-2 leading-relaxed">
                   {post.data.description}
                 </p>
+
                 <div class="flex gap-2">
                   {post.data.tags?.slice(0, 3).map((tag) => (
                     <Badge
+                      key={tag}
                       variant="secondary"
                       className="inline-flex items-center gap-1">
-                      <Tag className="h-3 w-3" />
+                      <Tag aria-hidden="true" className="h-3 w-3" />
                       <span>{tag}</span>
                     </Badge>
                   ))}
@@ -97,15 +116,18 @@ const siteTitle = "Elysium's Blog";
         }
       </div>
     </section>
+
     <section class="mb-16 space-y-8">
       <h2 class="text-3xl font-semibold tracking-tight">热门标签</h2>
+
       <div class="flex flex-wrap gap-3">
         {
           popularTags.map((tag) => (
             <a
               href={`/tags/${tag}`}
-              class="border-input bg-background ring-offset-background hover:border-primary/50 hover:bg-primary/5 hover:text-primary focus-visible:ring-ring inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
-              <Tag className="mr-1.5 h-3.5 w-3.5" />
+              class="bg-background border-input hover:text-primary hover:border-primary/50 inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-transform duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+              aria-label={`标签 ${tag}`}>
+              <Tag aria-hidden="true" className="mr-1.5 h-3.5 w-3.5" />
               <span>{tag}</span>
             </a>
           ))

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
@@ -17,48 +17,94 @@ export default function Searcher({
   cardSelector,
   dataAttributes,
 }: SearcherProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const cacheRef = useRef<Array<{ el: HTMLElement; text: string }>>([]);
+  const observerRef = useRef<MutationObserver | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rebuildDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const DEBOUNCE_MS = 180;
+
+  const rebuildCache = (grid: HTMLElement | null) => {
+    if (!grid) {
+      cacheRef.current = [];
+      return;
+    }
+    const cards = [...grid.querySelectorAll(cardSelector)] as HTMLElement[];
+    cacheRef.current = cards.map((el) => {
+      const text = dataAttributes
+        .map((attr) => (el.dataset[attr] || '').toString())
+        .join(' ')
+        .toLowerCase();
+      return { el, text };
+    });
+  };
+
   useEffect(() => {
-    const searchInput = document.querySelector(
-      '#search-input',
-    ) as HTMLInputElement;
-    const grid = document.querySelector(gridSelector);
+    const inputEl =
+      inputRef.current ??
+      (document.querySelector('#search-input') as HTMLInputElement | null);
+    const grid = document.querySelector(gridSelector) as HTMLElement | null;
 
-    if (!searchInput || !grid) return;
+    if (!inputEl || !grid) return;
 
-    const cards = grid.querySelectorAll(cardSelector);
+    rebuildCache(grid);
 
     const performSearch = () => {
-      const searchTerm = searchInput.value.toLowerCase().trim();
+      const raw = (inputEl.value || '').toLowerCase().trim();
+      if (raw === '') {
+        for (const { el } of cacheRef.current) el.classList.remove('hidden');
+        return;
+      }
 
-      for (const card of cards) {
-        const cardElement = card as HTMLElement;
-        const isVisible =
-          searchTerm === '' ||
-          dataAttributes.some((attr) =>
-            (cardElement.dataset[attr] || '')
-              .toLowerCase()
-              .includes(searchTerm),
-          );
-        cardElement.classList.toggle('hidden', !isVisible);
+      for (const { el, text } of cacheRef.current) {
+        const isVisible = text.includes(raw);
+        el.classList.toggle('hidden', !isVisible);
       }
     };
 
-    searchInput.addEventListener('input', performSearch);
+    const onInput = () => {
+      if (debounceRef.current) globalThis.clearTimeout(debounceRef.current);
+      debounceRef.current = globalThis.setTimeout(performSearch, DEBOUNCE_MS);
+    };
+
+    inputEl.addEventListener('input', onInput);
+
+    if ('MutationObserver' in globalThis) {
+      observerRef.current = new MutationObserver(() => {
+        if (rebuildDebounceRef.current)
+          globalThis.clearTimeout(rebuildDebounceRef.current);
+        rebuildDebounceRef.current = globalThis.setTimeout(
+          () => rebuildCache(grid),
+          150,
+        );
+      });
+
+      observerRef.current.observe(grid, { childList: true, subtree: true });
+    }
 
     return () => {
-      searchInput.removeEventListener('input', performSearch);
+      inputEl.removeEventListener('input', onInput);
+      if (debounceRef.current) globalThis.clearTimeout(debounceRef.current);
+      if (rebuildDebounceRef.current)
+        globalThis.clearTimeout(rebuildDebounceRef.current);
+      if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [gridSelector, cardSelector, dataAttributes]);
+  }, [gridSelector, cardSelector, dataAttributes.join('|')]);
 
   return (
     <section className="mx-auto mb-12 max-w-lg">
       <div className="relative">
-        <Search className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
+        <Search
+          className="text-muted-foreground pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2"
+          aria-hidden
+        />
         <Input
           id="search-input"
+          ref={inputRef}
           type="search"
           placeholder={placeholder}
-          className="bg-muted/40 focus:bg-background focus:ring-primary/50 h-12 w-full rounded-full pr-5 pl-12 text-base shadow-inner transition-all duration-300 focus:shadow-lg focus:ring-2"
+          aria-label={placeholder}
+          className="bg-muted/40 focus:bg-background focus:ring-primary/50 h-12 w-full rounded-full pr-5 pl-12 text-base shadow-inner transition-shadow duration-200 focus:shadow-lg focus:ring-2"
         />
       </div>
     </section>

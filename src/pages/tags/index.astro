@@ -5,6 +5,13 @@ import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
 import { allPosts, allTags as tags } from '@/lib/content';
 import Searcher from '@/components/Searcher.tsx';
+
+const tagCountMap = Object.fromEntries(
+  tags.map((tag) => [
+    tag,
+    allPosts.filter((post) => post.data.tags.includes(tag)).length,
+  ]),
+);
 ---
 
 <Layout pageTitle="所有标签">
@@ -17,43 +24,47 @@ import Searcher from '@/components/Searcher.tsx';
         共 {tags.length} 个标签
       </p>
     </section>
+
     <Searcher
-      client:load
+      client:visible
       placeholder="搜索标签..."
       gridSelector="#tags-grid"
       cardSelector=".tag-card"
       dataAttributes={['tag']}
     />
+
     <section
       id="tags-grid"
       class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {
         tags.map((tag: string) => {
-          const postCount = allPosts.filter((post) =>
-            post.data.tags.includes(tag),
-          ).length;
+          const postCount = tagCountMap[tag];
 
           return (
             <Card
+              key={tag}
               data-tag={tag}
               client:visible
-              key={tag}
-              className="tag-card group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30">
+              className="tag-card group relative overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg hover:border-primary/30">
               <a
                 href={`/tags/${tag}`}
-                class="ring-primary absolute inset-0 rounded-lg ring-0 transition-all focus-visible:ring-2">
-                <span class="sr-only">查看 {tag} 标签文章</span>
-              </a>
-              <CardHeader className="pb-2 pt-4">
+                class="ring-primary absolute inset-0 rounded-xl transition-all focus-visible:ring-2"
+                aria-label={`查看 ${tag} 标签文章`}
+              />
+
+              <CardHeader className="pb-2 pt-5">
                 <div class="flex flex-col items-center gap-2">
-                  <Tag className="text-muted-foreground group-hover:text-primary h-6 w-6 transition duration-300 group-hover:scale-125" />
-                  <CardTitle className="group-hover:text-primary text-center text-xl font-semibold tracking-tight transition-colors">
+                  <Tag className="h-6 w-6 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:-translate-y-0.5" />
+                  <CardTitle className="text-xl text-center font-semibold tracking-tight transition-colors group-hover:text-primary">
                     {tag}
                   </CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="flex justify-center pb-4">
-                <Badge variant="secondary" className="text-xs">
+
+              <CardContent className="flex justify-center pb-5">
+                <Badge
+                  variant="secondary"
+                  className="px-2 py-0.5 text-xs font-medium">
                   {postCount} 篇文章
                 </Badge>
               </CardContent>

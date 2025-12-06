@@ -7,7 +7,6 @@ import eslintAstro from 'eslint-plugin-astro';
 import eslintImport from 'eslint-plugin-import';
 import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReact from '@eslint-react/eslint-plugin';
-import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
 export default defineConfig(
   { ignores: ['**/node_modules/**', '**/.astro/**'] },

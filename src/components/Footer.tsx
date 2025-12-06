@@ -12,11 +12,11 @@ const CC_ICONS = {
 const CCLicenseIcons = memo(function CCLicenseIcons() {
   return (
     <span className="ml-2 flex gap-1.5">
-      {Object.entries(CC_ICONS).map(([key, source]) => (
+      {Object.entries(CC_ICONS).map(([key, src]) => (
         <img
           key={key}
-          className="h-5 w-auto opacity-80 transition-all duration-300 hover:scale-110 hover:opacity-100"
-          src={source}
+          className="h-5 w-auto opacity-80 transition duration-300 hover:scale-110 hover:opacity-100"
+          src={src}
           alt={key.toUpperCase()}
           loading="lazy"
         />
@@ -26,7 +26,7 @@ const CCLicenseIcons = memo(function CCLicenseIcons() {
 });
 
 const Footer = memo(function Footer() {
-  const current_year = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer
@@ -35,18 +35,20 @@ const Footer = memo(function Footer() {
       )}>
       <div className="container mx-auto max-w-5xl px-4">
         <div className="text-muted-foreground flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm">
-          <span className="text-gray-600">{current_year} Elysium</span>
+          <span className="text-gray-600">{currentYear} Elysium</span>
           <span aria-hidden="true">·</span>
+
           <a
             href="https://creativecommons.org/licenses/by-sa/4.0/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center transition-colors"
+            className="group inline-flex items-center transition-colors"
             aria-label="Creative Commons CC-BY-SA 4.0 许可证">
             <span className="group-hover:text-primary relative text-gray-600 transition-colors">
               CC-BY-SA 4.0
-              <span className="bg-primary/70 absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-full"></span>
+              <span className="bg-primary/70 absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 transition-all duration-300 group-hover:w-full" />
             </span>
+
             <CCLicenseIcons />
           </a>
         </div>
