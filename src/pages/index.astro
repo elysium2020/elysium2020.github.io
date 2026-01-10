@@ -10,9 +10,11 @@ const latestPosts = sortedPosts.slice(0, 4);
 const popularTags = allTags.slice(0, 8);
 
 const siteTitle = "Elysium's Blog";
+const siteDescription =
+  "Elysium's personal blog sharing insights on algorithms, web development, and technology.";
 ---
 
-<Layout pageTitle={siteTitle}>
+<Layout pageTitle={siteTitle} description={siteDescription}>
   <main class="container mx-auto max-w-5xl p-4">
     <section class="mb-16 space-y-8 text-center lg:mb-20">
       <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">

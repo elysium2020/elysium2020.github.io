@@ -3,7 +3,10 @@ import '@/styles/global.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const { pageTitle } = Astro.props;
+const {
+  pageTitle,
+  description = "Elysium's Blog - Sharing knowledge and algorithm solutions",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -12,7 +15,9 @@ const { pageTitle } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" />
+    <meta name="description" content={description} />
     <title>{pageTitle}</title>
+    <slot name="head" />
   </head>
   <body>
     <Header />

@@ -12,9 +12,11 @@ const tagCountMap = Object.fromEntries(
     allPosts.filter((post) => post.data.tags.includes(tag)).length,
   ]),
 );
+
+const description = '浏览 Elysium 博客的所有文章标签，方便查找感兴趣的内容。';
 ---
 
-<Layout pageTitle="所有标签">
+<Layout pageTitle="所有标签" description={description}>
   <main class="container mx-auto max-w-5xl p-8">
     <section class="mb-12 space-y-4 text-center">
       <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">

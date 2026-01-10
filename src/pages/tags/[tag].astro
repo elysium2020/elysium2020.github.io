@@ -33,9 +33,11 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
+
+const description = `查看标签 #${tag} 下的所有文章，共 ${posts.length} 篇。`;
 ---
 
-<Layout pageTitle={`#${tag} 相关文章`}>
+<Layout pageTitle={`#${tag} 相关文章`} description={description}>
   <main class="container mx-auto max-w-5xl p-4 py-10">
     <section class="mb-14 space-y-6 text-center">
       <div class="inline-flex items-center justify-center">

@@ -12,9 +12,10 @@ import { sortedPosts as allPosts } from '@/lib/content';
 import Searcher from '@/components/Searcher.tsx';
 
 const total = allPosts.length;
+const description = `浏览 Elysium 的所有博客文章，共 ${total} 篇，涵盖算法、技术心得等。`;
 ---
 
-<Layout pageTitle="所有文章">
+<Layout pageTitle="所有文章" description={description}>
   <main class="container mx-auto max-w-5xl p-8">
     <!-- 标题区 -->
     <section class="mb-12 space-y-4 text-center">
