@@ -19,7 +19,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.16.9",
+    "astro": "^5.16.11",
     "astro-expressive-code": "^0.41.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -30,7 +30,7 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^2.6.4",
+    "@eslint-react/eslint-plugin": "^2.7.1",
     "@expressive-code/plugin-line-numbers": "^0.41.6",
     "@rehype-pretty/transformers": "^0.13.2",
     "@tailwindcss/typography": "^0.5.19",
