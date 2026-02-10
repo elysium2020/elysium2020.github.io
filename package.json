@@ -36,7 +36,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "eslint-plugin-astro": "^1.5.0",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-unicorn": "^62.0.0",
+    "eslint-plugin-unicorn": "^63.0.0",
     "katex": "^0.16.27",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
