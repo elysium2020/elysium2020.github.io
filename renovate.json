@@ -10,9 +10,9 @@
       "matchUpdateTypes": ["major", "minor", "patch"]
     },
     {
-      "matchManagers": ["bun"],
-      "groupName": "Bun Packages",
-      "groupSlug": "bun",
+      "matchManagers": ["npm", "node-version"],
+      "groupName": "Node Packages",
+      "groupSlug": "node",
       "semanticCommitType": "bump",
       "matchUpdateTypes": ["major", "minor", "patch"]
     },
