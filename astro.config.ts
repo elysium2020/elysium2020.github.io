@@ -11,7 +11,7 @@ export default defineConfig({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
   },
-  experimental: { preserveScriptOrder: true, contentIntellisense: true },
+  experimental: { contentIntellisense: true },
   vite: { plugins: [tailwindcss()] },
   integrations: [
     react(),
