@@ -1,7 +1,6 @@
 # Astro Blog
 
-This is a minimal framework of my blog.
-Based on Astro.
+This is my blog, based on Astro.
 
 ## ✨ Features
 
