@@ -15,7 +15,7 @@ tags: ['leetcode', 'array', 'two pointers', 'binary search']
 然后在右侧二分寻找满足 `numbers[left] + numbers[right] == target` 的 `right`。
 换句话说，在固定好一个数字 `numbers[i]` 后，我们需要寻找一个满足`target - numbers[i]` 的 `numbers[mid]`。
 由于答案唯一，所以我们在找到后可以直接返回。
-注意：这道题在计算中间值 mid 时，由于编译器优化的特性可以考虑用 `>>1` 来替代 `/2`，从而方便编译器优化。
+需要注意的是，二分查找在计算中间值时更重要的是避免潜在溢出，因此通常会写成 `left + (right - left) / 2` 这样的形式。
 
 而双指针法则更简单。
 我们只需要两个指针 `left` 和 `right`。

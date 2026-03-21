@@ -7,15 +7,14 @@ tags: ['leetcode', 'array', 'dynamic programming', 'greedy']
 
 ## 分析
 
-这题保持一个思路「维护一个最大值，当最大值大于当前值时使用最大值 $- 1$ 的步数」即可硬解出来。
+这题的核心在于维护“当前能够到达的最远位置”。
 
-当然这其实有点 trick，正确的做法应该是使用贪心的思路去解答。
-当 `max_jump` 的值大于 `i` 时，意味着此时 `i` 的值可达。
+更合适的做法是使用贪心思路来解答。
+当 `max_jump` 的值大于等于 `i` 时，意味着此时 `i` 可达。
 此时可通过比较 `max_jump` 和 `i + nums[i]` 的最大值，
-并将结果存储与 `max` 中。
-而当 `max_jump` 大于等于数组最大索引时，满足条目条件，返回真值。
-当 `max_jump` 不大于 `i` 时，意味着不可达。
-返回假值。
+并将结果存储在 `max_jump` 中。
+而当 `max_jump` 大于等于数组最大索引时，说明最后一个位置可达，返回 `true`。
+如果遍历过程中出现 `i > max_jump`，则当前位置不可达，应返回 `false`。
 
 ## 解答
 
@@ -27,7 +26,7 @@ public:
     auto n = nums.size();
 
     if (n == 1)
-      return count;
+      return true;
 
     for (auto i = 0; i < n; ++i) {
       if (i <= max_jump) {

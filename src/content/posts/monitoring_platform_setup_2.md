@@ -10,7 +10,7 @@ tags: ['linux', 'prometheus', 'alertmanager']
 在上一篇博文中，我们完成了监控平台的初步搭建。
 但光有监控还不够，在 OOM、磁盘即将满、BTRFS 出现错误等情况时，
 我们可能会因为未能及时监控到而导致服务器出现异常。
-为了解决这个情况，我们可以利用 Prometheus 中的监控功能来设置对一些情况的警告。
+为了解决这个问题，我们可以利用 Prometheus 的告警功能，对一些常见异常情况设置告警规则。
 并经由 Alertmanager 进行统一管理并转发。
 本博文拟针对一些常见情况设置自动告警，并经由 Alertmanager 往指定邮箱发送告警邮件。
 
@@ -31,7 +31,7 @@ alerting:
 
 ### 配置告警规则
 
-首先，应该创建一个子目录用于维护警告：
+首先，应该创建一个子目录用于维护告警规则：
 
 ```sh
 mkdir -p /etc/prometheus/rules
@@ -53,11 +53,11 @@ groups:
   - name: hostStatsAlert
     rules:
       - alert: CPUHighUse
-        expr: '(1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) * 100 > 0.85'
+        expr: '(1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) * 100 > 85'
       - alert: DiskFull
-        expr: 'node_filesystem_avail_bytes{mountpoint=~"/"} / node_filesystem_size_bytes < 0.85'
-      - alert: OOM
-        expr: 'node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes < 0.85'
+        expr: 'node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.15'
+      - alert: MemoryLow
+        expr: 'node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.15'
       - alert: NodeDown
         expr: 'up == 0'
 ```
@@ -70,15 +70,15 @@ systemctl restart prometheus
 
 ## 安装并配置 Alertmanager
 
-Alertmanager 同样也在官方仓库中，直接安装即可。
+Alertmanager 同样可以直接通过发行版仓库安装。
 
-紧接着我们对其进行简单的配置，让他通过指定的 Gmail 邮箱向一个特殊的邮箱发送告警邮件：
+紧接着对其进行简单配置，让它通过指定的 Gmail 邮箱向目标邮箱发送告警邮件：
 
 ```yml
 #/etc/alertmanager/alertmanager.yml
 global:
   smtp_smarthost: smtp.gmail.com:587
-  smtp_from: <接受邮箱地址>
+  smtp_from: <发送邮箱地址>
   smtp_auth_username: <发送邮箱用户名>
   smtp_auth_password: <发送邮箱密码>
 
@@ -92,7 +92,7 @@ route:
 receivers:
   - name: email
     email_configs:
-      - to: <接受邮箱地址>
+      - to: <接收邮箱地址>
         send_resolved: true
 
 inhibit_rules:
