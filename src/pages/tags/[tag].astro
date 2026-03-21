@@ -15,14 +15,13 @@ import {
   Tag as TagIcon,
   Calendar,
 } from 'lucide-react';
-import { allPosts, allTags as uniqueTags } from '@/lib/content';
+import { sortedPosts, allTags as uniqueTags, type Post } from '@/lib/content';
 import { formatDate } from '@/lib/utils';
 
 export async function getStaticPaths() {
   return uniqueTags.map((tag: string) => {
-    const filteredPosts = allPosts
-      .filter((post) => post.data.tags.includes(tag))
-      .toSorted((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+    const filteredPosts = sortedPosts
+      .filter((post) => post.data.tags.includes(tag));
 
     return {
       params: { tag },
@@ -32,7 +31,7 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { posts } = Astro.props as { posts: Post[] };
 
 const description = `查看标签 #${tag} 下的所有文章，共 ${posts.length} 篇。`;
 ---

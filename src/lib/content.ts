@@ -1,6 +1,13 @@
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
-const posts = await getCollection('posts');
+export type Post = CollectionEntry<'posts'> & {
+  slug: string;
+};
+
+const posts: Post[] = (await getCollection('posts')).map((post) => ({
+  ...post,
+  slug: post.data.slug ?? post.id,
+}));
 
 export const allPosts = posts;
 

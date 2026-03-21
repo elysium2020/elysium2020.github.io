@@ -1,5 +1,6 @@
 ---
-import { allPosts, sortedPosts } from '@/lib/content';
+import { render } from 'astro:content';
+import { allPosts, sortedPosts, type Post } from '@/lib/content';
 import { formatDate } from '@/lib/utils';
 import Layout from '@/layouts/Layout.astro';
 import { Badge } from '@/components/ui/badge';
@@ -12,8 +13,8 @@ export async function getStaticPaths() {
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post } = Astro.props as { post: Post };
+const { Content } = await render(post);
 
 const idx = sortedPosts.findIndex((p) => p.slug === post.slug);
 const next = idx > 0 ? sortedPosts[idx - 1] : undefined;
