@@ -20,8 +20,9 @@ import { formatDate } from '@/lib/utils';
 
 export async function getStaticPaths() {
   return uniqueTags.map((tag: string) => {
-    const filteredPosts = sortedPosts
-      .filter((post) => post.data.tags.includes(tag));
+    const filteredPosts = sortedPosts.filter((post) =>
+      post.data.tags.includes(tag),
+    );
 
     return {
       params: { tag },
@@ -58,10 +59,10 @@ const description = `查看标签 #${tag} 下的所有文章，共 ${posts.lengt
         posts.map((post) => (
           <Card
             client:visible
-            key={post.slug}
+            key={post.id}
             className="group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300 hover:shadow-xl hover:border-primary/30">
             <a
-              href={`/posts/${post.slug}`}
+              href={`/posts/${post.id}`}
               class="ring-primary absolute inset-0 rounded-xl focus-visible:ring-2"
               aria-label={`阅读 ${post.data.title}`}
             />

@@ -8,7 +8,7 @@ import { Tag, Calendar, ArrowLeft, House, ArrowRight } from 'lucide-react';
 
 export async function getStaticPaths() {
   return allPosts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props as { post: Post };
 const { Content } = await render(post);
 
-const idx = sortedPosts.findIndex((p) => p.slug === post.slug);
+const idx = sortedPosts.findIndex((p) => p.id === post.id);
 const next = idx > 0 ? sortedPosts[idx - 1] : undefined;
 const prev = idx + 1 < sortedPosts.length ? sortedPosts[idx + 1] : undefined;
 ---
@@ -57,7 +57,7 @@ const prev = idx + 1 < sortedPosts.length ? sortedPosts[idx + 1] : undefined;
       <footer class="not-prose mt-12 border-t pt-8">
         <div class="mb-6 flex flex-wrap items-center gap-3">
           {
-            post.data.tags?.map((tag: string) => (
+            post.data.tags.map((tag: string) => (
               <a href={`/tags/${tag}`} class="inline-block">
                 <Badge
                   variant="outline"
@@ -75,7 +75,7 @@ const prev = idx + 1 < sortedPosts.length ? sortedPosts[idx + 1] : undefined;
             {
               prev ?
                 <a
-                  href={`/posts/${prev.slug}`}
+                  href={`/posts/${prev.id}`}
                   class="text-muted-foreground hover:text-primary inline-flex items-center gap-2 font-medium transition-colors duration-200">
                   <ArrowLeft className="h-4 w-4 shrink-0" />
                   <span class="max-w-[16rem] truncate">{prev.data.title}</span>
@@ -97,7 +97,7 @@ const prev = idx + 1 < sortedPosts.length ? sortedPosts[idx + 1] : undefined;
             {
               next ?
                 <a
-                  href={`/posts/${next.slug}`}
+                  href={`/posts/${next.id}`}
                   class="text-muted-foreground hover:text-primary inline-flex items-center gap-2 font-medium transition-colors duration-200">
                   <span class="max-w-[16rem] truncate text-right">
                     {next.data.title}

@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import { sortedPosts as allPosts } from '@/lib/content';
+import { formatDate } from '@/lib/utils';
 import Searcher from '@/components/Searcher.tsx';
 
 const total = allPosts.length;
@@ -40,14 +41,14 @@ const description = `浏览 Elysium 的所有博客文章，共 ${total} 篇，�
       {
         allPosts.map((post) => (
           <Card
-            key={post.slug}
-            data-title={post.data.title || ''}
-            data-description={post.data.description || ''}
-            data-tags={post.data.tags?.join(' ') || ''}
+            key={post.id}
+            data-title={post.data.title}
+            data-description={post.data.description}
+            data-tags={post.data.tags.join(' ')}
             className="post-card group relative flex flex-col transition-shadow duration-200 hover:shadow-lg"
             role="article">
             <a
-              href={`/posts/${post.slug}`}
+              href={`/posts/${post.id}`}
               class="ring-primary absolute inset-0 rounded-lg ring-0 focus-visible:ring-2"
               aria-label={`阅读 ${post.data.title}`}
             />
@@ -55,13 +56,7 @@ const description = `浏览 Elysium 的所有博客文章，共 ${total} 篇，�
             <CardHeader className="pb-2">
               <div class="text-muted-foreground flex items-center gap-2 text-sm">
                 <Calendar aria-hidden="true" className="h-4 w-4" />
-                <time>
-                  {post.data.pubDate.toLocaleDateString('zh-CN', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
+                <time>{formatDate(post.data.pubDate)}</time>
               </div>
             </CardHeader>
 

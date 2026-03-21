@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, Tags, ArrowRight, Calendar, Tag } from 'lucide-react';
 import { sortedPosts, allTags } from '@/lib/content';
+import { formatDate } from '@/lib/utils';
 
 const latestPosts = sortedPosts.slice(0, 4);
 const popularTags = allTags.slice(0, 8);
@@ -70,11 +71,11 @@ const siteDescription =
         {
           latestPosts.map((post) => (
             <Card
-              key={post.slug}
+              key={post.id}
               client:visible
               className="group relative transition-shadow duration-200 hover:shadow-lg">
               <a
-                href={`/posts/${post.slug}`}
+                href={`/posts/${post.id}`}
                 class="ring-primary absolute inset-0 rounded-lg ring-0 transition-shadow duration-200 focus-visible:ring-2"
                 aria-label={post.data.title}
               />
@@ -82,13 +83,7 @@ const siteDescription =
               <CardHeader className="pb-2">
                 <div class="text-muted-foreground flex items-center gap-2 text-sm">
                   <Calendar aria-hidden="true" />
-                  <time>
-                    {post.data.pubDate.toLocaleDateString('zh-CN', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
+                  <time>{formatDate(post.data.pubDate)}</time>
                 </div>
               </CardHeader>
 
@@ -102,7 +97,7 @@ const siteDescription =
                 </p>
 
                 <div class="flex gap-2">
-                  {post.data.tags?.slice(0, 3).map((tag) => (
+                  {post.data.tags.slice(0, 3).map((tag) => (
                     <Badge
                       key={tag}
                       variant="secondary"

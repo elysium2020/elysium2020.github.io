@@ -1,20 +1,13 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-export type Post = CollectionEntry<'posts'> & {
-  slug: string;
-};
+export type Post = CollectionEntry<'posts'>;
 
-const posts: Post[] = (await getCollection('posts')).map((post) => ({
-  ...post,
-  slug: post.data.slug ?? post.id,
-}));
+export const allPosts = await getCollection('posts');
 
-export const allPosts = posts;
-
-export const sortedPosts = [...posts].toSorted(
+export const sortedPosts = [...allPosts].toSorted(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
 );
 
 export const allTags = [
-  ...new Set(posts.flatMap((post) => post.data.tags ?? [])),
+  ...new Set(allPosts.flatMap((post) => post.data.tags)),
 ].toSorted();
