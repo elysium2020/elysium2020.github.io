@@ -1,7 +1,4 @@
-'use client';
-
 import { cn } from '@/lib/utils';
-import { memo } from 'react';
 import { Separator } from '@/components/ui/separator';
 
 const CC_ICONS = {
@@ -10,7 +7,7 @@ const CC_ICONS = {
   sa: 'https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1',
 };
 
-const CCLicenseIcons = memo(function CCLicenseIcons() {
+const CCLicenseIcons = function CCLicenseIcons() {
   return (
     <span className="ml-2 flex gap-1.5">
       {Object.entries(CC_ICONS).map(([key, src]) => (
@@ -24,9 +21,9 @@ const CCLicenseIcons = memo(function CCLicenseIcons() {
       ))}
     </span>
   );
-});
+};
 
-const Footer = memo(function Footer() {
+const Footer = function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -60,6 +57,6 @@ const Footer = memo(function Footer() {
       </div>
     </footer>
   );
-});
+};
 
 export default Footer;
