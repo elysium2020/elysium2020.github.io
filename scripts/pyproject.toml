@@ -1,7 +1,7 @@
 [project]
 name = "scripts"
 version = "0.1.0"
-description = "Helper for creating new post"
-classifiers = ["Private :: Do Not Upload"]
+description = "A tool to help create new posts"
 readme = "README.md"
-requires-python = ">=3.13.11"
+requires-python = ">=3.13.12"
+classifiers = ["Private :: Do Not Upload"]
