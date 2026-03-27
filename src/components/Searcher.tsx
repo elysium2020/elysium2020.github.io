@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -79,7 +77,7 @@ export default function Searcher({
         );
       });
 
-      observerRef.current.observe(grid, { childList: true, subtree: true });
+      observerRef.current.observe(grid, { childList: true });
     }
 
     return () => {
