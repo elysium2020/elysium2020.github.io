@@ -11,7 +11,12 @@ export default defineConfig({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
   },
-  experimental: { contentIntellisense: true },
+  experimental: {
+    contentIntellisense: true,
+    svgo: true,
+    queuedRendering: { enabled: true, contentCache: true },
+    rustCompiler: true,
+  },
   vite: { plugins: [tailwindcss()] },
   integrations: [
     react(),
