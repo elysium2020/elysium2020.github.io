@@ -13,7 +13,7 @@ importers:
         version: 0.9.8(prettier-plugin-astro@0.14.1)(prettier@3.8.3)(typescript@5.9.3)
       '@astrojs/compiler-rs':
         specifier: ^0.1.8
-        version: 0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+        version: 0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       '@astrojs/react':
         specifier: ^5.0.3
         version: 5.0.4(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.32.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(yaml@2.8.3)
@@ -52,7 +52,7 @@ importers:
         version: 2.1.1
       lucide-react:
         specifier: ^1.8.0
-        version: 1.8.0(react@19.2.5)
+        version: 1.9.0(react@19.2.5)
       react:
         specifier: ^19.2.5
         version: 19.2.5
@@ -101,7 +101,7 @@ importers:
         version: 0.14.1
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
-        version: 0.7.2(prettier-plugin-astro@0.14.1)(prettier@3.8.3)
+        version: 0.7.3(prettier-plugin-astro@0.14.1)(prettier@3.8.3)
       rehype-katex:
         specifier: ^7.0.1
         version: 7.0.1
@@ -126,69 +126,69 @@ packages:
     peerDependencies:
       typescript: ^5.0.0
 
-  '@astrojs/compiler-binding-darwin-arm64@0.1.8':
-    resolution: {integrity: sha512-o52blB+aO6mUcnL+PJM3mW9bYXefpVa1bEV39EoK0C5c7YUxXeWWrcCfCZgIW9kVkYXGI7tYTxQ8euTBeIbyWw==}
+  '@astrojs/compiler-binding-darwin-arm64@0.1.9':
+    resolution: {integrity: sha512-WnqB9sqIFe1o6cMaNrl54XoOG6sQYml4pwVtGJKDeKHIVaZMX8BWx4L2lrM3WzUrAui/9FJlDkyZa9za9A6rnA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@astrojs/compiler-binding-darwin-x64@0.1.8':
-    resolution: {integrity: sha512-5FcpRu+pQR52Rg0zfqtb1qPommUEj+4/StzuVZjU2ApFhYjCaXNj2x+A6AMya5XFVwfhznWtqn8AuFwAwhsNVQ==}
+  '@astrojs/compiler-binding-darwin-x64@0.1.9':
+    resolution: {integrity: sha512-OyMFBbKKm5OfG+6ad12tMLE05bNFdzEbUjmjxFTdTsnVCJ5LIRMZeLNGMa9QQAJvxJkyRi3LB7W0hqKWw4SXZg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@astrojs/compiler-binding-linux-arm64-gnu@0.1.8':
-    resolution: {integrity: sha512-Thv4plIl++ksKeJsvBvMqAKe5VzsmrS6OhO6WISFsPjWx6mqgYlsc4R2BIp6Q9vsD1mZ7fIoItUo9AHLIsI/BA==}
+  '@astrojs/compiler-binding-linux-arm64-gnu@0.1.9':
+    resolution: {integrity: sha512-ykDHs4//IDnQY3JK8St1ERIz5HGR2FiK+j98DxcXOS0i+ped/igB/K18wgsS2qJ5I5BAzmdkx+egDdTS9t6SEg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@astrojs/compiler-binding-linux-arm64-musl@0.1.8':
-    resolution: {integrity: sha512-6ojx3hpxt1kO1yflFcRUXWETFQsX7rrILTe9Nnb4okksF10Cs858iAtCPTJeyt7Rrgwt76QrXOvnKgx2c80Zeg==}
+  '@astrojs/compiler-binding-linux-arm64-musl@0.1.9':
+    resolution: {integrity: sha512-IqxyiVK6PNM0BqgM8G8p3iDQkgi0CK0HekRtCBrYLWC5NaZxUjQIFZLYR8qfJ6MFHyNqFPL/U41IAdSLW1sctw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@astrojs/compiler-binding-linux-x64-gnu@0.1.8':
-    resolution: {integrity: sha512-yyZfz2dwQbMTFFMOO7z7+evaUYOOo/hGyNLy0p8glUVSrPf8ZVaL/QFBM7UyXN6DBIJbGF5Q73TV6fUZZOB/cw==}
+  '@astrojs/compiler-binding-linux-x64-gnu@0.1.9':
+    resolution: {integrity: sha512-bdBigL864fuJcjwTeymONUZ5LhwzbGvcedXFJXKKZBi+2sKantZSwcfRIrtwiyY5ViY5XHYGR6IAVvFfMCAjVg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@astrojs/compiler-binding-linux-x64-musl@0.1.8':
-    resolution: {integrity: sha512-8KpXBjfFDi8T3m5SW1edGbQvhwHJVfIq3E1dGbPpM2phO/CSixbnJYvgwHhNBxEfyHbmq3pK410bFcgiM3mI7A==}
+  '@astrojs/compiler-binding-linux-x64-musl@0.1.9':
+    resolution: {integrity: sha512-pR9qcmEWy2OchjopN2DGnMv9KE4u2UQ0zmT4aTrCWAIbyUSTt858zTzM7MOxXi1/EHr+6yiDzHvnMrISsy5jRg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@astrojs/compiler-binding-wasm32-wasi@0.1.8':
-    resolution: {integrity: sha512-sN3EtHo8m+AW8VT8fZRZ963lDcRpXekq1fKuQ4IuGGNnAyeMSbo5SsJr7G0Uv6PVQO6vug5pTMal7Alh0O1CSg==}
+  '@astrojs/compiler-binding-wasm32-wasi@0.1.9':
+    resolution: {integrity: sha512-7cpoBqOdQt4URfF3HjLKNoNVDbwnh4T1lPgaAf818wRxZSmRnGZ73fSA0+panyT2Sbwucj9MM6PCQDoUpGu8Fg==}
     engines: {node: '>=14.0.0'}
     cpu: [wasm32]
 
-  '@astrojs/compiler-binding-win32-arm64-msvc@0.1.8':
-    resolution: {integrity: sha512-gRWvwXZP8Q23pkVjQWLEIHP9tTy0I7wypllx//TfKComks8tIZ3/CqCn8YoE9nzJamNCQLJ/pf7B9EuiKIpi3g==}
+  '@astrojs/compiler-binding-win32-arm64-msvc@0.1.9':
+    resolution: {integrity: sha512-y++nHuYLfEXwZQT14cXMonQj0YtVbwpMaOUVJHacIZd5O62EsjuaLy02d4vG4ixRn4wLgWbubIw+glGgjYJgvA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@astrojs/compiler-binding-win32-x64-msvc@0.1.8':
-    resolution: {integrity: sha512-kEoeMdVscyKilee5Qc9Uce8SKSqb9T5uV/l8fFE6PD51wsp6ofN26819mRChqm8cRmlMZ6rwy2wtIi4GrR10uA==}
+  '@astrojs/compiler-binding-win32-x64-msvc@0.1.9':
+    resolution: {integrity: sha512-sY9L02cIM8jTDlUbvIWxZHBCh5TiVbLVWmb8pxJf+wJMlftgwE22FRidyP8FPFUuSgT/g1bj4Qbd2m/GQxiiEw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
 
-  '@astrojs/compiler-binding@0.1.8':
-    resolution: {integrity: sha512-IRKtLTTu1OP9Z++0KOxyTx/EsiCu4RArLzItdgkVowuos3zkZIMXtGcJsAdzncndAeD6rvGP77tHXZ4cR4AMvw==}
+  '@astrojs/compiler-binding@0.1.9':
+    resolution: {integrity: sha512-CsFiSCxAlFOTYqR/2QKOQhjaO+VDCdnQyv5TwkBoURk4qlNPHiE+3eGwcR3v9yni+BQFNVOJME3SvlSYRIsvdA==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  '@astrojs/compiler-rs@0.1.8':
-    resolution: {integrity: sha512-rpbK3RlpMdIjpD0neQTVpzyYAqLXO80x9zO/Lg4oCTqEZ4m25yWZS6sqiUH9TmSgjD2KNghw36w2UaXTau+j+w==}
+  '@astrojs/compiler-rs@0.1.9':
+    resolution: {integrity: sha512-50EPRCswlONOJ546h7uyI+HrsgvViT9nrcoLlH59Ju8BZQf5++sPHwkza/Tfr0BoQIIj5PrCC3vbRYlHCB/QkQ==}
 
   '@astrojs/compiler@2.13.1':
     resolution: {integrity: sha512-f3FN83d2G/v32ipNClRKgYv30onQlMZX1vCeZMjPsMMPl1mDpmbl0+N5BYo4S/ofzqJyS5hvwacEo0CCVDn/Qg==}
@@ -2888,8 +2888,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react@1.8.0:
-    resolution: {integrity: sha512-WuvlsjngSk7TnTBJ1hsCy3ql9V9VOdcPkd3PKcSmM34vJD8KG6molxz7m7zbYFgICwsanQWmJ13JlYs4Zp7Arw==}
+  lucide-react@1.9.0:
+    resolution: {integrity: sha512-6qVAmbgCjcJz7sAGSPSSJ++RAwjlK2XCbRrZKv63Ciko1KT8jX0//CXxgI3jg2HlJu8tADqdYlNDebmYjeoruA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -3274,8 +3274,8 @@ packages:
     resolution: {integrity: sha512-RiBETaaP9veVstE4vUwSIcdATj6dKmXljouXc/DDNwBSPTp8FRkLGDSGFClKsAFeeg+13SB0Z1JZvbD76bigJw==}
     engines: {node: ^14.15.0 || >=16.0.0}
 
-  prettier-plugin-tailwindcss@0.7.2:
-    resolution: {integrity: sha512-LkphyK3Fw+q2HdMOoiEHWf93fNtYJwfamoKPl7UwtjFQdei/iIBoX11G6j706FzN3ymX9mPVi97qIY8328vdnA==}
+  prettier-plugin-tailwindcss@0.7.3:
+    resolution: {integrity: sha512-lckXaWWdo2ZVXoMoUO3WIBiz9hVY+YBEh1gYyMFfrWP9WZW/wpFXQKizHx7WrFQFMkcG0bGShdpp531X1n+qpg==}
     engines: {node: '>=20.19'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
@@ -4217,25 +4217,25 @@ snapshots:
       - prettier
       - prettier-plugin-astro
 
-  '@astrojs/compiler-binding-darwin-arm64@0.1.8':
+  '@astrojs/compiler-binding-darwin-arm64@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-darwin-x64@0.1.8':
+  '@astrojs/compiler-binding-darwin-x64@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-linux-arm64-gnu@0.1.8':
+  '@astrojs/compiler-binding-linux-arm64-gnu@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-linux-arm64-musl@0.1.8':
+  '@astrojs/compiler-binding-linux-arm64-musl@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-linux-x64-gnu@0.1.8':
+  '@astrojs/compiler-binding-linux-x64-gnu@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-linux-x64-musl@0.1.8':
+  '@astrojs/compiler-binding-linux-x64-musl@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-wasm32-wasi@0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
+  '@astrojs/compiler-binding-wasm32-wasi@0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
       '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
     transitivePeerDependencies:
@@ -4243,30 +4243,30 @@ snapshots:
       - '@emnapi/runtime'
     optional: true
 
-  '@astrojs/compiler-binding-win32-arm64-msvc@0.1.8':
+  '@astrojs/compiler-binding-win32-arm64-msvc@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding-win32-x64-msvc@0.1.8':
+  '@astrojs/compiler-binding-win32-x64-msvc@0.1.9':
     optional: true
 
-  '@astrojs/compiler-binding@0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
+  '@astrojs/compiler-binding@0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     optionalDependencies:
-      '@astrojs/compiler-binding-darwin-arm64': 0.1.8
-      '@astrojs/compiler-binding-darwin-x64': 0.1.8
-      '@astrojs/compiler-binding-linux-arm64-gnu': 0.1.8
-      '@astrojs/compiler-binding-linux-arm64-musl': 0.1.8
-      '@astrojs/compiler-binding-linux-x64-gnu': 0.1.8
-      '@astrojs/compiler-binding-linux-x64-musl': 0.1.8
-      '@astrojs/compiler-binding-wasm32-wasi': 0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
-      '@astrojs/compiler-binding-win32-arm64-msvc': 0.1.8
-      '@astrojs/compiler-binding-win32-x64-msvc': 0.1.8
+      '@astrojs/compiler-binding-darwin-arm64': 0.1.9
+      '@astrojs/compiler-binding-darwin-x64': 0.1.9
+      '@astrojs/compiler-binding-linux-arm64-gnu': 0.1.9
+      '@astrojs/compiler-binding-linux-arm64-musl': 0.1.9
+      '@astrojs/compiler-binding-linux-x64-gnu': 0.1.9
+      '@astrojs/compiler-binding-linux-x64-musl': 0.1.9
+      '@astrojs/compiler-binding-wasm32-wasi': 0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+      '@astrojs/compiler-binding-win32-arm64-msvc': 0.1.9
+      '@astrojs/compiler-binding-win32-x64-msvc': 0.1.9
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
 
-  '@astrojs/compiler-rs@0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
+  '@astrojs/compiler-rs@0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
-      '@astrojs/compiler-binding': 0.1.8(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+      '@astrojs/compiler-binding': 0.1.9(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -7209,7 +7209,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@1.8.0(react@19.2.5):
+  lucide-react@1.9.0(react@19.2.5):
     dependencies:
       react: 19.2.5
 
@@ -7798,7 +7798,7 @@ snapshots:
       prettier: 3.8.3
       sass-formatter: 0.7.9
 
-  prettier-plugin-tailwindcss@0.7.2(prettier-plugin-astro@0.14.1)(prettier@3.8.3):
+  prettier-plugin-tailwindcss@0.7.3(prettier-plugin-astro@0.14.1)(prettier@3.8.3):
     dependencies:
       prettier: 3.8.3
     optionalDependencies:
