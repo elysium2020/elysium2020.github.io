@@ -42,7 +42,7 @@
     "eslint-plugin-unicorn": "^64.0.0",
     "katex": "^0.16.45",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.7.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "stylelint-config-standard": "^40.0.0",
