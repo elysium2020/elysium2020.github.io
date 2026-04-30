@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, svgoOptimizer } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import tailwindcss from '@tailwindcss/vite';
@@ -13,7 +13,7 @@ export default defineConfig({
   },
   experimental: {
     contentIntellisense: true,
-    svgo: true,
+    svgOptimizer: svgoOptimizer(),
     queuedRendering: { enabled: true, contentCache: true },
     rustCompiler: true,
   },
