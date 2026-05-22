@@ -11,16 +11,16 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/compiler-rs": "^0.2.0",
+    "@astrojs/compiler-rs": "^0.2.1",
     "@astrojs/react": "^5.0.5",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.3.0",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.3.5",
+    "astro": "^6.3.7",
     "astro-expressive-code": "^0.42.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -31,7 +31,7 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^5.8.1",
+    "@eslint-react/eslint-plugin": "^5.8.3",
     "@eslint/js": "^10.0.1",
     "@expressive-code/plugin-line-numbers": "^0.42.0",
     "@rehype-pretty/transformers": "^0.13.2",
