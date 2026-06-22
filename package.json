@@ -37,7 +37,7 @@
     "@rehype-pretty/transformers": "^0.13.2",
     "@tailwindcss/typography": "^0.5.20",
     "eslint": "^10.5.0",
-    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-astro": "^2.0.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-unicorn": "^68.0.0",
     "katex": "^0.17.0",
