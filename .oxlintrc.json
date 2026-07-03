@@ -1,0 +1,10 @@
+{
+  "plugins": ["import"],
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "env": {
+    "builtin": true
+  }
+}

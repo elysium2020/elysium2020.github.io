@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PostsList from "@/components/PostsList";
+import {sortedPosts, formatDate} from "@/lib/blog";
+
+const total = sortedPosts.length;
+
+const description = `浏览 Elysium 的所有博客文章，共 ${total} 篇，涵盖算法、技术心得等。`;
+
+const items = sortedPosts.map((post) => ({
+    id: post.id,
+    title: post.data.title,
+    description: post.data.description,
+    pubDate: formatDate(post.data.pubDate),
+    tags: post.data.tags,
+    searchable: [post.data.title, post.data.description, post.data.tags.join(" "),]
+        .join(" ")
+        .toLowerCase(),
+}));
+---
+
+<Layout pageTitle="所有文章" description={description}>
+    <main class="page-container">
+        <!-- Header -->
+        <section class="mb-10 pb-10 border-b border-border">
+            <p
+                    class="section-label mb-3"
+            >
+                All Posts
+            </p>
+
+            <h1
+                    class="text-4xl tracking-tight font-normal font-serif mb-2 lg:text-5xl"
+            >
+                所有文章
+            </h1>
+
+            <p class="text-sm text-muted-foreground">共 {total} 篇</p>
+        </section>
+
+        <PostsList client:visible items={items}/>
+    </main>
+</Layout>

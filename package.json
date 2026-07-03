@@ -1,0 +1,62 @@
+{
+  "name": "elysium_blog",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/compiler-rs": "^0.3.0",
+    "@astrojs/markdown-remark": "^7.2.1",
+    "@astrojs/mdx": "^7.0.2",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/solid-js": "^7.0.1",
+    "@expressive-code/plugin-collapsible-sections": "^0.44.0",
+    "@expressive-code/plugin-line-numbers": "^0.44.0",
+    "@kobalte/core": "^0.13.12",
+    "astro": "^7.0.6",
+    "astro-expressive-code": "^0.44.0",
+    "sharp": "^0.35.3",
+    "solid-js": "^1.9.14"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@eslint/js": "^10.0.1",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/tabler": "^1.2.35",
+    "@types/eslint-plugin-jsx-a11y": "^6.10.1",
+    "@types/markdown-it": "^14.1.2",
+    "@types/sanitize-html": "^2.16.1",
+    "@typescript-eslint/parser": "^8.62.1",
+    "@unocss/astro": "^66.7.4",
+    "@unocss/eslint-config": "^66.7.4",
+    "@unocss/preset-icons": "^66.7.4",
+    "@unocss/preset-web-fonts": "^66.7.4",
+    "@unocss/preset-wind4": "^66.7.4",
+    "@unocss/transformer-attributify-jsx": "^66.7.4",
+    "eslint": "^10.6.0",
+    "eslint-plugin-astro": "^2.1.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-unicorn": "^70.0.0",
+    "katex": "^0.17.0",
+    "lightningcss": "^1.32.0",
+    "markdown-it": "^14.3.0",
+    "postcss-html": "^1.8.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "sanitize-html": "^2.17.5",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-recommended": "^18.0.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.1",
+    "unocss": "^66.7.4"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

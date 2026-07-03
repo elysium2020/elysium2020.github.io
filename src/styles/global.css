@@ -1,0 +1,25 @@
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0f172a;
+    --primary: #0f172a;
+    --primary-foreground: #ffffff;
+    --accent: #f1f5f9;
+    --accent-foreground: #0f172a;
+    --border: #e2e8f0;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+  }
+
+  .dark {
+    --background: #0f172a;
+    --foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #0f172a;
+    --accent: #1e293b;
+    --accent-foreground: #ffffff;
+    --border: #1e293b;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+  }
+}

@@ -1,0 +1,42 @@
+---
+import MobileHeader from "./MobileHeader.tsx";
+
+const NAV_ITEMS = [{title: "Posts", href: "/blog"}, {title: "Tags", href: "/tags"}, {
+    title: "About", href: "/about"
+},] as const;
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+        class="border-b border-border bg-background/95 top-0 sticky z-40 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+    <nav
+            class="mx-auto px-6 container flex h-15 max-w-5xl items-center justify-between"
+            aria-label="主导航"
+    >
+        <a
+                href="/"
+                class="text-2xl text-foreground tracking-wide font-medium font-serif flex gap-1.5 transition-opacity items-baseline hover:opacity-70"
+        >
+            Elysium's Blog
+        </a>
+        <ul class="hidden items-center md:flex">
+            {NAV_ITEMS.map((item) => {
+                const isActive = currentPath.startsWith(item.href);
+                return (
+                        <li>
+                            <a
+                                    href={item.href}
+                                    class:list={["relative px-4 py-2 text-base tracking-widest uppercase transition-colors", isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",]}
+                            >
+                                {item.title}
+                                {isActive && (
+                                        <span class="rounded-full bg-foreground h-px bottom-0 left-4 right-4 absolute"/>)}
+                            </a>
+                        </li>);
+            })}
+        </ul>
+        <MobileHeader client:idle/>
+    </nav>
+</header>

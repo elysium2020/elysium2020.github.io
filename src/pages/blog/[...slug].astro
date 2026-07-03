@@ -1,0 +1,120 @@
+---
+import {render} from "astro:content";
+import {allPosts, sortedPosts, type Post, formatDate} from "@/lib/blog";
+import Layout from "@/layouts/Layout.astro";
+import TagLink from "@/components/TagLink";
+
+export async function getStaticPaths() {
+    return allPosts.map((post) => ({
+        params: {slug: post.id}, props: {post},
+    }));
+}
+
+const {post} = Astro.props as { post: Post };
+const {Content} = await render(post);
+const idx = sortedPosts.findIndex((p) => p.id === post.id);
+const next = idx > 0 ? sortedPosts[idx - 1] : undefined;
+const prev = idx + 1 < sortedPosts.length ? sortedPosts[idx + 1] : undefined;
+const wordCount = post.body?.length ?? 0;
+const readingTime = Math.max(1, Math.round(wordCount / 300));
+const tags = post.data.tags ?? [];
+const hasTags = tags.length > 0;
+---
+
+<Layout pageTitle={post.data.title} description={post.data.description}>
+    <main class="mx-auto px-6 py-12 max-w-3xl">
+        <a
+                href="/blog"
+                class="back-link mb-10"
+        >
+			<span class="i-mdi-arrow-left h-3.5 w-3.5" aria-hidden="true"
+            ></span>
+            全部文章
+        </a>
+        <article aria-label={post.data.title}>
+            <header class="mb-8">
+                {hasTags && (<p class="section-label mb-3">
+                    {tags.slice(0, 3).join(" · ")}
+                </p>)}
+                <h1
+                        class="text-4xl leading-tight tracking-tight font-serif mb-5 lg:text-5xl"
+                >
+                    {post.data.title}
+                </h1>
+                <div
+                        class="text-xs text-muted-foreground pb-6 border-b border-border flex gap-4 items-center"
+                >
+					<span class="inline-flex gap-1.5 items-center">
+						<span class="i-mdi-calendar h-3.5 w-3.5"></span>
+						<time>{formatDate(post.data.pubDate)}</time>
+					</span>
+
+                    <span class="inline-flex gap-1.5 items-center">
+						<span class="i-mdi-clock-outline h-3.5 w-3.5"></span>
+						约 {readingTime} 分钟
+					</span>
+                </div>
+            </header>
+            <div
+                    id="post-content"
+                    class="max-w-none prose prose-zinc prose-lg prose-blockquote:text-muted-foreground prose-headings:font-normal prose-headings:font-serif prose-h2:pb-2 prose-blockquote:border-l-2 prose-h2:border-b prose-blockquote:border-border prose-h2:border-border prose-blockquote:not-italic dark:prose-invert"
+            >
+                <Content/>
+            </div>
+            <footer class="mt-12 pt-8 border-t border-border">
+                {hasTags && (
+                        <div class="mb-8 flex flex-wrap gap-2">
+                        {tags.map((tag) => <TagLink tag={tag} icon/>)}
+                        </div>)}
+                <nav
+                        class="text-sm flex gap-4 items-start justify-between"
+                        aria-label="文章导航"
+                >
+                    <div class="flex-1 min-w-0">
+                        {prev ? (<a
+                                href={`/blog/${prev.id}`}
+                                class="group text-muted-foreground flex flex-col gap-1 transition-colors hover:text-foreground"
+                        >
+									<span class="text-xs tracking-wider inline-flex gap-1 uppercase items-center">
+										<span class="i-mdi-arrow-left h-3 w-3"/>
+										上一篇
+									</span>
+
+                            <span class="text-xs text-foreground font-medium truncate">
+										{prev.data.title}
+									</span>
+                        </a>) : (<span class="text-xs text-muted-foreground/40 italic">
+									没有上一篇
+								</span>)}
+                    </div>
+                    <a
+                            href="/blog"
+                            class="text-muted-foreground px-2 flex shrink-0 flex-col gap-1 transition-colors items-center hover:text-foreground"
+                    >
+                        <span class="i-mdi-home h-4 w-4"></span>
+                        <span class="text-xs tracking-wider uppercase"
+                        >全部</span
+                        >
+                    </a>
+                    <div class="flex flex-1 min-w-0 justify-end">
+                        {next ? (<a
+                                href={`/blog/${next.id}`}
+                                class="group text-muted-foreground flex flex-col gap-1 transition-colors items-end hover:text-foreground"
+                        >
+									<span class="text-xs tracking-wider inline-flex gap-1 uppercase items-center">
+										下一篇
+										<span class="i-mdi-arrow-right h-3 w-3"/>
+									</span>
+
+                            <span class="text-xs text-foreground font-medium max-w-40 truncate">
+										{next.data.title}
+									</span>
+                        </a>) : (<span class="text-xs text-muted-foreground/40 italic">
+									没有下一篇
+								</span>)}
+                    </div>
+                </nav>
+            </footer>
+        </article>
+    </main>
+</Layout>
