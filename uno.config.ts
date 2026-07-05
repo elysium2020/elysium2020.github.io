@@ -1,54 +1,50 @@
 import { defineConfig, presetWind4, presetTypography } from 'unocss';
 import presetIcons from '@unocss/preset-icons';
-import presetWebFonts from '@unocss/preset-web-fonts';
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx';
+
+const SANS =
+  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif';
+const MONO =
+  '"JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace';
 
 export default defineConfig({
   presets: [
-    presetWind4({
-      preflights: {
-        reset: true,
-      },
-    }),
+    presetWind4({ preflights: { reset: true } }),
     presetTypography,
     presetIcons({
       collections: {
-        mdi: () => import('@iconify-json/mdi/icons.json').then((index) => index.default),
+        mdi: () => import('@iconify-json/mdi/icons.json').then((i) => i.default),
         tabler: () => import('@iconify-json/tabler/icons.json').then((i) => i.default),
       },
     }),
-    presetWebFonts({
-      provider: 'google',
-      fonts: { sans: 'Noto Sans SC', serif: 'Noto Serif SC', mono: 'Noto Sans Mono CJK SC' },
-      inlineImports: false,
-    }),
   ],
   transformers: [transformerAttributifyJsx()],
-  shortcuts: {
-    'section-label': 'text-xs text-muted-foreground tracking-widest uppercase',
-    'page-container': 'mx-auto px-6 py-12 container max-w-5xl',
-    'back-link':
-      'text-xs text-muted-foreground inline-flex gap-1.5 items-center transition-colors hover:text-foreground',
-    'focus-ring': 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground',
-    'date-text': 'text-xs text-muted-foreground whitespace-nowrap tabular-nums',
-  },
   theme: {
+    font: { sans: SANS, mono: MONO },
     colors: {
       background: 'var(--background)',
+      surface: 'var(--surface)',
       foreground: 'var(--foreground)',
-      primary: {
-        DEFAULT: 'var(--primary)',
-        foreground: 'var(--primary-foreground)',
-      },
-      accent: {
-        DEFAULT: 'var(--accent)',
-        foreground: 'var(--accent-foreground)',
-      },
       border: 'var(--border)',
-      muted: {
-        DEFAULT: 'var(--muted)',
-        foreground: 'var(--muted-foreground)',
-      },
+      accent: 'var(--accent)',
+      link: 'var(--link)',
+      muted: { DEFAULT: 'var(--muted)', foreground: 'var(--muted-foreground)' },
     },
+  },
+  preflights: [
+    {
+      getCSS: () => `:root { --font-sans: ${SANS}; --font-mono: ${MONO}; }`,
+    },
+  ],
+  shortcuts: {
+    'section-label': 'font-mono text-xs text-muted-foreground tracking-widest uppercase',
+    'page-container': 'mx-auto px-6 py-12 container max-w-4xl',
+    'back-link':
+      'font-mono text-xs text-muted-foreground inline-flex gap-1.5 items-center transition-colors hover:text-foreground',
+    'focus-ring':
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    'date-text': 'font-mono text-xs text-muted-foreground whitespace-nowrap tabular-nums',
+    'link-accent':
+      'text-link underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent',
   },
 });

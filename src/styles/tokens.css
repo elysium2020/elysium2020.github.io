@@ -1,0 +1,26 @@
+/* src/styles/tokens.css —— 双主题唯一色彩来源 */
+@layer base {
+  :root {
+    color-scheme: light;
+    --background: #ffffff;
+    --surface: #f8fafc;
+    --foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --border: #e2e8f0;
+    --accent: #0891b2; /* 非文字：focus/下划线/图标 */
+    --link: #0e7490; /* 文字链接，~5.3:1 过 AA */
+  }
+
+  :root.dark {
+    color-scheme: dark;
+    --background: #0f172a;
+    --surface: #1e293b;
+    --foreground: #e2e8f0;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #1e293b;
+    --accent: #22d3ee; /* 电光青，暗底高对比 */
+    --link: #22d3ee;
+  }
+}

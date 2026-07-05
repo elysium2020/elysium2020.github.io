@@ -1,27 +1,45 @@
 ---
 import "@/styles/global.css";
+import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer";
+import SkipLink from "@/components/SkipLink.astro";
 
-const {pageTitle, description = "Elysium的博客"} = Astro.props;
+interface Props {
+    pageTitle: string;
+    description?: string | undefined;
+    type?: "website" | "article" | undefined;
+    image?: string | undefined;
+    publishedTime?: Date | undefined;
+    tags?: string[] | undefined;
+}
+
+const {
+    pageTitle,
+    description = "Elysium 的博客",
+    type,
+    image,
+    publishedTime,
+    tags,
+} = Astro.props;
 ---
 
 <html lang="zh-CN" class="h-full">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-    <link rel="icon" href="/favicon.ico" sizes="any"/>
-    <meta name="description" content={description}/>
-    <meta property="og:title" content={pageTitle}/>
-    <meta property="og:description" content={description}/>
-    <meta property="og:type" content="website"/>
-    <title>{pageTitle}</title>
+    <BaseHead
+            title={pageTitle}
+            description={description}
+            type={type}
+            image={image}
+            publishedTime={publishedTime}
+            tags={tags}
+    />
     <slot name="head"/>
 </head>
 <body class="flex flex-col h-full">
+<SkipLink/>
 <Header/>
-<main class="flex-1">
+<main id="main" class="flex-1">
     <slot/>
 </main>
 <Footer/>

@@ -2,15 +2,7 @@
 title: '接雨水'
 pubDate: 2025-07-16
 description: 'LeetCode 42 题解析'
-tags:
-  [
-    'leetcode',
-    'array',
-    'two pointers',
-    'dynamic programming',
-    'stack',
-    'monotonic stack',
-  ]
+tags: ['leetcode', 'array', 'two pointers', 'dynamic programming', 'stack', 'monotonic stack']
 ---
 
 ## 分析

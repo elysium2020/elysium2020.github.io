@@ -23,7 +23,7 @@ const isActive = (t: string) => t === tag;
 ---
 
 <Layout pageTitle={`#${tag} 相关文章`} description={description}>
-    <main class="mx-auto px-6 py-12 max-w-5xl">
+    <div class="mx-auto px-6 py-12 max-w-5xl">
         <!-- back -->
         <a
                 href="/tags"
@@ -92,5 +92,5 @@ const isActive = (t: string) => t === tag;
                 返回标签列表
             </a>
         </div>
-    </main>
+    </div>
 </Layout>

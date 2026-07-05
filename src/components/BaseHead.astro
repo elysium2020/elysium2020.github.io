@@ -1,0 +1,59 @@
+---
+// src/components/BaseHead.astro —— 统一 SEO / 元数据 head
+import ThemeScript from '@/components/ThemeScript.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article' | undefined;
+  image?: string | undefined;
+  publishedTime?: Date | undefined;
+  tags?: string[] | undefined;
+}
+
+const { title, description, type = 'website', image, publishedTime, tags } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const rssHref = new URL('/rss.xml', Astro.site).href;
+
+const jsonld =
+  type === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title,
+        description,
+        datePublished: publishedTime?.toISOString(),
+        keywords: tags?.join(', '),
+        url: canonical,
+      }
+    : undefined;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<ThemeScript />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link
+  rel="preload"
+  href="/fonts/jetbrains-mono-latin-400.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link rel="canonical" href={canonical} />
+<link rel="alternate" type="application/rss+xml" title="Elysium's Blog" href={rssHref} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+{jsonld && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />}

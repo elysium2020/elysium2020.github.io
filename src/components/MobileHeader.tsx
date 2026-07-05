@@ -2,6 +2,7 @@ import { Dialog } from '@kobalte/core/dialog';
 import { createSignal, For } from 'solid-js';
 import { isServer } from 'solid-js/web';
 import LinkWithUnderline from './LinkWithUnderline';
+import ThemeToggle from './ThemeToggle';
 
 const NAV_ITEMS = [
   { title: 'Posts', href: '/blog' },
@@ -20,7 +21,7 @@ const MobileHeader = () => {
   return (
     <Dialog open={open()} onOpenChange={setOpen}>
       <Dialog.Trigger
-        class="i-mdi-menu hover:bg-accent/50 rounded-full p-2 transition md:hidden"
+        class="i-mdi-menu hover:bg-surface rounded-full p-2 transition md:hidden"
         aria-label={open() ? '关闭菜单' : '打开菜单'}
       />
       <Dialog.Portal>
@@ -28,13 +29,20 @@ const MobileHeader = () => {
         <Dialog.Content class="border-border bg-background fixed inset-y-0 left-0 z-50 flex w-3/4 max-w-xs flex-col border-r md:hidden dark:bg-zinc-900">
           <Dialog.Title class="sr-only">导航菜单</Dialog.Title>
           <div class="border-border flex items-center justify-between border-b px-5 py-5">
-            <LinkWithUnderline href="/" serif class="text-lg" onClick={() => setOpen(false)}>
+            <LinkWithUnderline
+              href="/"
+              class="font-mono text-base font-bold"
+              onClick={() => setOpen(false)}
+            >
               Elysium's Blog
             </LinkWithUnderline>
-            <Dialog.CloseButton
-              class="i-mdi-close hover:bg-accent/50 rounded-full p-1.5 transition"
-              aria-label="关闭菜单"
-            />
+            <div class="flex items-center gap-1">
+              <ThemeToggle />
+              <Dialog.CloseButton
+                class="i-mdi-close hover:bg-surface rounded-full p-1.5 transition"
+                aria-label="关闭菜单"
+              />
+            </div>
           </div>
           <nav class="flex flex-col py-3" aria-label="移动端导航">
             <For each={NAV_ITEMS}>
@@ -44,7 +52,8 @@ const MobileHeader = () => {
                   <a
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    class="relative flex items-center gap-3 px-5 py-3 text-xs tracking-widest uppercase transition-colors"
+                    aria-current={isActive ? 'page' : undefined}
+                    class="relative flex items-center gap-3 px-5 py-3 font-mono text-xs tracking-widest uppercase transition-colors"
                     classList={{
                       'text-foreground': isActive,
                       'text-muted-foreground': !isActive,
@@ -52,7 +61,7 @@ const MobileHeader = () => {
                     }}
                   >
                     <span
-                      class="bg-foreground absolute top-1/2 left-0 h-3.5 w-0.5 -translate-y-1/2 rounded-full transition-opacity duration-200"
+                      class="bg-accent absolute top-1/2 left-0 h-3.5 w-0.5 -translate-y-1/2 rounded-full transition-opacity duration-200"
                       classList={{
                         'opacity-100': isActive,
                         'opacity-0': !isActive,

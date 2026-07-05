@@ -20,7 +20,7 @@ const items = sortedPosts.map((post) => ({
 ---
 
 <Layout pageTitle="所有文章" description={description}>
-    <main class="page-container">
+    <div class="page-container">
         <!-- Header -->
         <section class="mb-10 pb-10 border-b border-border">
             <p
@@ -39,5 +39,5 @@ const items = sortedPosts.map((post) => ({
         </section>
 
         <PostsList client:visible items={items}/>
-    </main>
+    </div>
 </Layout>

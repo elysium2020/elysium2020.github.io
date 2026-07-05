@@ -1,5 +1,6 @@
 ---
 import MobileHeader from "./MobileHeader.tsx";
+import ThemeToggle from "./ThemeToggle.tsx";
 
 const NAV_ITEMS = [{title: "Posts", href: "/blog"}, {title: "Tags", href: "/tags"}, {
     title: "About", href: "/about"
@@ -17,26 +18,32 @@ const currentPath = Astro.url.pathname;
     >
         <a
                 href="/"
-                class="text-2xl text-foreground tracking-wide font-medium font-serif flex gap-1.5 transition-opacity items-baseline hover:opacity-70"
+                class="font-mono text-lg text-foreground tracking-tight font-bold flex gap-1.5 transition-opacity items-baseline hover:opacity-70"
         >
             Elysium's Blog
         </a>
-        <ul class="hidden items-center md:flex">
-            {NAV_ITEMS.map((item) => {
-                const isActive = currentPath.startsWith(item.href);
-                return (
-                        <li>
-                            <a
-                                    href={item.href}
-                                    class:list={["relative px-4 py-2 text-base tracking-widest uppercase transition-colors", isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",]}
-                            >
-                                {item.title}
-                                {isActive && (
-                                        <span class="rounded-full bg-foreground h-px bottom-0 left-4 right-4 absolute"/>)}
-                            </a>
-                        </li>);
-            })}
-        </ul>
-        <MobileHeader client:idle/>
+        <div class="flex items-center gap-1">
+            <ul class="hidden items-center md:flex">
+                {NAV_ITEMS.map((item) => {
+                    const isActive = currentPath.startsWith(item.href);
+                    return (
+                            <li>
+                                <a
+                                        href={item.href}
+                                        aria-current={isActive ? "page" : undefined}
+                                        class:list={["font-mono relative px-4 py-2 text-sm tracking-widest uppercase transition-colors", isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",]}
+                                >
+                                    {item.title}
+                                    {isActive && (
+                                            <span class="rounded-full bg-accent h-px bottom-1 left-4 right-4 absolute"/>)}
+                                </a>
+                            </li>);
+                })}
+            </ul>
+            <div class="hidden md:block">
+                <ThemeToggle client:idle/>
+            </div>
+            <MobileHeader client:idle/>
+        </div>
     </nav>
 </header>

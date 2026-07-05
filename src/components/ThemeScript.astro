@@ -1,0 +1,13 @@
+---
+// src/components/ThemeScript.astro —— 必须内联、在 body 渲染前执行，杜绝 FOUC
+---
+
+<script is:inline>
+  (() => {
+    try {
+      const stored = localStorage.getItem('theme');
+      const dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', dark);
+    } catch (_) {}
+  })();
+</script>

@@ -13,7 +13,7 @@ const description = "浏览 Elysium 博客的所有文章标签，方便查找�
 ---
 
 <Layout pageTitle="所有标签" description={description}>
-    <main class="page-container">
+    <div class="page-container">
         <section class="mb-10 pb-10 border-b border-border">
             <p
                     class="section-label mb-3"
@@ -28,5 +28,5 @@ const description = "浏览 Elysium 博客的所有文章标签，方便查找�
             <p class="text-sm text-muted-foreground">共 {allTags.length} 个标签</p>
         </section>
         <TagsList client:visible items={items}/>
-    </main>
+    </div>
 </Layout>

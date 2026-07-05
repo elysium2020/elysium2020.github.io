@@ -21,8 +21,15 @@ const tags = post.data.tags ?? [];
 const hasTags = tags.length > 0;
 ---
 
-<Layout pageTitle={post.data.title} description={post.data.description}>
-    <main class="mx-auto px-6 py-12 max-w-3xl">
+<Layout
+        pageTitle={post.data.title}
+        description={post.data.description}
+        type="article"
+        publishedTime={post.data.pubDate}
+        tags={post.data.tags}
+        image={post.data.heroImage?.src}
+>
+    <div class="mx-auto px-6 py-12 max-w-3xl">
         <a
                 href="/blog"
                 class="back-link mb-10"
@@ -116,5 +123,5 @@ const hasTags = tags.length > 0;
                 </nav>
             </footer>
         </article>
-    </main>
+    </div>
 </Layout>

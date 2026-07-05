@@ -1,25 +1,49 @@
+@import './tokens.css';
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin-700.woff2') format('woff2');
+}
+
 @layer base {
-  :root {
-    --background: #ffffff;
-    --foreground: #0f172a;
-    --primary: #0f172a;
-    --primary-foreground: #ffffff;
-    --accent: #f1f5f9;
-    --accent-foreground: #0f172a;
-    --border: #e2e8f0;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
-  .dark {
-    --background: #0f172a;
-    --foreground: #ffffff;
-    --primary: #ffffff;
-    --primary-foreground: #0f172a;
-    --accent: #1e293b;
-    --accent-foreground: #ffffff;
-    --border: #1e293b;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    line-height: 1.75; /* CJK 正文更透气 */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--accent) 25%, transparent);
   }
 }

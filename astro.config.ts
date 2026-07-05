@@ -11,7 +11,7 @@ import solidJs from '@astrojs/solid-js';
 import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://elysium2020.github.io',
   integrations: [expressiveCode(), mdx(), sitemap(), UnoCSS(), solidJs()],
   markdown: {
     processor: unified({
