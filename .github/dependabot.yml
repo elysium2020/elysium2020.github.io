@@ -7,7 +7,7 @@ updates:
     commit-message:
       prefix: 'bump'
     groups:
-      bun-dependencies:
+      npm-dependencies:
         patterns:
           - '*'
 
