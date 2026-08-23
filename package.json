@@ -30,11 +30,11 @@
     "@types/markdown-it": "^14.2.0",
     "@types/sanitize-html": "^2.16.1",
     "@typescript-eslint/parser": "^8.67.0",
-    "@unocss/astro": "^66.8.0",
-    "@unocss/preset-icons": "^66.8.0",
-    "@unocss/preset-web-fonts": "^66.8.0",
-    "@unocss/preset-wind4": "^66.8.0",
-    "@unocss/transformer-attributify-jsx": "^66.8.0",
+    "@unocss/astro": "^66.8.1",
+    "@unocss/preset-icons": "^66.8.1",
+    "@unocss/preset-web-fonts": "^66.8.1",
+    "@unocss/preset-wind4": "^66.8.1",
+    "@unocss/transformer-attributify-jsx": "^66.8.1",
     "katex": "^0.18.4",
     "lightningcss": "^1.33.0",
     "markdown-it": "^15.0.0",
@@ -45,7 +45,7 @@
     "stylelint-config-html": "^2.0.0",
     "stylelint-config-recommended": "^18.0.0",
     "typescript": "^7.0.2",
-    "unocss": "^66.8.0"
+    "unocss": "^66.8.1"
   },
   "engines": {
     "node": ">=22.12.0"
