@@ -1,14 +1,8 @@
 import Searcher from './Searcher';
 
-type TagItem = {
-  tag: string;
-  count: number;
-  searchable: string;
-};
+type TagItem = { tag: string; count: number; searchable: string };
 
-type Properties = {
-  items: TagItem[];
-};
+type Properties = { items: TagItem[] };
 
 export default function TagsList(properties: Properties) {
   return (

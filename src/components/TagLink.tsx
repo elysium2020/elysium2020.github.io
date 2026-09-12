@@ -1,7 +1,4 @@
-type Properties = {
-  tag: string;
-  icon?: boolean;
-};
+type Properties = { tag: string; icon?: boolean };
 
 const TagLink = (properties: Properties) => {
   return (

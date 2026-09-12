@@ -31,11 +31,7 @@ export default defineConfig({
       muted: { DEFAULT: 'var(--muted)', foreground: 'var(--muted-foreground)' },
     },
   },
-  preflights: [
-    {
-      getCSS: () => `:root { --font-sans: ${SANS}; --font-mono: ${MONO}; }`,
-    },
-  ],
+  preflights: [{ getCSS: () => `:root { --font-sans: ${SANS}; --font-mono: ${MONO}; }` }],
   shortcuts: {
     'section-label': 'font-mono text-xs text-muted-foreground tracking-widest uppercase',
     'page-container': 'mx-auto px-6 py-12 container max-w-4xl',

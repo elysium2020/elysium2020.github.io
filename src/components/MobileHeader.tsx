@@ -7,10 +7,7 @@ import ThemeToggle from './ThemeToggle';
 const NAV_ITEMS = [
   { title: 'Posts', href: '/blog' },
   { title: 'Tags', href: '/tags' },
-  {
-    title: 'About',
-    href: '/about',
-  },
+  { title: 'About', href: '/about' },
 ] as const;
 
 const MobileHeader = () => {
@@ -62,10 +59,7 @@ const MobileHeader = () => {
                   >
                     <span
                       class="bg-accent absolute top-1/2 left-0 h-3.5 w-0.5 -translate-y-1/2 rounded-full transition-opacity duration-200"
-                      classList={{
-                        'opacity-100': isActive,
-                        'opacity-0': !isActive,
-                      }}
+                      classList={{ 'opacity-100': isActive, 'opacity-0': !isActive }}
                     />
 
                     {item.title}

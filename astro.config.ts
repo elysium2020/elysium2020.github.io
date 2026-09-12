@@ -13,12 +13,7 @@ import expressiveCode from 'astro-expressive-code';
 export default defineConfig({
   site: 'https://elysium2020.github.io',
   integrations: [expressiveCode(), mdx(), sitemap(), UnoCSS(), solidJs()],
-  markdown: {
-    processor: unified({
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-    }),
-  },
+  markdown: { processor: unified({ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }) },
   vite: { ssr: { noExternal: ['katex'] }, css: { transformer: 'lightningcss' } },
   experimental: {
     svgOptimizer: svgoOptimizer(),

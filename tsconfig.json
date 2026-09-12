@@ -4,9 +4,7 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "strictNullChecks": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    },
+    "paths": { "@/*": ["./src/*"] },
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "checkJs": true,

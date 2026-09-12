@@ -11,11 +11,7 @@ export const sortedPosts = allPosts.toSorted(
 export const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].toSorted();
 
 export const formatDate = (date: Date) =>
-  date.toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 
 export function getTagCounts(posts: typeof sortedPosts): Map<string, number> {
   const map = new Map<string, number>();

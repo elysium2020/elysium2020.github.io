@@ -10,9 +10,7 @@ type PostItem = {
   searchable: string;
 };
 
-type Properties = {
-  items: PostItem[];
-};
+type Properties = { items: PostItem[] };
 
 export default function PostsList(properties: Properties) {
   return (
