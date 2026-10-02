@@ -27,6 +27,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* clear the sticky header on anchor jumps */
     -webkit-text-size-adjust: 100%;
   }
 
@@ -47,5 +48,15 @@
 
   ::selection {
     background-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .prose :is(h2, h3) .heading-anchor {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .prose :is(h2, h3):hover .heading-anchor,
+  .heading-anchor:focus-visible {
+    opacity: 0.6;
   }
 }
