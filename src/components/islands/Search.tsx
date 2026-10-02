@@ -40,9 +40,11 @@ const idFromUrl = (url: string): string | undefined => {
 const Search = (properties: Properties) => {
   const [rawQuery, setRawQuery] = createSignal('');
   const [query, setQuery] = createSignal('');
-  const [available, setAvailable] = createSignal(false);
+  // 索引运行时状态：loading = 尚未判定（onMount 进行中）；ready = Pagefind 可用；fallback = 索引缺失。
+  const [indexStatus, setIndexStatus] = createSignal<'loading' | 'ready' | 'fallback'>('loading');
   const [pagefind, setPagefind] = createSignal<PagefindModule | null>(null);
   const [remoteResults, setRemoteResults] = createSignal<PostSummary[] | null>(null);
+  const [inFlight, setInFlight] = createSignal(false);
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   let searchSeq = 0;
@@ -73,9 +75,9 @@ const Search = (properties: Properties) => {
         if (!mod || typeof mod.search !== 'function') throw new Error('pagefind unavailable');
         await mod.init?.();
         setPagefind(mod);
-        setAvailable(true);
+        setIndexStatus('ready');
       } catch {
-        setAvailable(false);
+        setIndexStatus('fallback');
         setPagefind(null);
       }
     })();
@@ -90,11 +92,14 @@ const Search = (properties: Properties) => {
 
     if (term === '' || !mod) {
       setRemoteResults(null);
+      setInFlight(false);
       return;
     }
 
     const seq = ++searchSeq;
-    setRemoteResults(null);
+    // 关键：这里不清空 remoteResults。清空会卸载整份结果列表（外层 Show 无 fallback 的
+    // 内层分支渲染空白），造成每次按键都闪烁 + 页面跳动。改为保留上一轮结果，成功后再替换。
+    setInFlight(true);
 
     void (async () => {
       try {
@@ -114,8 +119,10 @@ const Search = (properties: Properties) => {
         setRemoteResults(mapped);
       } catch {
         if (seq !== searchSeq) return;
-        setAvailable(false);
+        setIndexStatus('fallback');
         setPagefind(null);
+      } finally {
+        if (seq === searchSeq) setInFlight(false);
       }
     })();
   });
@@ -128,25 +135,27 @@ const Search = (properties: Properties) => {
     return tags().filter((item) => tokens.every((token) => item.searchable.includes(token)));
   });
 
-  // null 表示「有索引但结果尚在加载」；无索引时同步返回本地过滤结果。
-  const postResults = (): PostSummary[] | null => {
-    const term = debouncedQuery();
-    if (term === '') return posts();
-    if (available() && pagefind()) return remoteResults();
-
+  const localPostResults = (term: string): PostSummary[] => {
     const tokens = tokenize(term);
     return posts().filter((item) => tokens.every((token) => item.searchable.includes(token)));
   };
 
+  // 始终返回一份可渲染的列表，绝不返回 null：有索引且已有结果时用 Pagefind 结果，
+  // 新查询尚未返回时沿用上一轮结果（首次查询则退回本地过滤），避免列表被卸载成空白。
+  const postResults = (): PostSummary[] => {
+    const term = debouncedQuery();
+    if (term === '') return posts();
+    if (indexStatus() === 'ready' && pagefind()) return remoteResults() ?? localPostResults(term);
+    return localPostResults(term);
+  };
+
   const postsView = () => (
     <Show when={debouncedQuery() !== ''} fallback={<PostList posts={posts()} groupByYear/>}>
-      <Show when={postResults() !== null}>
-        <Show
-          when={(postResults() ?? []).length > 0}
-          fallback={<EmptyState icon="i-mdi-magnify-remove-outline" title="没有找到匹配的文章" hint="试试其他关键词"/>}
-        >
-          <PostList posts={postResults() ?? []}/>
-        </Show>
+      <Show
+        when={postResults().length > 0}
+        fallback={<EmptyState icon="i-mdi-magnify-remove-outline" title="没有找到匹配的文章" hint="试试其他关键词"/>}
+      >
+        <PostList posts={postResults()}/>
       </Show>
     </Show>
   );
@@ -172,10 +181,10 @@ const Search = (properties: Properties) => {
   );
 
   const resultCount = () =>
-    properties.mode === 'tags' ? tagsFiltered().length : (postResults() ?? []).length;
+    properties.mode === 'tags' ? tagsFiltered().length : postResults().length;
 
   const pending = () =>
-    properties.mode === 'posts' && debouncedQuery() !== '' && postResults() === null;
+    properties.mode === 'posts' && debouncedQuery() !== '' && inFlight();
 
   return (
     <div class="mb-8">
@@ -195,8 +204,18 @@ const Search = (properties: Properties) => {
       </div>
 
       <p class="text-muted-foreground mt-2 text-xs" aria-live="polite">
-        {debouncedQuery() !== '' && !pending() ? `找到 ${resultCount()} ${properties.noun}` : ''}
+        {debouncedQuery() !== ''
+          ? pending()
+            ? '搜索中…'
+            : `找到 ${resultCount()} ${properties.noun}`
+          : ''}
       </p>
+
+      <Show when={properties.mode === 'posts' && indexStatus() === 'fallback'}>
+        <p class="text-muted-foreground mt-1 text-xs">
+          全文索引不可用，仅搜索标题、描述与标签。
+        </p>
+      </Show>
 
       {properties.mode === 'tags' ? tagsView() : postsView()}
     </div>

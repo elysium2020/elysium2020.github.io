@@ -1,6 +1,7 @@
 import { defineConfig, presetWind4, presetTypography } from 'unocss';
 import presetIcons from '@unocss/preset-icons';
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx';
+import { SOCIAL_LINKS, STACK } from './src/lib/site';
 
 const SANS =
   'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Hiragino Sans GB", sans-serif';
@@ -18,7 +19,14 @@ export default defineConfig({
       },
     }),
   ],
-  safelist: ['i-mdi-link-variant', 'inline-block'],
+  // UnoCSS 的 Astro 集成只扫描 `src/components/**/*` 且 Vite include 不含纯 `.ts`，
+  // 因此仅存在于 `src/lib/site.ts` 中的图标类名不会被自动提取，必须从该数据源显式加入 safelist。
+  safelist: [
+    'i-mdi-link-variant',
+    'inline-block',
+    ...STACK.flatMap(({ items }) => items.map(({ icon }) => icon)),
+    ...SOCIAL_LINKS.map(({ icon }) => icon),
+  ],
   transformers: [transformerAttributifyJsx()],
   theme: {
     font: { sans: SANS, mono: MONO },
@@ -42,7 +50,9 @@ export default defineConfig({
     'focus-ring':
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     'date-text': 'font-mono text-xs text-muted-foreground whitespace-nowrap tabular-nums',
-    'link-accent':
+    // 注意：`presetWind4` 会静默吞掉以 `link-` 开头的 shortcut 名（不生成任何 CSS）。
+    // 该 shortcut 原名 `link-accent`，导致所有调用点都是无样式的裸链接；请勿改回 `link-*`。
+    'accent-link':
       'text-link underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent',
   },
 });

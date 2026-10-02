@@ -18,7 +18,7 @@ const PostRow = (properties: Properties) => (
     <div class="flex-1 min-w-0">
       <a
         href={`/blog/${properties.post.id}/`}
-        class="focus-ring relative truncate text-sm font-medium"
+        class="focus-ring relative block truncate text-sm font-medium"
       >
         {properties.post.title}
       </a>

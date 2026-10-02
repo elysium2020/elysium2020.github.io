@@ -15,6 +15,7 @@ export const NAV_ITEMS: readonly { title: string; href: string }[] = [
 
 export const SOCIAL_LINKS: readonly { name: string; href: string; icon: string }[] = [
   { name: 'GitHub', href: 'https://github.com/elysium2020', icon: 'i-tabler-brand-github' },
+  { name: 'RSS', href: '/rss.xml', icon: 'i-tabler-rss' },
 ];
 
 export const STACK: { label: string; items: { name: string; icon: string }[] }[] = [
