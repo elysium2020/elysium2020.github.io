@@ -61,9 +61,9 @@ export function getPrevNext<T extends PostLike>(
   post: T,
   posts: T[],
 ): { prev?: T | undefined; next?: T | undefined } {
-  const sameTags = post.tags.length
-    ? posts.filter((p) => p.tags.some((tag) => post.tags.includes(tag)))
-    : [];
+  const sameTags = posts.filter((p) =>
+    p.tags.some((tag) => post.tags.includes(tag)),
+  );
   const sequence = sameTags.length >= 2 ? sameTags : posts;
   const index = sequence.indexOf(post);
 

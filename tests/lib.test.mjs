@@ -5,11 +5,15 @@ import { sortPosts, getTagCounts, getPopularTags, getRelated, getPrevNext } from
 
 const P = (id, tags, day) => ({ id, tags, pubDate: new Date(`2026-01-${String(day).padStart(2, '0')}`) });
 
-test('readingMinutes: 剔除围栏代码块', () => {
-  assert.equal(readingMinutes('```ts\nconst a = 1;\n```'), 1);
+test('readingMinutes: 围栏代码块不计入', () => {
+  assert.equal(readingMinutes('```ts\n' + 'word '.repeat(700) + '\n```'), 1);
 });
-test('readingMinutes: 围栏代码与公式不计入，最小 1 分钟', () => {
-  assert.equal(readingMinutes('\\$\\$ x=1 \\$\\$'), 1);
+test('readingMinutes: 块级与行内公式不计入', () => {
+  assert.equal(readingMinutes('$$ ' + 'word '.repeat(700) + ' $$'), 1);
+  assert.equal(readingMinutes('$' + 'word '.repeat(700) + '$'), 1);
+});
+test('readingMinutes: 700 词基数反证（未剔除时应为 2）', () => {
+  assert.equal(readingMinutes('word '.repeat(700)), 2);
 });
 test('readingMinutes: CJK 按字数、拉丁按词数，350/分钟', () => {
   const zh = '中'.repeat(700);
