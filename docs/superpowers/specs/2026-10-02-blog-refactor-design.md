@@ -45,7 +45,7 @@
 - **字号刻度**：`xs .75 / sm .875 / base 1 / lg 1.125 / xl 1.25 / 2xl 1.5 / 3xl 2 / 4xl 2.5rem`；正文 `line-height 1.8`（CJK），标题 `1.25`、`weight 600`、`tracking-tight`。
 - **测度**：文章正文 `max-w-3xl`（~68ch）；列表 `max-w-5xl`。
 - **母题**：发丝分隔线、`tabular-nums` 日期列、mono 小标签、hover 青下划线、统一 `focus-ring`。
-- **快捷类**（UnoCSS shortcuts，收敛现有）：`page-container`、`section-label`、`focus-ring`、`date-text`、`link-accent`、`back-link`。
+- **快捷类**（UnoCSS shortcuts，收敛现有）：`page-narrow`、`page-wide`、`section-label`、`focus-ring`、`date-text`、`accent-link`、`back-link`。（注意：原名 `link-accent` 以 `link-` 开头，会被 `presetWind4` 静默吞掉、不产出 CSS，故改名。）
 
 ---
 
@@ -162,7 +162,7 @@ type PostSummary = {
 
 **新增**：`pagefind`（dev）、`rehype-autolink-headings`（dev）。
 
-**保留**：KaTeX 三件套、`sharp`、`@astrojs/rss`、`@astrojs/sitemap`、`@kobalte/core`、`@astrojs/check`、UnoCSS 全家（除 preset-web-fonts）、`oxfmt`/`oxlint` 配置、`expressive-code` + 其 line-numbers/collapsible 插件。
+**保留**：KaTeX 三件套、`sharp`、`@astrojs/rss`、`@astrojs/sitemap`、`@kobalte/core`、UnoCSS 全家（除 preset-web-fonts）、`oxfmt`/`oxlint` 配置、`expressive-code` + 其 line-numbers/collapsible 插件。**`@astrojs/check` 最终被移除**：`check` 脚本改为 `astro sync && tsc --noEmit` 后它没有任何消费者，而本仓 TypeScript 7 又跑不了 `astro check`（见 Ruling 1/22）；若日后工具链可用再装回。
 
 **expressive-code 增强**：`ec.config.mjs` 保留双主题（latte/mocha）与已装的 `pluginLineNumbers` / `pluginCollapsibleSections`；新增 `frames: { showCopyToClipboardButton: true }`（`@expressive-code/plugin-frames@0.44.2` 已随 `expressive-code` 装入，无需新增依赖）；行高亮用核心 text-markers fence meta（如 ```` ```ts {1,3-5} ````）。
 

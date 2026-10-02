@@ -186,13 +186,13 @@ git commit -m "feat(lib): add pure site/reading-time/derive helpers with tests"
 
 - [ ] **Step 3: 重写 `src/styles/global.css`** — 保留三个 JetBrains Mono `@font-face`；`@import './tokens.css'; @import './typography.css';`；`html{scroll-behavior:smooth}` + `@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}`；`body` 背景/前景/字体/`text-rendering`/`-webkit-font-smoothing`；`::selection`。
 
-- [ ] **Step 4: 更新 `uno.config.ts` shortcuts** — 保留 `focus-ring`、`date-text`、`link-accent`、`back-link`；把 `page-container` 拆为 `page-narrow`（`mx-auto px-6 py-12 max-w-3xl`）与 `page-wide`（`mx-auto px-6 py-12 max-w-5xl`）；`section-label` 去 `font-serif`、保持 `font-mono text-xs tracking-widest uppercase text-muted-foreground`。theme font 去掉 `serif` 键。
+- [ ] **Step 4: 更新 `uno.config.ts` shortcuts** — 保留 `focus-ring`、`date-text`、`back-link`；把 `page-container` 拆为 `page-narrow`（`mx-auto px-6 py-12 max-w-3xl`）与 `page-wide`（`mx-auto px-6 py-12 max-w-5xl`）；原 `link-accent` 必须改名为 `accent-link`（以 `link-` 开头的 shortcut 名会被 `presetWind4` 静默吞掉、不产出 CSS，见 Ruling 21）；`section-label` 去 `font-serif`、保持 `font-mono text-xs tracking-widest uppercase text-muted-foreground`。
 
 - [ ] **Step 5: 创建 `BaseLayout.astro`** — `src/styles/global.css` 导入；`<html lang={SITE.lang}>`；`<head>` 内联主题初始化脚本（原 `ThemeScript` 逻辑：读 `localStorage.theme`，否则 `matchMedia('(prefers-color-scheme: dark)')`，`documentElement.classList.toggle('dark', dark)`，`try/catch` 包裹并加 `/* @ts-ignore */` 需要时）；canonical/OG/Twitter/JSON-LD（`type==='article'` 时）/RSS 发现 `<link>`/favicon/字体 `preload`；`<body class="flex min-h-full flex-col">` 内 `SkipLink` 内联 a → `<SiteHeader/>` → `<main id="main" class="flex-1"><slot/></main>` → `<SiteFooter/>`。**唯一 `<main>`**。
 
 - [ ] **Step 6: 创建 `SiteHeader.astro`** — sticky 发丝下边框；左侧 `SITE.title`（mono）；右侧 `NAV_ITEMS`（`hidden md:flex`，`aria-current={Astro.url.pathname.startsWith(item.href) ? 'page' : undefined}`）、`<ThemeToggle client:idle/>`、`<MobileNav client:idle/>`。
 
-- [ ] **Step 7: 创建 `SiteFooter.astro`** — 居中版权 + `CC-BY-SA 4.0` 文案（不再依赖已删的 `Footer.tsx`/`LinkWithUnderline`；直接 `<a class="link-accent">`）+ CC 图标（`i-tabler-creative-commons*`）。年份用 `new Date().getFullYear()`。
+- [ ] **Step 7: 创建 `SiteFooter.astro`** — 居中版权 + `CC-BY-SA 4.0` 文案（不再依赖已删的 `Footer.tsx`/`LinkWithUnderline`；直接 `<a class="accent-link">`）+ CC 图标（`i-tabler-creative-commons*`）。年份用 `new Date().getFullYear()`。
 
 - [ ] **Step 8: 创建 `islands/ThemeToggle.tsx`** — 与现实现一致：`createSignal`、`onMount` 读 `documentElement.classList.contains('dark')`、点击切换 `classList.toggle('dark')` + `localStorage.setItem('theme', ...)`；`aria-pressed`、`aria-label`；图标 `i-tabler-sun`/`i-tabler-moon`。
 
