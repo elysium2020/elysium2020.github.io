@@ -227,8 +227,8 @@ git commit -m "feat(layout): design tokens, BaseLayout, site chrome and theme/mo
 **Files:**
 - Create: `src/components/PageHeader.tsx`, `src/components/PostRow.tsx`, `src/components/PostList.tsx`, `src/components/TagChip.tsx`, `src/components/EmptyState.tsx`
 - Create: `src/lib/posts.ts`
-- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`
-- Delete: `src/components/PostItem.astro`, `src/components/PostsList.tsx`, `src/components/TagsList.tsx`, `src/components/Searcher.tsx`, `src/components/TagLink.tsx`, `src/components/ButtonLink.tsx`, `src/components/LinkWithUnderline.tsx`
+- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`, `src/pages/rss.xml.ts`（仅把 `sortedPosts` 的导入改为 `@/lib/posts`，其余不动）、`uno.config.ts`（删除已无消费者的 `page-container`）
+- Delete: `src/components/PostItem.astro`, `src/components/PostsList.tsx`, `src/components/TagsList.tsx`, `src/components/Searcher.tsx`, `src/components/TagLink.tsx`, `src/components/ButtonLink.tsx`, `src/components/LinkWithUnderline.tsx`, `src/lib/blog.ts`
 
 **Interfaces:**
 - Consumes: `sortPosts`/`getTagCounts`/`getPopularTags`/`getRelated`（Task 1）、`readingMinutes`（Task 1）、`BaseLayout`（Task 2）
@@ -280,8 +280,8 @@ export function toSummary(post: Post): PostSummary { /* id:post.id, title/descri
 ```bash
 git rm -q src/components/PostItem.astro src/components/PostsList.tsx src/components/TagsList.tsx \
   src/components/Searcher.tsx src/components/TagLink.tsx src/components/ButtonLink.tsx \
-  src/components/LinkWithUnderline.tsx
-grep -rn "PostItem\|PostsList\|TagsList\|Searcher\|TagLink\|ButtonLink\|LinkWithUnderline" src || echo "no stale refs"
+  src/components/LinkWithUnderline.tsx src/lib/blog.ts
+grep -rn "PostItem\|PostsList\|TagsList\|Searcher\|TagLink\|ButtonLink\|LinkWithUnderline\|lib/blog" src || echo "no stale refs"
 ```
 
 - [ ] **Step 10: 验证**
