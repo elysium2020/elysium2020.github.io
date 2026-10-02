@@ -48,6 +48,13 @@ const Search = (properties: Properties) => {
 
   let timer: ReturnType<typeof setTimeout> | undefined;
   let searchSeq = 0;
+  // 连续远端失败计数：单次失败只让本次查询回退本地，连续 3 次才判定索引真的不可用。
+  let consecutiveFailures = 0;
+
+  const fetchRemote = async (mod: PagefindModule, term: string) => {
+    const response = await mod.search(term);
+    return Promise.all(response.results.slice(0, MAX_RESULTS).map((result) => result.data()));
+  };
 
   // 判别联合收窄需要 3+ 处调用：按 mode 取出各自的 items 子集。
   const posts = (): PostSummary[] => (properties.mode === 'posts' ? properties.items : []);
@@ -103,12 +110,17 @@ const Search = (properties: Properties) => {
 
     void (async () => {
       try {
-        const response = await mod.search(term);
-        const data = await Promise.all(
-          response.results.slice(0, MAX_RESULTS).map((result) => result.data()),
-        );
+        let data: { url: string }[];
+        try {
+          data = await fetchRemote(mod, term);
+        } catch {
+          // 首次失败先立即重试一次；Pagefind 的 worker 偶发失败可自愈。
+          if (seq !== searchSeq) return;
+          data = await fetchRemote(mod, term);
+        }
         if (seq !== searchSeq) return;
 
+        consecutiveFailures = 0;
         const items = posts();
         const mapped: PostSummary[] = [];
         for (const entry of data) {
@@ -119,8 +131,15 @@ const Search = (properties: Properties) => {
         setRemoteResults(mapped);
       } catch {
         if (seq !== searchSeq) return;
-        setIndexStatus('fallback');
-        setPagefind(null);
+        consecutiveFailures += 1;
+        if (consecutiveFailures >= 3) {
+          // 连续 3 次失败才认定索引真的不可用；否则本次查询仅回退本地过滤，
+          // 索引保持 ready、模块保留，下一次查询继续尝试远端。
+          setIndexStatus('fallback');
+          setPagefind(null);
+          return;
+        }
+        setRemoteResults(localPostResults(term));
       } finally {
         if (seq === searchSeq) setInFlight(false);
       }
