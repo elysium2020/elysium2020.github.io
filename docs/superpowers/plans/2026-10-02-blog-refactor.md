@@ -301,20 +301,20 @@ git commit -m "feat(components): unify PostRow/PostList/PageHeader/TagChip and r
 ### Task 4: 文章页阅读设施（TOC / 锚点 / 进度条 / 相关文章 / 阅读时长 / heroImage）
 
 **Files:**
-- Modify: `src/pages/blog/[...slug].astro`, `astro.config.ts`, `package.json`
+- Modify: `src/pages/blog/[...slug].astro`, `astro.config.ts`, `package.json`, `uno.config.ts`（`safelist: ['i-mdi-link-variant']`）, `src/styles/global.css`（`.heading-anchor` 样式 + `scroll-padding-top`）
 - Create: `src/components/islands/Toc.tsx`, `src/components/islands/ReadingProgress.tsx`
 
 **Interfaces:**
 - Consumes: `toSummary`/`getRelated`/`sortedPosts`（Task 3）、`derive.getPrevNext`（Task 1）、`render()` 返回的 `headings`
 - Produces: `islands/Toc.tsx` props `{ headings: { depth: number; slug: string; text: string }[] }`；`islands/ReadingProgress.tsx` props `{}`（无）
 
-- [ ] **Step 1: 加锚点插件** — `pnpm add -D rehype-autolink-headings`；`astro.config.ts` 的 `rehypePlugins` 改为 `[rehypeKatex, rehypeAutolinkHeadings]`（顺序：Katex 在前）。插件配置：`{ behavior: 'append', properties: { class: 'heading-anchor', ariaHidden: true, tabIndex: -1 }, content: { type: 'element', tagName: 'span', properties: { className: ['i-mdi-link-variant'] }, children: [] } }`。
+- [ ] **Step 1: 加锚点插件** — `pnpm add -D rehype-autolink-headings`；`astro.config.ts` 的 `rehypePlugins` 改为 `[rehypeKatex, rehypeHeadingIds, rehypeAutolinkHeadings]`（Katex 在前；**必须注册 Astro 导出的 `rehypeHeadingIds`**，因为自定义 `unified()` processor 会绕过 Astro 默认的 heading-id 处理，不注册则 autolink 无 id 可链）。插件配置：`{ behavior: 'append', properties: { class: 'heading-anchor', ariaHidden: 'true', tabIndex: -1 }, content: { type: 'element', tagName: 'span', properties: { className: ['i-mdi-link-variant'] }, children: [] } }`（`ariaHidden` 用字符串，布尔值会序列化成 `aria-hidden=""`）。**`uno.config.ts` 必须加 `safelist: ['i-mdi-link-variant']`**：该类只出现在 `astro.config.ts` 的 JS 字符串中，UnoCSS 的 Vite 扫描器看不到，不加则不会生成任何规则，锚点会退化成零尺寸空元素（不可见、不可点）。
 
-- [ ] **Step 2: 实现 `islands/Toc.tsx`** — **初始渲染输出完整 `<nav aria-label="本页目录">` 列表**（无 JS 也可见）；`onMount` 用 `IntersectionObserver`（`rootMargin: '0px 0px -70% 0px'`）标记当前 slug 并高亮；点击 `e.preventDefault()` + `scrollIntoView`（`matchMedia('(prefers-reduced-motion: reduce)').matches` 时 `behavior:'auto'`）。`headings` 为空时返回 `null`。
+- [ ] **Step 2: 实现 `islands/Toc.tsx`** — **初始渲染输出完整 `<nav aria-label="本页目录">` 列表**（无 JS 也可见）；`onMount` 用 `IntersectionObserver`（`rootMargin: '0px 0px -70% 0px'`）标记当前 slug 并高亮；点击 `e.preventDefault()` + `scrollIntoView`（`matchMedia('(prefers-reduced-motion: reduce)').matches` 时 `behavior:'auto'`）。`headings` 为空时返回 `null`。**高亮态边框必须互斥**：静态 class 不得保留 `border-border`，否则 UnoCSS 的输出顺序会让 `border-accent` 被覆盖（两者改在 `classList` 里二选一）。
 
 - [ ] **Step 3: 实现 `islands/ReadingProgress.tsx`** — 固定顶部 2px 条；`onMount` 监听 `scroll`（passive）算 `scrollY/(scrollHeight-innerHeight)` 写入 `transform: scaleX()`；无 JS 时不渲染可见元素（初始宽度 0）；`aria-hidden="true"`。
 
-- [ ] **Step 4: 改写 `blog/[...slug].astro`** — `const { Content, headings } = await render(post)`（`headings` 为 `{depth,slug,text}[]`，Astro 已自动生成 heading id）；`const related = getRelated(post, sortedPosts, 3).map(toSummary)`；`const { prev, next } = getPrevNext(post, sortedPosts)`。**布局**：外层 `mx-auto w-full max-w-5xl px-6 py-12`，内层 `grid gap-10 lg:grid-cols-[minmax(0,1fr)_15rem]`，正文列 `max-w-3xl`（保住阅读测度），右栏 `hidden lg:block sticky top-20 self-start` 放 `<Toc client:load headings={headings}/>`；移动端在正文上方放 `<details class="lg:hidden mb-8">` 折叠 TOC（同一 island 的静态列表）。标签区 `post.data.tags.length > 0` 才渲染；`heroImage` 存在时才在 header 下渲染 `<Image src={post.data.heroImage} ... />`（`astro:assets`）；正文包 `<article data-pagefind-body>`；`related` 非空才渲染区块（用 `PostList`），否则整块不出现；prev/next 导航 `prev`→「上一篇」、`next`→「下一篇」（Ruling 4：prev 指更旧一篇），指向 `/blog/${id}/`，缺一侧时渲染占位文案。`h1` 与 prose 包裹层均**不得出现 `font-serif`**（含 `prose-headings:font-serif`）。
+- [ ] **Step 4: 改写 `blog/[...slug].astro`** — `const { Content, headings } = await render(post)`（`headings` 为 `{depth,slug,text}[]`；id 由 Step 1 注册的 `rehypeHeadingIds` 生成，与 `headings` 的 slug 逐个一致）；`const related = getRelated(post, sortedPosts, 3).map(toSummary)`；`const { prev, next } = getPrevNext(post, sortedPosts)`。**布局**：外层 `mx-auto w-full max-w-5xl px-6 py-12`，内层 `grid gap-10 lg:grid-cols-[minmax(0,1fr)_15rem]`，正文列 `max-w-3xl`（保住阅读测度），右栏 `hidden lg:block sticky top-20 self-start` 放 `<Toc client:load headings={headings}/>`；移动端在正文上方放 `<details class="lg:hidden mb-8">` 折叠 TOC（同一 island 的静态列表）。标签区 `post.data.tags.length > 0` 才渲染；`heroImage` 存在时才在 header 下渲染 `<Image src={post.data.heroImage} ... />`（`astro:assets`）；正文包 `<article data-pagefind-body>`；`related` 非空才渲染区块（用 `PostList`），否则整块不出现；prev/next 导航 `prev`→「上一篇」、`next`→「下一篇」（Ruling 4：prev 指更旧一篇），指向 `/blog/${id}/`，缺一侧时渲染占位文案。`h1` 与 prose 包裹层均**不得出现 `font-serif`**（含 `prose-headings:font-serif`）。
 
 - [ ] **Step 5: 添加 heading-anchor 样式** — 在 `global.css` 的 `@layer base` 加 `.prose :is(h2,h3) .heading-anchor { opacity: 0; transition: opacity .15s; }` 与 `.prose :is(h2,h3):hover .heading-anchor, .heading-anchor:focus-visible { opacity: .6; }`。
 
@@ -334,7 +334,7 @@ Run: `heroImage` 分支用一次性探针验证：`sharp` 生成小 PNG → 临�
 ```bash
 git add src/pages/blog/\[...slug\].astro src/components/islands/Toc.tsx \
   src/components/islands/ReadingProgress.tsx src/styles/global.css astro.config.ts \
-  package.json pnpm-lock.yaml
+  uno.config.ts package.json pnpm-lock.yaml
 git commit -m "feat(article): TOC, heading anchors, reading progress, related and prev/next"
 ```
 
