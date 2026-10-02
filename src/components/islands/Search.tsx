@@ -12,9 +12,12 @@ type Properties =
   | { mode: 'tags'; items: TagItem[]; placeholder: string; noun: string };
 
 type PagefindResult = { url: string; data: () => Promise<{ url: string }> };
-type PagefindModule = {
+type PagefindInstance = {
   init?: () => Promise<void> | void;
   search: (term: string) => Promise<{ results: PagefindResult[] }>;
+};
+type PagefindModule = PagefindInstance & {
+  createInstance?: (options?: { noWorker?: boolean }) => PagefindInstance;
 };
 
 const MAX_RESULTS = 30;
@@ -79,9 +82,13 @@ const Search = (properties: Properties) => {
         const mod = (await new Function('u', 'return import(u)')(
           '/pagefind/pagefind.js',
         )) as PagefindModule;
-        if (!mod || typeof mod.search !== 'function') throw new Error('pagefind unavailable');
-        await mod.init?.();
-        setPagefind(mod);
+        const instance =
+          typeof mod.createInstance === 'function' ? mod.createInstance({ noWorker: true }) : mod;
+        if (!instance || typeof instance.search !== 'function') {
+          throw new Error('pagefind unavailable');
+        }
+        await instance.init?.();
+        setPagefind(instance);
         setIndexStatus('ready');
       } catch {
         setIndexStatus('fallback');
