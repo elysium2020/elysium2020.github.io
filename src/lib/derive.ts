@@ -32,24 +32,19 @@ export function getPopularTags(posts: PostLike[], limit = 8): string[] {
 /**
  * Posts related to `post`, excluding itself.
  *
- * Ranked by the number of shared tags descending; when a post shares no tag
- * with any other, falls back to the most recent `limit` posts. Defaults to 3.
+ * Ranked by shared-tag count descending, then `pubDate` descending; posts
+ * sharing no tag therefore fall back to the most recent ones. Defaults to 3.
  */
 export function getRelated<T extends PostLike>(post: T, posts: T[], limit = 3): T[] {
-  const others = posts.filter((p) => p !== post);
-  const scored = others.map((p) => ({
-    post: p,
-    shared: p.tags.filter((tag) => post.tags.includes(tag)).length,
-  }));
-
-  if (scored.every(({ shared }) => shared === 0)) {
-    return sortPosts(others).slice(0, limit);
-  }
-
-  return scored
+  return posts
+    .filter((p) => p !== post)
+    .map((p) => ({
+      post: p,
+      shared: p.tags.filter((tag) => post.tags.includes(tag)).length,
+    }))
     .toSorted(
       (a, b) =>
-        b.shared - a.shared || a.post.pubDate.getTime() - b.post.pubDate.getTime(),
+        b.shared - a.shared || b.post.pubDate.getTime() - a.post.pubDate.getTime(),
     )
     .slice(0, limit)
     .map(({ post: p }) => p);

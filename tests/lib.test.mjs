@@ -29,10 +29,16 @@ test('getTagCounts / getPopularTags', () => {
   assert.deepEqual(getPopularTags(posts, 2), ['x', 'y']);
 });
 
-test('getRelated: 共享标签数优先，无共享回退最近', () => {
+test('getRelated: 共享标签数优先，同分按时间降序', () => {
   const posts = sortPosts([P('a', ['x'], 1), P('b', ['x'], 2), P('c', ['y'], 3), P('d', ['z'], 4)]);
   const rel = getRelated(posts.find((p) => p.id === 'a'), posts, 2);
-  assert.deepEqual(rel.map((p) => p.id), ['b', 'c']);
+  assert.deepEqual(rel.map((p) => p.id), ['b', 'd']);
+});
+
+test('getRelated: 无共享标签时回退最近', () => {
+  const posts = sortPosts([P('a', ['x'], 1), P('b', ['y'], 2), P('c', ['z'], 3)]);
+  const rel = getRelated(posts.find((p) => p.id === 'a'), posts, 2);
+  assert.deepEqual(rel.map((p) => p.id), ['c', 'b']);
 });
 
 test('getRelated: 单篇文章返回空数组', () => {
