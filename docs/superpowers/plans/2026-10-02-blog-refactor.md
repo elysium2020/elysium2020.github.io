@@ -452,11 +452,13 @@ git commit -m "chore: drop unused deps/config, RSS via container API, real READM
 ### Task 7: 收尾验证（构建产物 + 冒烟 + a11y/对比度）
 
 **Files:**
-- Modify: `ec.config.mjs`（expressive-code 复制按钮 + 行高亮示例注释）
+- Modify: `ec.config.mjs`（expressive-code 复制按钮）、`pnpm-workspace.yaml`（删掉 `minimumReleaseAgeExclude` 里已失效的 `@astrojs/mdx` 条目，Ruling 19）
 
 **Interfaces:** 无新导出
 
 - [ ] **Step 1: expressive-code 增强** — `ec.config.mjs` 的 `defineEcConfig` 增 `frames: { showCopyToClipboardButton: true }`（保留 `plugins`、`themes`、`defaultProps`）。
+
+- [ ] **Step 1b: 清理失效配置** — 从 `pnpm-workspace.yaml` 的 `minimumReleaseAgeExclude` 列表里删除 `@astrojs/mdx@7.0.2 || 7.0.6` 这一行（MDX 集成与依赖已移除，Ruling 19）；该文件其余条目一律保留。
 
 - [ ] **Step 2: 全量构建与检查**
 
@@ -471,14 +473,14 @@ Run: `pnpm preview`（后台）后对以下路径各取一次 HTTP 200 且含关
 - `/tags/` → 含 `搜索标签`
 - `/about/`、`/404`（`/404` 由 Astro 生成 `dist/404.html`）
 
-- [ ] **Step 4: 浏览器冒烟（按需）** — `browser` 打开 `pnpm preview` 地址，验证：主题切换写入 `localStorage` 且刷新无 FOUC；移动端菜单可开合并 `Esc` 关闭；文章页滚动 TOC 高亮与进度条推进；构建产物搜索框输入能出结果并跳转。
+- [ ] **Step 4: 浏览器冒烟** — 交互式检查（主题切换持久化与刷新无 FOUC、移动端菜单开合与 Esc、文章页 TOC 高亮与进度条、搜索出结果并跳转）由控制端用浏览器工具完成；本步只需用 `chromium --headless --dump-dom` 对 `pnpm preview` 的地址做一次加载，确认无控制台错误且关键元素存在。
 
-- [ ] **Step 5: 对比度与键盘走查** — 明暗两主题下 `--link` 对 `--background` ≥4.5:1、`--muted-foreground` 对背景 ≥4.5:1；Tab 顺序 skip-link → 导航 → 内容，焦点环可见。
+- [ ] **Step 5: 对比度与键盘走查** — 写一段临时 node 脚本，按 WCAG 相对亮度公式（sRGB 通道线性化 → `L = 0.2126R + 0.7152G + 0.0722B`，对比度 `(L1+0.05)/(L2+0.05)`）计算 `src/styles/tokens.css` 里明暗两套的 `--link`、`--muted-foreground`、`--foreground` 对各自 `--background` 的比值，全部需 ≥4.5:1，并把实际数值贴进报告。再用静态产物检查 Tab 顺序（skip-link → 导航 → 文章/列表内容）与各交互元素上的 `focus-ring`。
 
 - [ ] **Step 6: 提交**
 
 ```bash
-git add ec.config.mjs
+git add ec.config.mjs pnpm-workspace.yaml
 git commit -m "chore(ec): enable copy button; final build and a11y verification"
 ```
 
