@@ -18,6 +18,7 @@ export default defineConfig({
       },
     }),
   ],
+  safelist: ['i-mdi-link-variant', 'inline-block'],
   transformers: [transformerAttributifyJsx()],
   theme: {
     font: { sans: SANS, mono: MONO },

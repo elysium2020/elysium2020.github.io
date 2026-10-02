@@ -30,7 +30,7 @@ export default defineConfig({
             content: {
               type: 'element',
               tagName: 'span',
-              properties: { className: ['i-mdi-link-variant'] },
+              properties: { className: ['i-mdi-link-variant', 'inline-block'] },
               children: [],
             },
           },

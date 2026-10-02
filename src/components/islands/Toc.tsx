@@ -48,10 +48,11 @@ const Toc = (properties: Properties) => {
                   href={`#${heading.slug}`}
                   onClick={(event) => jump(event, heading.slug)}
                   aria-current={active() === heading.slug ? 'location' : undefined}
-                  class="border-border text-muted-foreground hover:text-foreground block border-l-2 py-1.5 leading-snug transition-colors"
+                  class="text-muted-foreground hover:text-foreground block border-l-2 py-1.5 leading-snug transition-colors"
                   classList={{
                     'pl-3': heading.depth === 2,
                     'pl-6': heading.depth === 3,
+                    'border-border': active() !== heading.slug,
                     'border-accent text-foreground': active() === heading.slug,
                   }}
                 >
