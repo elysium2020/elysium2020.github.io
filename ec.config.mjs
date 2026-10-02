@@ -7,4 +7,5 @@ export default defineEcConfig({
   plugins: [pluginLineNumbers(), pluginCollapsibleSections],
   defaultProps: { showLineNumbers: true, collapseStyle: 'collapsible-auto' },
   themes: ['catppuccin-mocha', 'catppuccin-latte'],
+  frames: { showCopyToClipboardButton: true },
 });
