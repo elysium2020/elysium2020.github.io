@@ -257,7 +257,7 @@ export function toSummary(post: Post): PostSummary { /* id:post.id, title/descri
 
 - [ ] **Step 2: 实现 `TagChip.tsx`** — `<a href={`/tags/${encodeURIComponent(tag)}/`}>`；`rounded-full border` 胶囊；`icon` 为真时前置 `i-mdi-tag`；`focus-ring`。
 
-- [ ] **Step 3: 实现 `PostRow.tsx`** — 单行：`<time class="date-text min-w-16 shrink-0">{post.dateLabel}</time>` + 标题（`truncate`）+ 描述（`line-clamp-1`）+ 前 3 个 `TagChip`（`post.tags.length > 0` 才渲染该行）。整行 `<a href={`/blog/${post.id}/`}>`，`hover:bg-accent/20 focus-ring`。
+- [ ] **Step 3: 实现 `PostRow.tsx`** — 单行，**严禁嵌套 `<a>`**（HTML 不允许 anchor 套 anchor；浏览器会按 adoption-agency 算法重排，行布局会被打散，且行尾箭头会脱离 `.group` hover 作用域）。用 stretched-link 结构：外层 `<div class="group relative -mx-3 flex items-baseline gap-5 rounded-sm border-b border-border px-3 py-3.5 transition-colors hover:bg-accent/20">`；覆盖式点击区 `<a href={`/blog/${post.id}/`} aria-hidden="true" tabindex="-1" class="absolute inset-0 rounded-sm"/>`（仅扩大点击面，对辅助技术隐藏、不可 Tab 聚焦）；可见标题即真正的链接 `<a href={`/blog/${post.id}/`} class="focus-ring relative truncate text-sm font-medium">{post.title}</a>`；`<time class="date-text min-w-16 shrink-0">{post.dateLabel}</time>`；描述 `line-clamp-1`；行尾箭头 `i-mdi-arrow-top-right`（`group-hover` 显现）；标签行仅当 `post.tags.length > 0` 渲染，容器必须 `relative z-1`（否则会被覆盖层挡住不可点），内放前 3 个 `TagChip`。副作用：非定位的列表文字不可用鼠标选中——列表行可接受。
 
 - [ ] **Step 4: 实现 `PostList.tsx`** — `groupByYear` 为真时按 `pubDate.getFullYear()` 分组，每年一个 `h2`（mono） + 行；否则直接 `PostRow` 列表。`posts.length === 0` 时渲染 `EmptyState`（`empty` 文案默认 `暂无文章`）。
 
