@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "test": "node --experimental-strip-types --test tests/",
+    "check": "astro sync && tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/compiler-rs": "^0.5.0",
