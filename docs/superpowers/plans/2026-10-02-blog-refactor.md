@@ -227,7 +227,7 @@ git commit -m "feat(layout): design tokens, BaseLayout, site chrome and theme/mo
 **Files:**
 - Create: `src/components/PageHeader.tsx`, `src/components/PostRow.tsx`, `src/components/PostList.tsx`, `src/components/TagChip.tsx`, `src/components/EmptyState.tsx`
 - Create: `src/lib/posts.ts`
-- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`, `src/pages/rss.xml.ts`（仅把 `sortedPosts` 的导入改为 `@/lib/posts`，其余不动）、`uno.config.ts`（删除已无消费者的 `page-container`）
+- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`, `src/pages/rss.xml.ts`（仅 `import { sortedPosts } from '@/lib/posts'`）、`src/pages/blog/[...slug].astro`（仅改导入行为 `import { allPosts, sortedPosts, type Post, dateLabel as formatDate } from '@/lib/posts'`，页面其余内容一律不动——Task 4 才重写该页）、`uno.config.ts`（删除已无消费者的 `page-container`）
 - Delete: `src/components/PostItem.astro`, `src/components/PostsList.tsx`, `src/components/TagsList.tsx`, `src/components/Searcher.tsx`, `src/components/TagLink.tsx`, `src/components/ButtonLink.tsx`, `src/components/LinkWithUnderline.tsx`, `src/lib/blog.ts`
 
 **Interfaces:**
