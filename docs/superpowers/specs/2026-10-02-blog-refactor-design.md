@@ -109,7 +109,7 @@ type PostSummary = {
 ```
 
 - `sortedPosts`（按 `pubDate` 降序）、`allTags`、`getTagCounts`、`getPopularTags(n)`。
-- `toSummary(post)`；`getRelated(post, n=3)` = 同标签命中数降序，同分按日期，不足回退最近；`getPrevNext(post)` = 同标签优先，其次日期相邻。
+- `toSummary(post)`；`getRelated(post, n=3)` = 同标签命中数降序，**同分按日期降序（最近优先）**，无共享标签时回退最近 `limit` 篇；`getPrevNext(post)` = 同标签子序列优先（≥2 篇时），否则全局相邻；`prev` = 更旧（「上一篇」），`next` = 更新（「下一篇」）。
 - 搜索数据在构建期序列化进 `Search` 岛（Pagefind 负责全文；`searchable` 供无索引时降级）。
 
 ---

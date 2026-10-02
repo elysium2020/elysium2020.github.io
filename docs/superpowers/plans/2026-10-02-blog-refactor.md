@@ -85,10 +85,16 @@ test('getTagCounts / getPopularTags', () => {
   assert.deepEqual(getPopularTags(posts, 2), ['x', 'y']);
 });
 
-test('getRelated: 共享标签数优先，无共享回退最近', () => {
+test('getRelated: 共享标签数优先，同分按时间降序', () => {
   const posts = sortPosts([P('a', ['x'], 1), P('b', ['x'], 2), P('c', ['y'], 3), P('d', ['z'], 4)]);
   const rel = getRelated(posts.find((p) => p.id === 'a'), posts, 2);
-  assert.deepEqual(rel.map((p) => p.id), ['b', 'c']);
+  assert.deepEqual(rel.map((p) => p.id), ['b', 'd']);
+});
+
+test('getRelated: 无共享标签时回退最近', () => {
+  const posts = sortPosts([P('a', ['x'], 1), P('b', ['y'], 2), P('c', ['z'], 3)]);
+  const rel = getRelated(posts.find((p) => p.id === 'a'), posts, 2);
+  assert.deepEqual(rel.map((p) => p.id), ['c', 'b']);
 });
 
 test('getRelated: 单篇文章返回空数组', () => {
@@ -127,11 +133,11 @@ export function sortPosts<T extends PostLike>(posts: T[]): T[] {
 }
 export function getTagCounts(posts: PostLike[]): Map<string, number> { /* 累加 */ }
 export function getPopularTags(posts: PostLike[], limit = 8): string[] { /* 计数降序 → slice(limit) → 取 key */ }
-export function getRelated<T extends PostLike>(post: T, posts: T[], limit = 3): T[] { /* 见 Interfaces；无共享则回退 sortPosts(posts).filter(p=>p!==post).slice(0,limit) */ }
+export function getRelated<T extends PostLike>(post: T, posts: T[], limit = 3): T[] { /* 共享标签数降序，同分按 pubDate 降序（最近优先）；无共享则回退 sortPosts(posts).filter(p=>p!==post).slice(0,limit) */ }
 export function getPrevNext<T extends PostLike>(post: T, posts: T[]): { prev?: T; next?: T } { /* 同标签子序列优先，否则相邻；idx±1 越界为 undefined */ }
 ```
 
-`getPrevNext` 语义固定：在 `posts`（已降序）中取「与 `post` 共享至少一个标签」的子序列；该子序列长度 ≥2 时在其内取前/后一篇，否则回退到 `posts` 全局相邻。**注意**：`getPrevNext` 的 `prev` 指「更新的一篇」、`next` 指「更旧的一篇」（降序数组的 idx-1 / idx+1），UI 文案对应「上一篇/下一篇」由 Task 4 决定，实现不得交换。
+`getPrevNext` 语义固定：在 `posts`（已降序）中取「与 `post` 共享至少一个标签」的子序列；该子序列长度 ≥2 时在其内取前/后一篇，否则回退到 `posts` 全局相邻。**注意**：`getPrevNext` 的 `prev` 指「更旧的一篇」（对应 UI「上一篇」）、`next` 指「更新的一篇」（对应 UI「下一篇」）——即降序数组里的 idx+1 / idx-1；以 Step 1 中 `getPrevNext: 优先同标签` 的断言为准（对最新一篇 `c` 断言 `prev.id === 'a'`）。实现不得交换。
 
 - [ ] **Step 5: 实现 `src/lib/site.ts`** — 常量：`SITE`（`title: "Elysium's Blog"`、`author: 'Elysium'`、`tagline: 'Fullstack / DevOps'`、`description: 'Elysium 的个人技术博客，记录算法题解与工程实践。'`、`url: 'https://elysium2020.github.io'`、`lang: 'zh-CN'`）；`NAV_ITEMS` = 文章 `/blog`、标签 `/tags`、关于 `/about`；`SOCIAL_LINKS` = GitHub `https://github.com/elysium2020`；`STACK` 从现 `src/pages/about.astro` 原样迁移（language/frontend/backend/DevOps 四组）。
 
