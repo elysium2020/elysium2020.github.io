@@ -1,5 +1,5 @@
 import rss from '@astrojs/rss';
-import { sortedPosts } from '@/lib/blog';
+import { sortedPosts } from '@/lib/posts';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
 

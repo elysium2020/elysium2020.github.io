@@ -1,32 +1,27 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
-import {allPosts, allTags, getTagCounts} from "@/lib/blog";
-import TagsList from "@/components/TagsList";
+import PageHeader from "@/components/PageHeader";
+import TagChip from "@/components/TagChip";
+import { allPosts, allTags, getTagCounts } from "@/lib/posts";
 
 const tagCounts = getTagCounts(allPosts);
-const items = allTags.map((tag) => ({
-    tag, count: tagCounts.get(tag) ?? 0, searchable: tag.toLowerCase(),
-}));
 
 const description = "浏览 Elysium 博客的所有文章标签，方便查找感兴趣的内容。";
-
 ---
 
 <Layout pageTitle="所有标签" description={description}>
-    <div class="page-container">
-        <section class="mb-10 pb-10 border-b border-border">
-            <p
-                    class="section-label mb-3"
-            >
-                All Tags
-            </p>
-            <h1
-                    class="text-4xl tracking-tight font-normal font-serif mb-2 lg:text-5xl"
-            >
-                所有标签
-            </h1>
-            <p class="text-sm text-muted-foreground">共 {allTags.length} 个标签</p>
-        </section>
-        <TagsList client:visible items={items}/>
+    <div class="page-wide">
+        <PageHeader eyebrow="All Tags" title="所有标签" count={`共 ${allTags.length} 个标签`}/>
+
+        <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {allTags.map((tag) => (
+                    <div class="flex flex-col gap-2 items-center">
+                        <TagChip tag={tag} icon/>
+                        <span class="text-muted-foreground bg-accent/50 px-2 py-0.5 rounded-full text-xs">
+                            {tagCounts.get(tag) ?? 0} 篇
+                        </span>
+                    </div>
+            ))}
+        </div>
     </div>
 </Layout>

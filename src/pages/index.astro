@@ -1,89 +1,66 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
+import PostList from "@/components/PostList";
+import TagChip from "@/components/TagChip";
+import { SITE, SOCIAL_LINKS } from "@/lib/site";
+import { popularTags, sortedPosts, toSummary } from "@/lib/posts";
 
-import ButtonLink from "@/components/ButtonLink";
-import TagLink from "@/components/TagLink";
-import PostItem from "@/components/PostItem.astro";
-import LinkWithUnderline from "@/components/LinkWithUnderline";
-
-import {sortedPosts, formatDate, getPopularTags} from "@/lib/blog";
-
-const latestPosts = sortedPosts.slice(0, 4);
-const popularTags = getPopularTags(sortedPosts, 8);
-
-const siteTitle = "Elysium's Blog";
-const siteDescription = "Elysium's personal blog.";
+const latest = sortedPosts.slice(0, 4).map(toSummary);
 ---
 
-<Layout pageTitle={siteTitle} description={siteDescription}>
-    <div class="page-container">
-        <section class="mb-12 pb-12 border-b border-border">
-            <p
-                    class="section-label mb-4"
-            >
+<Layout pageTitle={SITE.title} description={SITE.description}>
+    <div class="page-narrow">
+        <section class="mb-12 border-b border-border pb-12">
+            <p class="section-label mb-4">
                 Personal Blog
             </p>
 
-            <h1
-                    class="text-4xl tracking-tight font-normal font-serif mb-5 lg:text-5xl"
-            >
-                {siteTitle}
+            <h1 class="text-4xl tracking-tight mb-5 lg:text-5xl">
+                {SITE.title}
             </h1>
 
-            <p
-                    class="text-base text-muted-foreground leading-relaxed mb-8 max-w-lg"
-            >
-                elysium的博客。
+            <p class="text-base text-muted-foreground leading-relaxed mb-8 max-w-lg">
+                {SITE.tagline}
             </p>
 
-            <div class="flex gap-2.5">
-                <ButtonLink href="/blog" variant="primary">
-                    <span class="i-mdi-book-open h-4 w-4" aria-hidden="true"
-                    ></span>
-                    浏览文章
-                </ButtonLink>
-
-                <ButtonLink href="/tags" variant="secondary">
-                    <span class="i-mdi-tag-multiple h-4 w-4" aria-hidden="true"
-                    ></span>
-                    查看标签
-                </ButtonLink>
+            <div class="flex flex-wrap gap-2.5">
+                {SOCIAL_LINKS.map(({name, href, icon}) => (
+                        <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-muted-foreground border-border px-3 py-1.5 rounded-full border inline-flex gap-1.5 text-sm transition-colors items-center hover:text-foreground hover:border-foreground/40 focus-ring"
+                        >
+                            <span class={`${icon} shrink-0 h-4 w-4`} aria-hidden="true"/>
+                            {name}
+                        </a>
+                ))}
             </div>
         </section>
+
         <section class="mb-16">
             <div class="mb-5 flex items-baseline justify-between">
-                <h2
-                        class="section-label"
-                >
+                <h2 class="section-label">
                     最新文章
                 </h2>
-                <LinkWithUnderline
+                <a
                         href="/blog"
-                        class="text-xs text-muted-foreground"
+                        class="text-muted-foreground text-xs inline-flex gap-1 transition-colors items-center hover:text-foreground"
                 >
-                    <span class="group inline-flex gap-1 items-center">
-                        全部
-                        <span
-                                class="i-mdi-arrow-right h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
-                        ></span>
-                    </span>
-                </LinkWithUnderline>
+                    全部
+                    <span class="i-mdi-arrow-right h-3.5 w-3.5" aria-hidden="true"/>
+                </a>
             </div>
 
-            <div class="flex flex-col">
-                {latestPosts.map((post) => (
-                        <PostItem post={post} formatDate={formatDate}/>))}
-            </div>
+            <PostList posts={latest}/>
+
             <section class="mt-12">
-                <h2
-                        class="section-label mb-5"
-                >
+                <h2 class="section-label mb-5">
                     热门标签
                 </h2>
 
                 <div class="flex flex-wrap gap-2">
-                    {popularTags.map((tag) =>
-                            <TagLink tag={tag}/>)}
+                    {popularTags.map((tag) => <TagChip tag={tag}/>)}
                 </div>
             </section>
         </section>

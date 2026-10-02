@@ -1,81 +1,54 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
-
-const STACK = [{
-    label: "language", items: [{name: "TypeScript", icon: "i-tabler-brand-typescript"}, {
-        name: "Go", icon: "i-tabler-brand-golang"
-    }, {name: "Rust", icon: "i-tabler-brand-rust"},],
-}, {
-    label: "frontend", items: [{name: "Astro", icon: "i-tabler-brand-astro"}, {
-        name: "SolidJS", icon: "i-tabler-brand-solidjs"
-    }, {name: "Vue", icon: "i-tabler-brand-vue"}, {name: "React", icon: "i-tabler-brand-react"},],
-}, {
-    label: "backend", items: [{name: "Axum", icon: "i-tabler-server"}, {name: "Gin", icon: "i-tabler-server"},],
-}, {
-    label: "DevOps", items: [{name: "Docker", icon: "i-tabler-brand-docker"}, {
-        name: "Kubernetes", icon: "i-mdi-kubernetes"
-    }, {name: "Ansible", icon: "i-tabler-brand-ansible"},],
-},] as const;
-
-const LINKS = [{
-    name: "GitHub", href: "https://github.com/elysium2020", icon: "i-tabler-brand-github",
-},] as const;
-
-const sections = STACK;
-const hasLinks = LINKS.length > 0;
+import PageHeader from "@/components/PageHeader";
+import { SITE, SOCIAL_LINKS, STACK } from "@/lib/site";
 ---
 
 <Layout
         pageTitle="About — Elysium"
         description="关于 Elysium，全栈 / DevOps 开发者。"
 >
-    <div class="page-container">
-        <!-- header -->
-        <section class="mb-10 pb-10 border-b border-border">
-            <p class="section-label mb-2">
-                About
-            </p>
+    <div class="page-narrow">
+        <PageHeader eyebrow="About" title={SITE.author} count={SITE.tagline}/>
 
-            <h1 class="text-4xl tracking-tight font-serif mb-3 lg:text-5xl">
-                Elysium
-            </h1>
-
-            <p class="text-sm text-muted-foreground leading-relaxed">
-                Fullstack / DevOps
-            </p>
-        </section>
         <section aria-label="技术栈">
             <div class="divide-border divide-y">
-                {sections.map(({label, items}) => (
+                {STACK.map(({label, items}) => (
                         <div class="py-4 flex gap-8 items-start">
                             <span class="section-label pt-1 shrink-0 min-w-20">
-              {label}
-            </span>
+                                {label}
+                            </span>
                             <div class="flex flex-wrap gap-2">
                                 {items.map(({name, icon}) => (
-                                        <span class="text-xs text-muted-foreground px-2.5 py-1 border border-border rounded-full bg-accent/50 inline-flex gap-1.5 transition-colors items-center hover:text-foreground hover:border-foreground/20">
-                  <span class={`${icon} shrink-0 h-3.5 w-3.5`}/>
+                                        <span class="text-muted-foreground bg-accent/50 px-2.5 py-1 border border-border rounded-full text-xs inline-flex gap-1.5 transition-colors items-center hover:text-foreground hover:border-foreground/20">
+                                            <span class={`${icon} shrink-0 h-3.5 w-3.5`} aria-hidden="true"/>
                                             {name}
-                </span>))}
+                                        </span>
+                                ))}
                             </div>
-                        </div>))}
-                {hasLinks && (
+                        </div>
+                ))}
+
+                {SOCIAL_LINKS.length > 0 && (
                         <div class="py-4 flex gap-8 items-start">
-            <span class="section-label pt-1 shrink-0 min-w-20">
-              Connect
-            </span>
+                            <span class="section-label pt-1 shrink-0 min-w-20">
+                                Connect
+                            </span>
                             <div class="flex flex-wrap gap-2">
-                                {LINKS.map(({name, href, icon}) => (<a
-                                        href={href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="text-xs text-muted-foreground px-2.5 py-1 border border-border rounded-full inline-flex gap-1.5 transition-all items-center hover:text-foreground hover:border-foreground/30 hover:-translate-y-0.5"
-                                >
-                                    <span class={`${icon} shrink-0 h-3.5 w-3.5`}/>
-                                    {name}
-                                </a>))}
+                                {SOCIAL_LINKS.map(({name, href, icon}) => (
+                                        <a
+                                                href={href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="text-muted-foreground px-2.5 py-1 border border-border rounded-full text-xs inline-flex gap-1.5 transition-all items-center hover:text-foreground hover:border-foreground/30 hover:-translate-y-0.5"
+                                        >
+                                            <span class={`${icon} shrink-0 h-3.5 w-3.5`} aria-hidden="true"/>
+                                            {name}
+                                        </a>
+                                ))}
                             </div>
-                        </div>)}
+                        </div>
+                )}
             </div>
         </section>
     </div>

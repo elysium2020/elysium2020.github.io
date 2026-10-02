@@ -1,8 +1,8 @@
 ---
 import {render} from "astro:content";
-import {allPosts, sortedPosts, type Post, formatDate} from "@/lib/blog";
+import {allPosts, sortedPosts, type Post, dateLabel as formatDate} from "@/lib/posts";
 import Layout from "@/layouts/BaseLayout.astro";
-import TagLink from "@/components/TagLink";
+import TagChip from "@/components/TagChip";
 
 export async function getStaticPaths() {
     return allPosts.map((post) => ({
@@ -71,7 +71,7 @@ const hasTags = tags.length > 0;
             <footer class="mt-12 pt-8 border-t border-border">
                 {hasTags && (
                         <div class="mb-8 flex flex-wrap gap-2">
-                        {tags.map((tag) => <TagLink tag={tag} icon/>)}
+                        {tags.map((tag) => <TagChip tag={tag} icon/>)}
                         </div>)}
                 <nav
                         class="text-sm flex gap-4 items-start justify-between"
