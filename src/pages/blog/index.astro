@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader";
-import PostList from "@/components/PostList";
+import Search from "@/components/islands/Search";
 import { sortedPosts, toSummary } from "@/lib/posts";
 
 const summaries = sortedPosts.map(toSummary);
@@ -14,6 +14,12 @@ const description = `浏览 Elysium 的所有博客文章，共 ${total} 篇，�
     <div class="page-wide">
         <PageHeader eyebrow="All Posts" title="所有文章" count={`共 ${total} 篇`}/>
 
-        <PostList posts={summaries} groupByYear/>
+        <Search
+            client:visible
+            mode="posts"
+            items={summaries}
+            placeholder="搜索文章…"
+            noun="篇文章"
+        />
     </div>
 </Layout>
