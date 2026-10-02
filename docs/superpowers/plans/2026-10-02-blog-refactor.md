@@ -414,17 +414,20 @@ git rm -q stylelint.config.ts
 
 - [ ] **Step 3: `src/content.config.ts` 去掉 mdx glob** — `pattern: '**/*.md'`。
 
-- [ ] **Step 4: 重写 `src/pages/rss.xml.ts` 用 Container API**
+- [ ] **Step 4: 重写 `src/pages/rss.xml.ts`（用 `@astrojs/markdown-remark`，不用 Container API）** — 复用已在依赖里的 `@astrojs/markdown-remark`（`createMarkdownProcessor` 已确认导出，返回 `{ code }`），只带 `remarkMath` + `rehypeKatex`。这样 RSS 正文**不会**带上 astro.config 那套 processor 注入的 heading-anchor 链接，且**零新增依赖**：
 
 ```ts
 import rss from '@astrojs/rss';
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-import { getContainerRenderer } from '@astrojs/solid-js/container-renderer';
-import { render } from 'astro:content';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { sortedPosts } from '@/lib/posts';
 import { SITE } from '@/lib/site';
+
+const processor = await createMarkdownProcessor({ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] });
 ```
-实现：`const container = await AstroContainer.create({ renderers: [await getContainerRenderer()] })`；对每篇 `const { Content } = await render(post)`、`content: await container.renderToString(Content)`。`title: SITE.title`、`description: SITE.description`、`customData: '<language>zh-CN</language>'`。**若 `getContainerRenderer` 子路径导入失败**，回退导入 `@astrojs/solid-js` 的 `getContainerRenderer`（已弃用但有导出）；**若 Container 渲染仍失败**，回退方案：`pnpm add -D markdown-it @types/markdown-it` 并用旧实现，其余清理不变。
+
+`GET` 内对每篇 `const { code } = await processor.render(post.body ?? '')`，取其 `code` 作为 `content`；`title: SITE.title`、`description: SITE.description`、`site: context.site`、`customData: '<language>zh-CN</language>'`。**回退**：若该 API 行为不符预期，改用 Container API（`experimental_AstroContainer` 与 `@astrojs/solid-js/container-renderer` 的 `getContainerRenderer` 均已在依赖树中验证存在）；两者都不可行才考虑重新引入 `markdown-it`。
 
 - [ ] **Step 5: 重写 `README.md`** — 项目简介、技术栈、`pnpm dev`/`build`/`preview`/`check`/`test` 脚本表；**注明**：`astro dev` 下无 Pagefind 索引，搜索会降级为本地过滤，需 `pnpm build` 后才能体验全文搜索；删除 Astro starter 模板内容。
 
@@ -432,7 +435,8 @@ import { SITE } from '@/lib/site';
 
 Run: `pnpm install && pnpm check && pnpm build` → 全部成功。
 Run: `grep -rn "markdown-it\|sanitize-html\|compiler-rs\|preset-web-fonts\|@astrojs/mdx\|stylelint" package.json astro.config.ts src || echo clean` → 输出 `clean`。
-Run: `ls dist/rss.xml && grep -c "<item>" dist/rss.xml` → ≥ 文章数。
+Run: `ls dist/rss.xml && grep -c "<item>" dist/rss.xml` → 等于文章数（35）。
+Run: `grep -o 'heading-anchor' dist/rss.xml | wc -l` → 0（RSS 正文不应带锚点链接）；`grep -c 'katex' dist/rss.xml` → >0（公式仍被渲染）。
 Run: `node --experimental-strip-types --test tests/` → PASS（回归）。
 
 - [ ] **Step 7: 提交**
