@@ -18,7 +18,7 @@ const MobileNav = () => {
   return (
     <Dialog open={open()} onOpenChange={setOpen}>
       <Dialog.Trigger
-        class="i-mdi-menu hover:bg-surface rounded-full p-2 transition md:hidden"
+        class="i-mdi-menu hover:bg-surface focus-ring rounded-full p-2 transition md:hidden"
         aria-label={open() ? '关闭菜单' : '打开菜单'}
       />
       <Dialog.Portal>
@@ -36,7 +36,7 @@ const MobileNav = () => {
             <div class="flex items-center gap-1">
               <ThemeToggle />
               <Dialog.CloseButton
-                class="i-mdi-close hover:bg-surface rounded-full p-1.5 transition"
+                class="i-mdi-close hover:bg-surface focus-ring rounded-full p-1.5 transition"
                 aria-label="关闭菜单"
               />
             </div>
