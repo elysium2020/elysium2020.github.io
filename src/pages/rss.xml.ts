@@ -1,22 +1,35 @@
 import rss from '@astrojs/rss';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { sortedPosts } from '@/lib/posts';
-import sanitizeHtml from 'sanitize-html';
-import MarkdownIt from 'markdown-it';
+import { SITE } from '@/lib/site';
 
-const parser = new MarkdownIt();
+// Dedicated processor: no heading-anchor links, matching the site's math setup.
+const processor = await createMarkdownProcessor({
+  remarkPlugins: [remarkMath],
+  rehypePlugins: [rehypeKatex],
+});
 
 export async function GET(context: { site: string }) {
+  const items = await Promise.all(
+    sortedPosts.map(async (post) => {
+      const { code } = await processor.render(post.body ?? '');
+      return {
+        title: post.data.title,
+        description: post.data.description,
+        pubDate: post.data.pubDate,
+        link: `/blog/${post.id}/`,
+        content: code,
+      };
+    }),
+  );
+
   return rss({
-    title: "Elysium's Blog",
-    description: 'FullStack / DevOps。',
+    title: SITE.title,
+    description: SITE.description,
     site: context.site,
-    items: sortedPosts.map((post) => ({
-      title: post.data.title,
-      description: post.data.description,
-      pubDate: post.data.pubDate,
-      link: `/blog/${post.id}/`,
-      content: sanitizeHtml(parser.render(post.body || '')),
-    })),
-    customData: `<language>zh-CN</language>`,
+    items,
+    customData: `<language>${SITE.lang}</language>`,
   });
 }

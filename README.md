@@ -1,62 +1,48 @@
-# Astro Starter Kit: Blog
+# Elysium's Blog
 
-```sh
-pnpm create astro@latest -- --template blog
-```
+个人技术博客：记录算法题解与工程实践（Astro 7 + SolidJS 静态站点）。
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 技术栈
 
-Features:
+- **框架**：[Astro 7](https://astro.build)（静态输出）+ [SolidJS](https://www.solidjs.com) 交互岛屿
+- **UI 组件**：[Kobalte](https://kobalte.dev) 无障碍组件原语
+- **样式**：[UnoCSS](https://unocss.dev)（Wind4 预设、图标预设、attributify）+ Lightning CSS
+- **代码高亮**：[Expressive Code](https://expressive-code.com)（Shiki）
+- **数学公式**：remark-math + rehype-katex（KaTeX）
+- **搜索**：[Pagefind](https://pagefind.app) 全文索引
+- **图片**：Astro 内置 `sharp` 图像处理
+- **语言/工具链**：TypeScript、pnpm、Node ≥ 22.12（ESM）
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## 命令
 
-## 🚀 Project Structure
+| 命令            | 说明                                                                                 |
+| :-------------- | :----------------------------------------------------------------------------------- |
+| `pnpm dev`      | 启动本地开发服务器（`http://localhost:4321`）                                          |
+| `pnpm build`    | 构建生产站点到 `./dist/`，随后生成 Pagefind 全文索引                                    |
+| `pnpm preview`  | 本地预览构建产物                                                                      |
+| `pnpm check`    | 类型检查（`astro sync` + `tsc --noEmit`）                                              |
+| `pnpm test`     | 用 Node 内置测试运行器执行 `tests/`                                                    |
 
-Inside of your Astro project, you'll see the following folders and files:
+首次使用先运行 `pnpm install`。
+
+## 搜索说明
+
+全文搜索依赖构建期生成的 Pagefind 索引。因此：
+
+- `pnpm dev` 下**没有**索引，搜索会自动降级为对标题 / 描述 / 标签的本地过滤；
+- 体验完整全文搜索请先 `pnpm build`（或 `pnpm build && pnpm preview`）。
+
+## 部署
+
+推送到 `master` 后由 GitHub Actions 工作流 `.github/workflows/astro.yml` 自动发布到 GitHub Pages。该流程使用 [`withastro/action`](https://github.com/withastro/action)，会执行本仓库的 `pnpm build` 脚本（即 `astro build && pagefind --site dist`），再交给 `actions/deploy-pages` 上线。
+
+## 目录结构
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+src/
+├── components/   # Astro / Solid 组件
+├── content/blog/ # Markdown 文章（内容集合）
+├── layouts/      # 页面布局
+├── lib/          # 数据加载与派生逻辑
+└── pages/        # 路由（含 rss.xml）
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).

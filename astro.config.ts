@@ -1,4 +1,3 @@
-import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import UnoCSS from 'unocss/astro';
 import { defineConfig, svgoOptimizer } from 'astro/config';
@@ -13,7 +12,7 @@ import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
   site: 'https://elysium2020.github.io',
-  integrations: [expressiveCode(), mdx(), sitemap(), UnoCSS(), solidJs()],
+  integrations: [expressiveCode(), sitemap(), UnoCSS(), solidJs()],
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],
