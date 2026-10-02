@@ -203,7 +203,7 @@ git commit -m "feat(lib): add pure site/reading-time/derive helpers with tests"
 ```bash
 git rm -q src/layouts/Layout.astro src/components/Header.astro src/components/BaseHead.astro \
   src/components/SkipLink.astro src/components/ThemeScript.astro \
-  src/components/MobileHeader.tsx src/components/Footer.tsx
+  src/components/MobileHeader.tsx src/components/Footer.tsx src/components/ThemeToggle.tsx
 grep -rl "@/layouts/Layout.astro" src/pages | xargs sed -i 's#@/layouts/Layout.astro#@/layouts/BaseLayout.astro#'
 grep -rn "Layout.astro" src/pages   # 期望：全部为 BaseLayout.astro
 ```
