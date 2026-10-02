@@ -314,7 +314,7 @@ git commit -m "feat(components): unify PostRow/PostList/PageHeader/TagChip and r
 
 - [ ] **Step 3: 实现 `islands/ReadingProgress.tsx`** — 固定顶部 2px 条；`onMount` 监听 `scroll`（passive）算 `scrollY/(scrollHeight-innerHeight)` 写入 `transform: scaleX()`；无 JS 时不渲染可见元素（初始宽度 0）；`aria-hidden="true"`。
 
-- [ ] **Step 4: 改写 `blog/[...slug].astro`** — `const { Content, headings } = await render(post)`；`const summary = toSummary(post)`；`const related = getRelated(post, sortedPosts, 3).map(toSummary)`；`const { prev, next } = getPrevNext(post, sortedPosts)`；标签区 `post.data.tags.length > 0` 时才渲染；`heroImage` 存在时在 header 下渲染 `<Image src={post.data.heroImage} ... />`（`astro:assets`，`widths`/`sizes` 或固定 `width`+`loading="eager"`），否则不渲染；正文包 `<article data-pagefind-body>`（data 属性在 Task 5 校验）；桌面右栏 sticky `<Toc client:load headings={headings}/>`（`hidden lg:block`），移动端折叠为 `<details>` 包裹的同一 island 的静态列表（`lg:hidden`）；`<aside>` 放 `related`（`PostList`）与 prev/next 导航（`prev`→「上一篇」、`next`→「下一篇」，指向 `/blog/${id}/`，无则渲染占位文案）。
+- [ ] **Step 4: 改写 `blog/[...slug].astro`** — `const { Content, headings } = await render(post)`（`headings` 为 `{depth,slug,text}[]`，Astro 已自动生成 heading id）；`const related = getRelated(post, sortedPosts, 3).map(toSummary)`；`const { prev, next } = getPrevNext(post, sortedPosts)`。**布局**：外层 `mx-auto w-full max-w-5xl px-6 py-12`，内层 `grid gap-10 lg:grid-cols-[minmax(0,1fr)_15rem]`，正文列 `max-w-3xl`（保住阅读测度），右栏 `hidden lg:block sticky top-20 self-start` 放 `<Toc client:load headings={headings}/>`；移动端在正文上方放 `<details class="lg:hidden mb-8">` 折叠 TOC（同一 island 的静态列表）。标签区 `post.data.tags.length > 0` 才渲染；`heroImage` 存在时才在 header 下渲染 `<Image src={post.data.heroImage} ... />`（`astro:assets`）；正文包 `<article data-pagefind-body>`；`related` 非空才渲染区块（用 `PostList`），否则整块不出现；prev/next 导航 `prev`→「上一篇」、`next`→「下一篇」（Ruling 4：prev 指更旧一篇），指向 `/blog/${id}/`，缺一侧时渲染占位文案。`h1` 与 prose 包裹层均**不得出现 `font-serif`**（含 `prose-headings:font-serif`）。
 
 - [ ] **Step 5: 添加 heading-anchor 样式** — 在 `global.css` 的 `@layer base` 加 `.prose :is(h2,h3) .heading-anchor { opacity: 0; transition: opacity .15s; }` 与 `.prose :is(h2,h3):hover .heading-anchor, .heading-anchor:focus-visible { opacity: .6; }`。
 
@@ -324,11 +324,17 @@ Run: `pnpm check` → 无错误。
 Run: `pnpm build` → 成功。
 Run: `grep -o 'class="heading-anchor"' dist/blog/two_sum_ii_-_input_array_is_sorted/index.html | head -1` → 命中（锚点生成）。
 Run: `grep -c '本页目录' dist/blog/two_sum_ii_-_input_array_is_sorted/index.html` → ≥1（TOC 静态存在）。
+Run: `grep -c 'font-serif' dist/blog/two_sum_ii_-_input_array_is_sorted/index.html` → 0。
+Run: `grep -c 'data-pagefind-body' dist/blog/two_sum_ii_-_input_array_is_sorted/index.html` → 1。
+Run: 确认「上一篇」链接指向的文章 `pubDate` 比「下一篇」更早（取一篇有同标签邻居的文章核对）。
+Run: `heroImage` 分支用一次性探针验证：`sharp` 生成小 PNG → 临时给某篇 frontmatter 加 `heroImage: './<name>.png'` → `pnpm build` → 确认该页出现 `<img>` 且 `<head>` 有 `og:image` → `git checkout -- <post>` 并删除临时图（最终提交不得含探针残留；`git status --short` 须干净）。缺席分支同样确认：普通文章页无 hero `<img>`、无 `og:image`。
 
 - [ ] **Step 7: 提交**
 
 ```bash
-git add -A
+git add src/pages/blog/\[...slug\].astro src/components/islands/Toc.tsx \
+  src/components/islands/ReadingProgress.tsx src/styles/global.css astro.config.ts \
+  package.json pnpm-lock.yaml
 git commit -m "feat(article): TOC, heading anchors, reading progress, related and prev/next"
 ```
 
