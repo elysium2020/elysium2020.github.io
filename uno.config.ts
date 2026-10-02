@@ -35,6 +35,8 @@ export default defineConfig({
   shortcuts: {
     'section-label': 'font-mono text-xs text-muted-foreground tracking-widest uppercase',
     'page-container': 'mx-auto px-6 py-12 container max-w-4xl',
+    'page-narrow': 'mx-auto px-6 py-12 max-w-3xl',
+    'page-wide': 'mx-auto px-6 py-12 max-w-5xl',
     'back-link':
       'font-mono text-xs text-muted-foreground inline-flex gap-1.5 items-center transition-colors hover:text-foreground',
     'focus-ring':

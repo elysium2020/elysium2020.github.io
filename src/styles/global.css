@@ -1,4 +1,6 @@
+/* src/styles/global.css —— 字体载入与全站基础样式 */
 @import './tokens.css';
+@import './typography.css';
 
 @font-face {
   font-family: 'JetBrains Mono';
@@ -38,7 +40,7 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
-    line-height: 1.75; /* CJK 正文更透气 */
+    line-height: var(--leading-body); /* CJK 正文更透气 */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
