@@ -21,7 +21,7 @@
 - 内容 schema 不变：`title, description, pubDate, updatedDate?, heroImage?, tags`；不新增 frontmatter 字段。
 - 强调色保持电光青（`--accent` / `--link` 值同现有 `tokens.css`）；标题弃 `font-serif`。
 - 正文测度 `max-w-3xl`，列表 `max-w-5xl`；正文 `line-height: 1.8`。
-- 每个 Task 结束时 `pnpm check` 与 `pnpm build` 必须通过（站点保持可构建）。
+- 每个 Task 结束时 `pnpm check` 与 `pnpm build` 必须通过（站点保持可构建）。`pnpm check` 定义为 `astro sync && tsc --noEmit`（`astro check` 与仓内 TypeScript 7.0.2 不兼容，为预存在缺陷；见 ledger Ruling 1）。
 
 ## Review Focus
 
@@ -38,7 +38,7 @@
 **Files:**
 - Create: `src/lib/site.ts`, `src/lib/reading-time.ts`, `src/lib/derive.ts`
 - Create: `tests/lib.test.mjs`
-- Modify: `package.json`（加 `test` script）, `tsconfig.json`（`exclude` 加 `tests`）
+- Modify: `package.json`（加 `test` script；修 `check` script）, `tsconfig.json`（`exclude` 加 `tests`）
 
 **Interfaces:**
 - Produces（后续所有 Task 依赖）:
@@ -135,9 +135,9 @@ export function getPrevNext<T extends PostLike>(post: T, posts: T[]): { prev?: T
 
 - [ ] **Step 5: 实现 `src/lib/site.ts`** — 常量：`SITE`（`title: "Elysium's Blog"`、`author: 'Elysium'`、`tagline: 'Fullstack / DevOps'`、`description: 'Elysium 的个人技术博客，记录算法题解与工程实践。'`、`url: 'https://elysium2020.github.io'`、`lang: 'zh-CN'`）；`NAV_ITEMS` = 文章 `/blog`、标签 `/tags`、关于 `/about`；`SOCIAL_LINKS` = GitHub `https://github.com/elysium2020`；`STACK` 从现 `src/pages/about.astro` 原样迁移（language/frontend/backend/DevOps 四组）。
 
-- [ ] **Step 6: 加测试脚本并排除 tests 出 type-check**
+- [ ] **Step 6: 加测试脚本、修 check 脚本、排除 tests 出 type-check**
 
-`package.json` scripts 增 `"test": "node --experimental-strip-types --test tests/"`；`tsconfig.json` 的 `exclude` 改为 `["dist", "tests"]`。
+`package.json` scripts 增 `"test": "node --experimental-strip-types --test tests/"`，并把 `"check"` 改为 `"astro sync && tsc --noEmit"`（`astro check` 与仓内 TypeScript 7.0.2 不兼容，属预存在缺陷；见 ledger Ruling 1）。`tsconfig.json` 的 `exclude` 改为 `["dist", "tests"]`。
 
 - [ ] **Step 7: 运行测试 + 类型检查**
 
