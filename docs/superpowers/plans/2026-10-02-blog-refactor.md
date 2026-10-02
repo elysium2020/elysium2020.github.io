@@ -343,9 +343,9 @@ git commit -m "feat(article): TOC, heading anchors, reading progress, related an
 ### Task 5: Pagefind 搜索 + `Search` 岛
 
 **Files:**
-- Modify: `package.json`（devDep + `build` script）, `src/layouts/BaseLayout.astro`（`SiteHeader`/`SiteFooter` 加 `data-pagefind-ignore`）
+- Modify: `package.json`（devDep + `build` script）
 - Create: `src/components/islands/Search.tsx`
-- Modify: `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/blog/[...slug].astro`（相关文章/导航加 `data-pagefind-ignore`）
+- Modify: `src/pages/blog/index.astro`, `src/pages/tags/index.astro`；仅当 Step 5 的核对表明确有必要时，才再动 `src/pages/blog/[...slug].astro`
 
 **Interfaces:**
 - Consumes: `PostSummary`（Task 3）、`EmptyState`（Task 3）
@@ -371,18 +371,21 @@ git commit -m "feat(article): TOC, heading anchors, reading progress, related an
 
 - [ ] **Step 4: 接入 `tags/index.astro`** — `<Search client:visible mode="tags" items={tagItems} placeholder="搜索标签…" noun="个标签"/>` + 其后标签网格。
 
-- [ ] **Step 5: 索引范围属性** — `SiteHeader.astro`/`SiteFooter.astro` 根元素加 `data-pagefind-ignore`；`blog/[...slug].astro` 的 `<article>` 已有 `data-pagefind-body`（Task 4），其内的标签/相关/prev-next 区块加 `data-pagefind-ignore`；给 `<h1>` 加 `data-pagefind-meta="title"`。
+- [ ] **Step 5: 索引范围（先核对，再动手）** — Pagefind 的规则是：**全站只要有一处 `data-pagefind-body`，所有缺少该属性的页面都不再被索引**（`pagefind.app/docs/indexing`）。Task 4 已给文章 `<article>` 加了该属性，索引天然只覆盖文章页。因此：**不要**加 `--glob`；**不要**给 `SiteHeader`/`SiteFooter` 加 `data-pagefind-ignore`（Pagefind 默认就不索引 `<nav>`/`<header>`/`<footer>`/`<script>`/`<form>`）；`<h1>` 会被自动识别为标题，`data-pagefind-meta="title"` 冗余，不加。核对：`grep -c 'data-pagefind-body' dist/blog/*/index.html` 每篇应为 1，`grep -c 'data-pagefind-body' dist/index.html dist/tags/index.html` 应为 0；再确认文章页内「相关文章 / prev-next / 标签」区块位于 `<article data-pagefind-body>` **之外**（Task 4 已放在正文列外）——仅当某区块确实在其内部时，才给该区块加 `data-pagefind-ignore`。
 
 - [ ] **Step 6: 验证**
 
 Run: `pnpm build` → 成功且 `dist/pagefind/pagefind.js` 存在。
 Run: `ls dist/pagefind/` → 含 `pagefind.js` 与 `index/`。
-Run: `pnpm check` → 无错误。
+Run: `cat dist/pagefind/pagefind-entry.json` → `page_count` 应等于文章页数（35），并记录检测到的语言。本仓中英混排，需确认中文文章被识别为 `zh`；若识别不一致导致中文查询失效，再评估 `--force-language zh` 并重新验证。
+Run: `pnpm check` → 无错误；`pnpm test` → 11/11。
+Run: `dist/blog/index.html` 与 `dist/tags/index.html` 均含搜索输入框（SSR 输出，无 JS 也在）；再用 `pnpm preview` + `chromium --headless --dump-dom` 加载一页，确认无控制台错误、且 `Search` 岛在无索引/有索引两种情况下都不抛错。
 
 - [ ] **Step 7: 提交**
 
 ```bash
-git add -A
+git add package.json pnpm-lock.yaml src/components/islands/Search.tsx \
+  src/pages/blog/index.astro src/pages/tags/index.astro
 git commit -m "feat(search): Pagefind index with Kobalte-powered search island"
 ```
 
@@ -435,7 +438,8 @@ Run: `node --experimental-strip-types --test tests/` → PASS（回归）。
 - [ ] **Step 7: 提交**
 
 ```bash
-git add -A
+git add package.json pnpm-lock.yaml astro.config.ts src/content.config.ts \
+  src/pages/rss.xml.ts README.md && git rm -q stylelint.config.ts
 git commit -m "chore: drop unused deps/config, RSS via container API, real README"
 ```
 
@@ -470,7 +474,7 @@ Run: `pnpm preview`（后台）后对以下路径各取一次 HTTP 200 且含关
 - [ ] **Step 6: 提交**
 
 ```bash
-git add -A
+git add ec.config.mjs
 git commit -m "chore(ec): enable copy button; final build and a11y verification"
 ```
 
