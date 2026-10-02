@@ -227,13 +227,13 @@ git commit -m "feat(layout): design tokens, BaseLayout, site chrome and theme/mo
 **Files:**
 - Create: `src/components/PageHeader.tsx`, `src/components/PostRow.tsx`, `src/components/PostList.tsx`, `src/components/TagChip.tsx`, `src/components/EmptyState.tsx`
 - Create: `src/lib/posts.ts`
-- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`, `src/pages/rss.xml.ts`（仅 `import { sortedPosts } from '@/lib/posts'`）、`src/pages/blog/[...slug].astro`（仅改导入行为 `import { allPosts, sortedPosts, type Post, dateLabel as formatDate } from '@/lib/posts'`，页面其余内容一律不动——Task 4 才重写该页）、`uno.config.ts`（删除已无消费者的 `page-container`）
+- Modify: `src/pages/index.astro`, `src/pages/blog/index.astro`, `src/pages/tags/index.astro`, `src/pages/tags/[tag].astro`, `src/pages/about.astro`, `src/pages/404.astro`, `src/pages/rss.xml.ts`（仅 `import { sortedPosts } from '@/lib/posts'`）、`src/pages/blog/[...slug].astro`（仅改导入行为 `import { allPosts, sortedPosts, type Post, dateLabel as formatDate } from '@/lib/posts'`，并把其中唯一的 `<TagLink tag={tag} icon/>` 换成 `<TagChip tag={tag} icon/>`（props 相同），页面其余内容一律不动——Task 4 才重写该页）、`uno.config.ts`（删除已无消费者的 `page-container`）
 - Delete: `src/components/PostItem.astro`, `src/components/PostsList.tsx`, `src/components/TagsList.tsx`, `src/components/Searcher.tsx`, `src/components/TagLink.tsx`, `src/components/ButtonLink.tsx`, `src/components/LinkWithUnderline.tsx`, `src/lib/blog.ts`
 
 **Interfaces:**
 - Consumes: `sortPosts`/`getTagCounts`/`getPopularTags`/`getRelated`（Task 1）、`readingMinutes`（Task 1）、`BaseLayout`（Task 2）
 - Produces:
-  - `lib/posts.ts`: `type Post = CollectionEntry<'blog'>`；`type PostSummary = { id: string; title: string; description: string; pubDate: Date; dateLabel: string; readingMinutes: number; tags: string[]; heroImage?: { src: string; width: number; height: number }; searchable: string }`；`allPosts: Post[]`、`sortedPosts: Post[]`、`allTags: string[]`、`toSummary(post: Post): PostSummary`
+  - `lib/posts.ts`: `type Post = CollectionEntry<'blog'> & { tags: string[]; pubDate: Date }`（`allPosts` 把 `data.tags`/`data.pubDate` 展平到顶层以结构满足 `derive` 的 `PostLike`，同时保留 `.data`）；`type PostSummary = { id: string; title: string; description: string; pubDate: Date; dateLabel: string; readingMinutes: number; tags: string[]; heroImage?: { src: string; width: number; height: number }; searchable: string }`；`allPosts: Post[]`、`sortedPosts: Post[]`、`allTags: string[]`、`toSummary(post: Post): PostSummary`
   - `PageHeader` props: `{ eyebrow: string; title: string; count?: string }`
   - `PostRow` props: `{ post: PostSummary }`
   - `PostList` props: `{ posts: PostSummary[]; groupByYear?: boolean; empty?: string }`
