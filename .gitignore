@@ -7,6 +7,12 @@
 # Ignore content collection generated files
 .astro
 
+### Git worktrees ###
+.worktrees/
+
+### SDD scratch workspace ###
+.superpowers/
+
 ### Node ###
 # Logs
 logs
