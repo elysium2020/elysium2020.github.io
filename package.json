@@ -29,7 +29,7 @@
     "@unocss/preset-icons": "^66.10.5",
     "@unocss/preset-wind4": "^66.10.5",
     "@unocss/transformer-attributify-jsx": "^66.10.5",
-    "katex": "^0.18.9",
+    "katex": "^0.19.0",
     "lightningcss": "^1.33.0",
     "pagefind": "^1.5.2",
     "rehype-autolink-headings": "^7.1.0",
