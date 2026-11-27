@@ -10,25 +10,25 @@
     "check": "astro sync && tsc --noEmit"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "7.3.6",
+    "@astrojs/markdown-remark": "7.3.10",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
-    "@astrojs/solid-js": "7.1.2",
-    "@expressive-code/plugin-collapsible-sections": "^0.44.3",
-    "@expressive-code/plugin-line-numbers": "^0.44.3",
+    "@astrojs/sitemap": "^3.7.6",
+    "@astrojs/solid-js": "7.1.6",
+    "@expressive-code/plugin-collapsible-sections": "^0.44.4",
+    "@expressive-code/plugin-line-numbers": "^0.44.4",
     "@kobalte/core": "^0.13.14",
-    "astro": "7.4.8",
-    "astro-expressive-code": "^0.44.3",
+    "astro": "7.4.13",
+    "astro-expressive-code": "^0.44.4",
     "sharp": "^0.35.5",
-    "solid-js": "^1.9.18"
+    "solid-js": "^2.0.3"
   },
   "devDependencies": {
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/tabler": "^1.2.44",
-    "@unocss/astro": "^66.12.0",
-    "@unocss/preset-icons": "^66.12.0",
-    "@unocss/preset-wind4": "^66.12.0",
-    "@unocss/transformer-attributify-jsx": "^66.12.0",
+    "@iconify-json/tabler": "^1.2.47",
+    "@unocss/astro": "^66.13.0",
+    "@unocss/preset-icons": "^66.13.0",
+    "@unocss/preset-wind4": "^66.13.0",
+    "@unocss/transformer-attributify-jsx": "^66.13.0",
     "katex": "^0.19.1",
     "lightningcss": "^1.33.0",
     "pagefind": "^1.6.0",
@@ -36,7 +36,7 @@
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "typescript": "^7.0.2",
-    "unocss": "^66.12.0"
+    "unocss": "^66.13.0"
   },
   "engines": {
     "node": ">=22.12.0"
